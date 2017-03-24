@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="midori.kitchen">
+
+    <application
+        android:name=".manager.AppController"
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@drawable/ic_launcher"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".splashscreen.activity.SplashScreenActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
+
+        <activity android:name=".account.activity.LoginActivity" />
+        <activity android:name=".content.activity.HomeActivity" />
+        <activity android:name=".profile.activity.ProfileActivity" />
+        <activity android:name=".content.activity.CheckoutActivity" />
+        <activity android:name=".content.activity.DetailActivity" />
+        <activity android:name=".content.activity.BuyActivity" />
+    </application>
+
+</manifest>

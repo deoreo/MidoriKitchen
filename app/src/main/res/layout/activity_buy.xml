@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorGrey2"
+    tools:context=".content.activity.BuyActivity">
+
+    <include
+        android:id="@+id/toolbar_buy"
+        layout="@layout/custom_toolbar_back"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <FrameLayout
+        android:id="@+id/container_buy"
+        android:layout_below="@+id/toolbar_buy"
+        android:layout_above="@+id/btn_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <RelativeLayout
+        android:id="@+id/btn_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorGreen"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true">
+
+        <Button
+            android:id="@+id/btn_next"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="@null"
+            android:text="@string/next"
+            android:textSize="16sp"
+            android:textColor="@color/white" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

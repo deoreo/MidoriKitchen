@@ -1,0 +1,379 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:descendantFocusability="beforeDescendants"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="320dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:background="@color/colorGreen"
+                    android:orientation="vertical"
+                    android:paddingLeft="12.5dp"
+                    android:paddingRight="12.5dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Total"
+                        android:textAllCaps="false"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/tv_total_pay"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Rp. 0"
+                        android:textAllCaps="false"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="25sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:orientation="vertical"
+                    android:paddingBottom="5dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingTop="5dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/round_background_buy"
+                        android:orientation="vertical"
+                        android:padding="15dp">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentLeft="true"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/tv_menu"
+                                    fontPath="@string/GothamRndBold"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="5dp"
+                                    android:layout_toLeftOf="@+id/layout_add"
+                                    android:text="Mie Ayam Bona"
+                                    android:textColor="@color/colorGreen"
+                                    android:textSize="22sp"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/tv_price"
+                                    fontPath="@string/GothamRndMedium"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_below="@+id/delivery"
+                                    android:ellipsize="marquee"
+                                    android:maxLines="3"
+                                    android:text="Rp. 7000"
+                                    android:textColor="@color/colorDarkGrey"
+                                    android:textSize="18sp" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:orientation="horizontal">
+
+                                <LinearLayout
+                                    android:id="@+id/btn_plus"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:background="@drawable/rounded_bg_accent"
+                                    android:gravity="center"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        fontPath="@string/GothamRndBold"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="+"
+                                        android:textAllCaps="true"
+                                        android:textColor="@color/white"
+                                        android:textSize="20sp" />
+
+                                </LinearLayout>
+
+                                <TextView
+                                    android:id="@+id/tv_count_menu"
+                                    fontPath="@string/GothamRndBold"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_marginRight="10dp"
+                                    android:text="0"
+                                    android:textAlignment="center"
+                                    android:textAllCaps="true"
+                                    android:textColor="@color/colorAccent"
+                                    android:textSize="18sp" />
+
+                                <LinearLayout
+                                    android:id="@+id/btn_minus"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:background="@drawable/rounded_bg_accent"
+                                    android:gravity="center"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        fontPath="@string/GothamRndBold"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="-"
+                                        android:textAllCaps="true"
+                                        android:textColor="@color/white"
+                                        android:textSize="20sp" />
+
+                                </LinearLayout>
+
+                            </LinearLayout>
+
+                        </RelativeLayout>
+
+                        <com.rengwuxian.materialedittext.MaterialEditText
+                            android:id="@+id/et_notes"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginTop="5dp"
+                            android:editable="true"
+                            android:gravity="top|left"
+                            android:hint="Notes"
+                            android:imeOptions="actionDone"
+                            android:maxLines="3"
+                            android:minLines="3"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="16sp"
+                            app:met_clearButton="true"
+                            app:met_primaryColor="@color/colorGreen" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginTop="5dp"
+                            android:text="Select Delivery :"
+                            android:textColor="@color/colorDarkGrey2"
+                            android:textSize="16sp" />
+
+                        <Spinner
+                            android:id="@+id/spinner_delivery"
+                            android:layout_width="match_parent"
+                            android:layout_marginTop="5dp"
+                            android:layout_height="wrap_content"
+                            android:entries="@array/spinner_delivery"
+                            android:textColor="@color/colorDarkGrey" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_delivery"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingBottom="5dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="5dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/round_background_buy"
+                    android:orientation="vertical"
+                    android:padding="15dp">
+
+                    <TextView
+                        fontPath="@string/GothamRndMedium"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="marquee"
+                        android:maxLines="3"
+                        android:text="Delivery Address"
+                        android:textColor="@color/colorGreen"
+                        android:textSize="18sp" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/point"
+                            android:layout_width="20dp"
+                            android:layout_height="30dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="10dp"
+                            android:src="@drawable/ic_point" />
+
+                        <com.rengwuxian.materialedittext.MaterialEditText
+                            android:id="@+id/et_address"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginTop="5dp"
+                            android:layout_toRightOf="@id/point"
+                            android:editable="true"
+                            android:gravity="top|left"
+                            android:hint="Address"
+                            android:imeOptions="actionDone"
+                            android:lines="1"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="16sp"
+                            app:met_clearButton="true"
+                            app:met_primaryColor="@color/colorGreen" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/notes"
+                            android:layout_width="20dp"
+                            android:layout_height="30dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="10dp"
+                            android:src="@drawable/ic_notes" />
+
+                        <com.rengwuxian.materialedittext.MaterialEditText
+                            android:id="@+id/et_location_detail"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginTop="5dp"
+                            android:layout_toRightOf="@id/notes"
+                            android:editable="true"
+                            android:gravity="top|left"
+                            android:hint="Location detail"
+                            android:imeOptions="actionDone"
+                            android:lines="1"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="16sp"
+                            app:met_clearButton="true"
+                            app:met_primaryColor="@color/colorGreen" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp">
+
+                        <TextView
+                            android:id="@id/delivery"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:ellipsize="marquee"
+                            android:maxLines="3"
+                            android:text="Delivery Time :"
+                            android:textColor="@color/colorDarkGrey2"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/tv_delivery_price"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:ellipsize="marquee"
+                            android:maxLines="3"
+                            android:text="Rp. 10.000"
+                            android:textColor="@color/colorDarkGrey"
+                            android:textSize="18sp" />
+
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingBottom="10dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="5dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/round_background_buy"
+                    android:orientation="vertical"
+                    android:padding="15dp">
+
+                    <TextView
+                        fontPath="@string/GothamRndMedium"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="marquee"
+                        android:maxLines="3"
+                        android:text="Promotion"
+                        android:textColor="@color/colorGreen"
+                        android:textSize="18sp" />
+
+                    <com.rengwuxian.materialedittext.MaterialEditText
+                        android:id="@+id/et_promotion"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="5dp"
+                        android:editable="true"
+                        android:gravity="top|left"
+                        android:hint="Promotion Code"
+                        android:imeOptions="actionDone"
+                        android:lines="1"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="16sp"
+                        app:met_clearButton="true"
+                        app:met_primaryColor="@color/colorGreen" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

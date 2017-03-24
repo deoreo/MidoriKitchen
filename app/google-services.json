@@ -1,0 +1,94 @@
+{
+  "project_info": {
+    "project_number": "798813425320",
+    "firebase_url": "https://enlight-nusantara.firebaseio.com",
+    "project_id": "enlight-nusantara",
+    "storage_bucket": "enlight-nusantara.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:798813425320:android:efde571d2c89b4b9",
+        "android_client_info": {
+          "package_name": "midori.kitchen"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "798813425320-07hsotnc54ialvcg3udmttpdbu1qtlug.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "798813425320-mn5d67ba953gkvmue99pcbdog0ebctds.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "midori.kitchen",
+            "certificate_hash": "03ebc514b210cb9a66d5c4c36c9a71f4607cdeb5"
+          }
+        },
+        {
+          "client_id": "798813425320-2dc9a9se7ghc7lou5v3jomv0o66j8oph.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDeQI0X9_XYv4POUpLGFXEuyFBxrA44P1Q"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "798813425320-07hsotnc54ialvcg3udmttpdbu1qtlug.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:798813425320:android:db2878bea40ce29c",
+        "android_client_info": {
+          "package_name": "midori.chef"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "798813425320-07hsotnc54ialvcg3udmttpdbu1qtlug.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "798813425320-2dc9a9se7ghc7lou5v3jomv0o66j8oph.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDeQI0X9_XYv4POUpLGFXEuyFBxrA44P1Q"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

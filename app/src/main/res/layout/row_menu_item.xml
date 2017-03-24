@@ -1,0 +1,153 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/list_item"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="20dp"
+    android:layout_marginRight="20dp"
+    android:layout_marginTop="10dp"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="140dp">
+
+        <RelativeLayout
+            android:id="@+id/image_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:id="@+id/avatar_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <RelativeLayout
+                    android:id="@+id/layout_placeholder"
+                    android:layout_width="130dp"
+                    android:layout_height="150dp"
+                    android:background="@drawable/rounded_border_left_menu_item">
+
+                    <ImageView
+                        android:id="@+id/iv_placeholder"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:layout_centerInParent="true"
+                        android:src="@drawable/ic_restaurant" />
+
+                </RelativeLayout>
+
+                <com.makeramen.roundedimageview.RoundedImageView
+                    android:id="@+id/rv_avatar"
+                    android:layout_width="130dp"
+                    android:layout_height="150dp"
+                    android:scaleType="centerCrop"
+                    android:visibility="invisible"
+                    card_view:riv_corner_radius_bottom_left="15dp"
+                    card_view:riv_corner_radius_top_left="15dp" />
+
+            </RelativeLayout>
+
+            <View
+                android:id="@+id/triangle_left"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignEnd="@+id/avatar_layout"
+                android:layout_alignRight="@+id/avatar_layout"
+                android:background="@drawable/triangle_left" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/image_layout">
+
+            <RelativeLayout
+                android:id="@+id/border_right"
+                android:layout_width="15dp"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/rounded_border_right_menu_item" />
+
+            <RelativeLayout
+                android:id="@+id/content_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignBaseline="@+id/border_right"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_toLeftOf="@+id/border_right"
+                android:background="@color/white"
+                android:paddingBottom="10dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="10dp">
+
+                <TextView
+                    android:id="@+id/tv_menu"
+                    fontPath="@string/GothamRndBold"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:ellipsize="marquee"
+                    android:maxLines="1"
+                    android:text="Pecel Bu Iin"
+                    android:textColor="@color/colorGreen"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/delivery"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_menu"
+                    android:layout_marginBottom="5dp"
+                    android:ellipsize="marquee"
+                    android:maxLines="3"
+                    android:text="Delivery Time :"
+                    android:textColor="@color/colorDarkGrey2"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/tv_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/delivery"
+                    android:ellipsize="marquee"
+                    android:maxLines="3"
+                    android:text="Senin, 27 Maret 2017"
+                    android:textColor="@color/colorDarkGrey"
+                    android:textSize="14sp" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:background="@drawable/rounded_bg_transparent"
+                    android:orientation="vertical"
+                    android:paddingBottom="5dp"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp"
+                    android:paddingTop="5dp">
+
+                    <TextView
+                        android:id="@+id/tv_price"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        fontPath="@string/GothamRndMedium"
+                        android:layout_gravity="center"
+                        android:text="Rp. 7.000"
+                        android:textAlignment="center"
+                        android:textColor="@color/white"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</LinearLayout>

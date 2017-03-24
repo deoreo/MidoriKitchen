@@ -1,0 +1,71 @@
+apply plugin: 'com.android.application'
+apply plugin: 'android-apt'
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "25.0.2"
+    defaultConfig {
+        applicationId "midori.kitchen"
+        minSdkVersion 18
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+ext {
+    supportLibVersion = "25.0.0"
+    butterKnifeVersion = "8.4.0"
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+
+    //android support
+    compile "com.android.support:appcompat-v7:${supportLibVersion}"
+    compile "com.android.support:support-v4:${supportLibVersion}"
+    compile "com.android.support:design:${supportLibVersion}"
+    compile "com.android.support:cardview-v7:${supportLibVersion}"
+    compile "com.android.support:recyclerview-v7:${supportLibVersion}"
+
+    //butterknife
+    compile "com.jakewharton:butterknife:${butterKnifeVersion}"
+    apt "com.jakewharton:butterknife-compiler:${butterKnifeVersion}"
+
+    //font
+    compile 'uk.co.chrisjenx:calligraphy:2.2.0'
+
+    //edit text
+    compile 'com.rengwuxian.materialedittext:library:2.1.4'
+
+    //kenburnsview
+    compile 'com.flaviofaria:kenburnsview:1.0.7'
+
+    //facebook
+    compile 'com.facebook.android:facebook-android-sdk:4.20.0'
+
+    //firebase
+    compile 'com.google.firebase:firebase-auth:10.0.1'
+    compile 'com.google.firebase:firebase-database:9.4.0'
+    compile 'com.google.android.gms:play-services-auth:10.0.1'
+
+    //image
+    compile "de.hdodenhof:circleimageview:2.1.0"
+    compile "com.github.bumptech.glide:glide:3.7.0"
+    compile "com.makeramen:roundedimageview:2.2.1"
+
+    compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha8'
+    testCompile 'junit:junit:4.12'
+}
+
+apply plugin: "com.google.gms.google-services"

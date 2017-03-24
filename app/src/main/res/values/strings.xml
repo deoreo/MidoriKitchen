@@ -1,0 +1,43 @@
+<resources>
+    <string name="app_name">Midori Kitchen</string>
+
+    <string name="midori_kitchen">Midori Kitchen</string>
+
+    <!-- font -->
+    <string name="GothamBook">fonts/Gotham.ttf</string>
+    <string name="GothamRndBold">fonts/GothamRnd-Bold.otf</string>
+    <string name="GothamRndMedium">fonts/GothamRnd-Medium.otf</string>
+    <string name="GothamRndItalic">fonts/GothamRnd-MedIta.otf</string>
+
+    <!-- app id -->
+    <string name="facebook_app_id">254169221694261</string>
+    <string name="title_activity_asd">AsdActivity</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <!-- dialog -->
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="okay">Okay</string>
+
+    <string name="dialog_signout">
+        <![CDATA[Are you sure want to <br/><br/> sign out your <br/><br/> mobile apps?]]>
+    </string>
+
+    <string name="next">Next</string>
+    <string name="finish">Finish</string>
+    <string name="payment">Payment</string>
+    <string-array name="spinner_delivery">
+        <item>Jasa Kurir</item>
+        <item>Ambil Sendiri</item>
+    </string-array>
+
+    <string name="bank_head">Please complete your payment via ATM machine</string>
+    <string name="bank_subhead">Make sure you transfer the payment with last 3 digit number</string>
+    <string name="cod_head">Please complete the payment at the time of your food delivered</string>
+    <string name="cod_subhead">Make sure there are people who are ready to recieve your order</string>
+
+    <string name="history">History</string>
+    <string name="profile">Profile</string>
+</resources>

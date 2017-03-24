@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/bg_splash_screen">
+
+    <com.flaviofaria.kenburnsview.KenBurnsView
+        android:id="@+id/kbv_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <!-- We use dps for font size: we don't want our ic_logo
+    to become larger if user has set larger text in global
+    settings. -->
+
+    <ImageView
+        android:id="@+id/iv_logo"
+        android:layout_width="195dp"
+        android:layout_height="180dp"
+        android:layout_centerInParent="true"
+        android:textColor="@android:color/holo_red_dark"
+        android:textSize="64dp"
+        android:alpha="0.0"
+        android:background="@drawable/ic_logo"
+        tools:ignore="SpUsage"/>
+
+    <LinearLayout
+        android:id="@+id/layout_welcome"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_below="@+id/iv_logo"
+        android:layout_alignParentLeft="true"
+        android:alpha="0.0"
+        android:layout_alignParentStart="true">
+
+        <TextView
+            android:id="@+id/tv_welcome_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Midori Kitchen"
+            android:alpha="1.0"
+            fontPath="@string/GothamRndBold"
+            android:textSize="34sp"
+            android:textColor="@color/material_green_400"/>
+
+        <TextView
+            android:id="@+id/tv_welcome_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Your Deliciously Homey"
+            android:alpha="1.0"
+            fontPath="@string/GothamRndItalic"
+            android:textSize="14sp"
+            android:textColor="@color/colorGreen" />
+
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/pb_welcome"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:progressDrawable="@drawable/progress_bar"
+        android:layout_width="fill_parent"
+        android:layout_height="5dp"
+        android:indeterminate="false"
+        android:max="100"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+</RelativeLayout>
