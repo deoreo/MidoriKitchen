@@ -104,13 +104,22 @@ public class BuyReviewFragment extends Fragment {
                 String locationDetail = etLocationDetail.getText().toString();
                 AppData.address = address;
                 AppData.locationDetail = locationDetail;
+                AppData.detail_address = AppData.address+" , "+AppData.locationDetail;
+                AppData.note = etNotes.getText().toString();
+                AppData.status = "1";
+                if(etPromotion.getText().toString().isEmpty()){
+                    AppData.kupon_id = "0";
+                }
+
                 if (isKurir) {
+                    AppData.delivery_id = "2";
                     if (validate(address, locationDetail)) {
                         getFragmentManager().beginTransaction()
                                 .setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit)
                                 .replace(R.id.container_buy, new BuyPaymentFragment(), AppData.buy_payment_tag).addToBackStack(null).commit();
                     }
                 } else {
+                    AppData.delivery_id = "1";
                     getFragmentManager().beginTransaction()
                             .setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit)
                             .replace(R.id.container_buy, new BuyPaymentFragment(), AppData.buy_payment_tag).addToBackStack(null).commit();

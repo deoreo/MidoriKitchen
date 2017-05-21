@@ -34,16 +34,17 @@ public class AppData {
 
     );
     public static String id="0";
-    public static String payment="0";
-    public static String kupon="0";
+    public static String order_id = "INV-MK";
+    public static String payment_id="0";
+    public static String kupon_id="0";
     public static String delivery="0";
     public static String status="0";
     public static String note="0";
     public static String address="0";
     public static String locationDetail="0";
-    public static Double lat=0.0;
-    public static Double lon=0.0;
     public static double distance=0.0;
     public static LatLng latLngDelivery = null;
     public static int priceDelivery = 8000;
+    public static String delivery_id;
+    public static String detail_address;
 }

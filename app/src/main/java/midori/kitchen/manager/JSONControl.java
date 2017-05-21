@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.util.Log;
 
 
+import com.google.android.gms.maps.model.LatLng;
+
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
@@ -106,5 +108,32 @@ public class JSONControl {
         }
         return jsonObj;
     }
+
+    public JSONObject postOrder(Activity activity, String order_id, String payment_id, String kupon_id, String delivery_id,
+                                String order_lat,String order_lon,
+                                String order_jarak, String status_order, String order_note, String detail_address) {
+
+        JSONObject jsonObj = null;
+        AppPrefManager appPrefManager = new AppPrefManager(activity);
+        try {
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("order_id", order_id));
+            params.add(new BasicNameValuePair("payment_id", payment_id));
+            params.add(new BasicNameValuePair("kupon_id", kupon_id));
+            params.add(new BasicNameValuePair("delivery_id", delivery_id));
+            params.add(new BasicNameValuePair("order_lat", order_lat));
+            params.add(new BasicNameValuePair("order_lon", order_lon));
+            params.add(new BasicNameValuePair("order_jarak", ""+order_jarak));
+            params.add(new BasicNameValuePair("status_order_id", status_order));
+            params.add(new BasicNameValuePair("order_note", order_note));
+            params.add(new BasicNameValuePair("order_detail_address", detail_address));
+            jsonObj = _JSONResponse.POSTResponse(ConfigManager.ORDER, appPrefManager.getUserApiKey(), params);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return jsonObj;
+    }
+
 
 }

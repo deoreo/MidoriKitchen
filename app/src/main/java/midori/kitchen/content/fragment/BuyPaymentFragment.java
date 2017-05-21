@@ -1,8 +1,13 @@
 package midori.kitchen.content.fragment;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.res.Resources;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,10 +19,19 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONObject;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.Calendar;
+import java.util.Random;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import midori.kitchen.R;
+import midori.kitchen.account.model.ModelUser;
 import midori.kitchen.manager.AppData;
+import midori.kitchen.manager.JSONControl;
 
 /**
  * Created by M. Asrof Bayhaqqi on 3/12/2017.
@@ -66,6 +80,8 @@ public class BuyPaymentFragment extends Fragment {
     @BindView(R.id.layout_text)
     LinearLayout layoutText;
 
+    private String order_id,payment_id,kupon_id,delivery_id,order_lat,order_lon,order_jarak,status_order_id,order_note,detail_address;
+
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_buy_payment, container, false);
@@ -84,6 +100,29 @@ public class BuyPaymentFragment extends Fragment {
 
     private void initView() {
         tvTotalPayment.setText("Rp. " + AppData.menuModel.getTotal_pay());
+        Calendar c = Calendar.getInstance();
+        int date = c.get(Calendar.DATE);
+        int month = c.get(Calendar.MONTH);
+        int year = c.get(Calendar.YEAR);
+        int hour = c.get(Calendar.HOUR);
+        int minutes = c.get(Calendar.MINUTE);
+        int seconds = c.get(Calendar.SECOND);
+        int miles = c.get(Calendar.MILLISECOND);
+        try {
+            AppData.order_id+= URLEncoder.encode(""+date+month+year+hour+minutes+seconds+miles, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        order_id = AppData.order_id;
+        payment_id = AppData.payment_id;
+        kupon_id =AppData.kupon_id;
+        delivery_id=AppData.delivery_id;
+        order_lat =""+AppData.latLngDelivery.latitude;
+        order_lon =""+AppData.latLngDelivery.longitude;
+        order_jarak =""+AppData.distance;
+        status_order_id="1";
+        order_note=AppData.note;
+        detail_address=AppData.detail_address;
     }
 
     private void initButtonFinish() {
@@ -92,8 +131,9 @@ public class BuyPaymentFragment extends Fragment {
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getActivity().finish();
-                Toast.makeText(getActivity(), "Transaction processed", Toast.LENGTH_SHORT).show();
+                new DoOrder(getActivity()).execute(
+                        order_id,payment_id,kupon_id,delivery_id,order_lat,order_lon,order_jarak,status_order_id,order_note,detail_address
+                );
             }
         });
     }
@@ -113,6 +153,7 @@ public class BuyPaymentFragment extends Fragment {
                     tvHead.setText(R.string.bank_head);
                     tvSubhead.setText(R.string.bank_subhead);
                     layoutBalance.setVisibility(View.GONE);
+                    AppData.payment_id= "1";
                 }
             }
         });
@@ -130,6 +171,7 @@ public class BuyPaymentFragment extends Fragment {
                     tvHead.setText(R.string.cod_head);
                     tvSubhead.setText(R.string.cod_subhead);
                     layoutBalance.setVisibility(View.GONE);
+                    AppData.payment_id= "2";
                 }
             }
         });
@@ -145,6 +187,7 @@ public class BuyPaymentFragment extends Fragment {
                     layoutInfoBank.setVisibility(View.GONE);
                     layoutInfoBni.setVisibility(View.VISIBLE);
                     layoutBalance.setVisibility(View.GONE);
+                    AppData.payment_id= "3";
                 }
             }
         });
@@ -160,11 +203,80 @@ public class BuyPaymentFragment extends Fragment {
                     layoutInfoBank.setVisibility(View.GONE);
                     layoutInfoBni.setVisibility(View.GONE);
                     layoutBalance.setVisibility(View.VISIBLE);
+                    AppData.payment_id= "4";
                 }
             }
         });
 
 
 
+    }
+
+    private class DoOrder extends AsyncTask<String, Void, String> {
+        private Activity activity;
+        private Context context;
+        private Resources resources;
+
+        public DoOrder(Activity activity) {
+            super();
+            this.activity = activity;
+            this.context = activity.getApplicationContext();
+            this.resources = activity.getResources();
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+
+
+                String order_id = params[0];
+                String payment_id = params[1];
+                String kupon_id = params[2];
+                String delivery_id = params[3];
+                String order_lat = params[4];
+                String order_lon = params[5];
+                String order_jarak = params[6];
+                String status_order_id = params[7];
+                String order_note = params[8];
+                String detail_address = params[9];
+
+
+                JSONControl jsControl = new JSONControl();
+                JSONObject responseOrder = jsControl.postOrder(activity,order_id,payment_id,kupon_id,delivery_id,order_lat,order_lon,order_jarak,status_order_id,order_note,detail_address);
+                Log.d("json responseOrder", responseOrder.toString());
+                if (!responseOrder.toString().contains("error")) {
+
+                    return "OK";
+                }
+                else {
+                    return "FAIL";
+                }
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return "FAIL";
+
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            switch (result) {
+                case "FAIL":
+                    Toast.makeText(getActivity(), "Transaction fail", Toast.LENGTH_SHORT).show();
+                    break;
+                case "OK":
+                    getActivity().finish();
+                    Toast.makeText(getActivity(), "Transaction processed", Toast.LENGTH_SHORT).show();
+                    break;
+            }
+        }
     }
 }
