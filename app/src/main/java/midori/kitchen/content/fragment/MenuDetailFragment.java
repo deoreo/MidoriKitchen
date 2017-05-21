@@ -1,6 +1,7 @@
 package midori.kitchen.content.fragment;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -59,10 +60,13 @@ public class MenuDetailFragment extends Fragment {
     ImageView ivPhoto;
     @BindView(R.id.tv_menu)
     TextView tvMenu;
+    @BindView(R.id.tv_stok)
+    TextView tvStok;
     @BindView(R.id.fab_checkout)
     FloatingActionButton fabCheckout;
 
     private String id, menu, description, price, delivery_date, photo;
+    private int stok;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -74,7 +78,7 @@ public class MenuDetailFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        getData();
+        new GetProdukDetail(getActivity(),id, "detail").execute();
     }
 
     private void getData() {
@@ -84,6 +88,7 @@ public class MenuDetailFragment extends Fragment {
         price = ""+AppData.menuModel.getPrice_menu();
         delivery_date = AppData.menuModel.getDeliveryDate();
         photo = AppData.menuModel.getPhoto();
+        stok = AppData.menuModel.getStok();
         initView();
     }
 
@@ -92,6 +97,7 @@ public class MenuDetailFragment extends Fragment {
         tvDescription.setText(description);
         tvPrice.setText("Rp. " + price);
         tvTime.setText(delivery_date);
+        tvStok.setText("Sisa stok : "+ stok);
         try {
             if (photo.contains("http")) {
                 Glide
@@ -126,7 +132,7 @@ public class MenuDetailFragment extends Fragment {
 //        AppData.buyModel.setPrice_menu(Integer.parseInt(price));
 //        Intent intent = new Intent(getActivity(), BuyActivity.class);
 //        getActivity().startActivity(intent);
-        new GetProdukDetail(getActivity(),id).execute();
+        new GetProdukDetail(getActivity(),id, "buy").execute();
     }
 
     private class GetProdukDetail extends AsyncTask<String, Void, String> {
@@ -134,18 +140,26 @@ public class MenuDetailFragment extends Fragment {
         private Context context;
         private Resources resources;
         private String id;
-
-        public GetProdukDetail(Activity activity, String id) {
+        private ProgressDialog progressDialog;
+        private String TAG;
+        public GetProdukDetail(Activity activity, String id, String TAG) {
             super();
             this.activity = activity;
             this.context = activity.getApplicationContext();
             this.resources = activity.getResources();
             this.id = id;
+            this.TAG = TAG;
         }
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            progressDialog = new ProgressDialog(activity);
+            progressDialog.setMessage("Memuat menu makanan. . .");
+            progressDialog.setIndeterminate(false);
+            progressDialog.setCancelable(false);
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progressDialog.show();
         }
 
         @Override
@@ -168,6 +182,7 @@ public class MenuDetailFragment extends Fragment {
                 menuModel.setIbuLat(response.getDouble("ibuLat"));
                 menuModel.setIbuLon(response.getDouble("ibuLon"));
                 AppData.menuModel = menuModel;
+                AppData.menus.add(AppData.menuModel);
                 return "OK";
 
 
@@ -181,13 +196,18 @@ public class MenuDetailFragment extends Fragment {
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
+            progressDialog.dismiss();
             switch (result) {
                 case "FAIL":
                     Toast.makeText(activity,"Sorry", Toast.LENGTH_SHORT);
                     break;
                 case "OK":
-                    Intent intent = new Intent(getActivity(), BuyActivity.class);
-                    getActivity().startActivity(intent);
+                    if(TAG == "buy") {
+                        Intent intent = new Intent(getActivity(), BuyActivity.class);
+                        getActivity().startActivity(intent);
+                    } else if(TAG == "detail"){
+                        getData();
+                    }
                     break;
             }
         }

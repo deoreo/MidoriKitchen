@@ -18,6 +18,8 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import midori.kitchen.content.model.MenuModel;
 import midori.kitchen.manager.ConfigManager;
 
 
@@ -109,15 +111,14 @@ public class JSONControl {
         return jsonObj;
     }
 
-    public JSONObject postOrder(Activity activity, String order_id, String payment_id, String kupon_id, String delivery_id,
+    public JSONObject postOrder(Activity activity, String payment_id, String kupon_id, String delivery_id,
                                 String order_lat,String order_lon,
-                                String order_jarak, String status_order, String order_note, String detail_address) {
+                                String order_jarak, String status_order, String order_note, String detail_address, String order_total_harga) {
 
         JSONObject jsonObj = null;
         AppPrefManager appPrefManager = new AppPrefManager(activity);
         try {
             List<NameValuePair> params = new ArrayList<NameValuePair>();
-            params.add(new BasicNameValuePair("order_id", order_id));
             params.add(new BasicNameValuePair("payment_id", payment_id));
             params.add(new BasicNameValuePair("kupon_id", kupon_id));
             params.add(new BasicNameValuePair("delivery_id", delivery_id));
@@ -127,6 +128,7 @@ public class JSONControl {
             params.add(new BasicNameValuePair("status_order_id", status_order));
             params.add(new BasicNameValuePair("order_note", order_note));
             params.add(new BasicNameValuePair("order_detail_address", detail_address));
+            params.add(new BasicNameValuePair("order_total_harga", order_total_harga));
             jsonObj = _JSONResponse.POSTResponse(ConfigManager.ORDER, appPrefManager.getUserApiKey(), params);
 
         } catch (Exception e) {
@@ -135,5 +137,40 @@ public class JSONControl {
         return jsonObj;
     }
 
+    /*
+    public JSONObject postOrderDetail(String order_id, ArrayList<MenuModel> menuModels) {
+        JSONObject jsonObj = null;
+        for(int i=0;i<menuModels.size();i++) {
+
+            try {
+                List<NameValuePair> params = new ArrayList<NameValuePair>();
+                params.add(new BasicNameValuePair("order_id", order_id));
+                params.add(new BasicNameValuePair("menu_id", menuModels.get(i).getId()));
+                params.add(new BasicNameValuePair("order_detail_jumlah", "" + menuModels.get(i).getTotal_menu()));
+                jsonObj = _JSONResponse.POSTResponse(ConfigManager.ORDERDETAIL, params);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return jsonObj;
+    }*/
+
+    public void postOrderDetail(String order_id, ArrayList<MenuModel> menuModels) {
+
+        for(int i=0;i<menuModels.size();i++) {
+
+            try {
+                List<NameValuePair> params = new ArrayList<NameValuePair>();
+                params.add(new BasicNameValuePair("order_id", order_id));
+                params.add(new BasicNameValuePair("menu_id", menuModels.get(i).getId()));
+                params.add(new BasicNameValuePair("order_detail_jumlah", "" + menuModels.get(i).getTotal_menu()));
+                _JSONResponse.POSTResponse(ConfigManager.ORDERDETAIL, params);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
 }

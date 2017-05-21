@@ -2,6 +2,8 @@ package midori.kitchen.manager;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import midori.kitchen.content.model.BuyModel;
@@ -47,4 +49,6 @@ public class AppData {
     public static int priceDelivery = 8000;
     public static String delivery_id;
     public static String detail_address;
+    public static String total_harga;
+    public static ArrayList<MenuModel> menus = new ArrayList<>();
 }

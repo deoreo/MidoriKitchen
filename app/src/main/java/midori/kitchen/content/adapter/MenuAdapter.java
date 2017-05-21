@@ -128,9 +128,16 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
             Intent intent = new Intent(v.getContext(), DetailActivity.class);
             AppData.menuModel.setId(item.getId());
             AppData.menuModel.setMenu(item.getMenu());
+            AppData.menuModel.setDeliveryDate(item.getDeliveryDate());
             AppData.menuModel.setDescription(item.getDescription());
             AppData.menuModel.setPrice_menu(item.getPrice_menu());
+            AppData.menuModel.setStok(item.getStok());
             AppData.menuModel.setPhoto(item.getPhoto());
+            AppData.menuModel.setIbuNama(item.getIbuNama());
+            AppData.menuModel.setIbuLat(item.getIbuLat());
+            AppData.menuModel.setIbuLon(item.getIbuLon());
+            AppData.menuModel.setIbuAlamat(item.getIbuAlamat());
+            AppData.menuModel.setIbuTelepon(item.getIbuTelepon());
 
             Bundle extras = new Bundle();
             //AppData.id = item.getId();

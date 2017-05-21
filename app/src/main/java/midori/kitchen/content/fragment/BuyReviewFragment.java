@@ -22,6 +22,8 @@ import android.widget.TextView;
 
 import com.rengwuxian.materialedittext.MaterialEditText;
 
+import java.util.ArrayList;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -29,6 +31,7 @@ import midori.kitchen.R;
 import midori.kitchen.content.activity.BuyActivity;
 import midori.kitchen.content.activity.ChangeLocationActivity;
 import midori.kitchen.content.activity.LocationActivity;
+import midori.kitchen.content.model.MenuModel;
 import midori.kitchen.manager.AppData;
 import midori.kitchen.manager.AppPrefManager;
 
@@ -106,6 +109,10 @@ public class BuyReviewFragment extends Fragment {
                 AppData.locationDetail = locationDetail;
                 AppData.detail_address = AppData.address+" , "+AppData.locationDetail;
                 AppData.note = etNotes.getText().toString();
+                if(AppData.note.isEmpty()){
+                    AppData.note = "tidak ada catatan pelanggan";
+                }
+                AppData.total_harga = ""+((AppData.menuModel.getPrice_menu() * AppData.menuModel.getTotal_menu()) + AppData.menuModel.getDelivery_price());
                 AppData.status = "1";
                 if(etPromotion.getText().toString().isEmpty()){
                     AppData.kupon_id = "0";
@@ -124,6 +131,8 @@ public class BuyReviewFragment extends Fragment {
                             .setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit)
                             .replace(R.id.container_buy, new BuyPaymentFragment(), AppData.buy_payment_tag).addToBackStack(null).commit();
                 }
+
+
             }
         });
     }
@@ -181,15 +190,18 @@ public class BuyReviewFragment extends Fragment {
     }
 
     private void initView() {
+
         AppData.menuModel.setTotal_menu(1);
         AppData.menuModel.setDelivery_price(deliveryPrice);
         tvMenu.setText(AppData.menuModel.getMenu());
         tvDistance.setText((int)AppData.distance+" KM");
+
         tvPrice.setText("Rp. " + AppData.menuModel.getPrice_menu() * AppData.menuModel.getTotal_menu());
         tvMenu.setText(AppData.menuModel.getMenu());
         tvTotalPay.setText("Rp. " + ((AppData.menuModel.getPrice_menu() * AppData.menuModel.getTotal_menu()) + AppData.menuModel.getDelivery_price()));
         tvCountMenu.setText(String.valueOf(AppData.menuModel.getTotal_menu()));
         tvDeliveryPrice.setText("Rp. " + AppData.menuModel.getDelivery_price());
+        AppData.total_harga = ""+((AppData.menuModel.getPrice_menu() * AppData.menuModel.getTotal_menu()) + AppData.menuModel.getDelivery_price());
 
         changeAlamat = new BroadcastReceiver() {
             @Override
@@ -220,6 +232,7 @@ public class BuyReviewFragment extends Fragment {
                 tvDeliveryPrice.setText("Rp. "+deliveryPrice);
                 AppData.menuModel.setDelivery_price(deliveryPrice);
                 tvTotalPay.setText("Rp. " + ((AppData.menuModel.getPrice_menu() * AppData.menuModel.getTotal_menu()) + AppData.menuModel.getDelivery_price()));
+                AppData.total_harga = ""+((AppData.menuModel.getPrice_menu() * AppData.menuModel.getTotal_menu()) + AppData.menuModel.getDelivery_price());
             }
         };
 

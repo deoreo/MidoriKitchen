@@ -80,7 +80,7 @@ public class BuyPaymentFragment extends Fragment {
     @BindView(R.id.layout_text)
     LinearLayout layoutText;
 
-    private String order_id,payment_id,kupon_id,delivery_id,order_lat,order_lon,order_jarak,status_order_id,order_note,detail_address;
+    private String order_id,payment_id,kupon_id,delivery_id,order_lat,order_lon,order_jarak,status_order_id,order_note,detail_address, total_harga;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -100,20 +100,6 @@ public class BuyPaymentFragment extends Fragment {
 
     private void initView() {
         tvTotalPayment.setText("Rp. " + AppData.menuModel.getTotal_pay());
-        Calendar c = Calendar.getInstance();
-        int date = c.get(Calendar.DATE);
-        int month = c.get(Calendar.MONTH);
-        int year = c.get(Calendar.YEAR);
-        int hour = c.get(Calendar.HOUR);
-        int minutes = c.get(Calendar.MINUTE);
-        int seconds = c.get(Calendar.SECOND);
-        int miles = c.get(Calendar.MILLISECOND);
-        try {
-            AppData.order_id+= URLEncoder.encode(""+date+month+year+hour+minutes+seconds+miles, "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        order_id = AppData.order_id;
         payment_id = AppData.payment_id;
         kupon_id =AppData.kupon_id;
         delivery_id=AppData.delivery_id;
@@ -123,6 +109,7 @@ public class BuyPaymentFragment extends Fragment {
         status_order_id="1";
         order_note=AppData.note;
         detail_address=AppData.detail_address;
+        total_harga = AppData.total_harga;
     }
 
     private void initButtonFinish() {
@@ -132,7 +119,7 @@ public class BuyPaymentFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 new DoOrder(getActivity()).execute(
-                        order_id,payment_id,kupon_id,delivery_id,order_lat,order_lon,order_jarak,status_order_id,order_note,detail_address
+                        payment_id,kupon_id,delivery_id,order_lat,order_lon,order_jarak,status_order_id,order_note,detail_address,total_harga
                 );
             }
         });
@@ -232,25 +219,23 @@ public class BuyPaymentFragment extends Fragment {
         @Override
         protected String doInBackground(String... params) {
             try {
-
-
-                String order_id = params[0];
-                String payment_id = params[1];
-                String kupon_id = params[2];
-                String delivery_id = params[3];
-                String order_lat = params[4];
-                String order_lon = params[5];
-                String order_jarak = params[6];
-                String status_order_id = params[7];
-                String order_note = params[8];
-                String detail_address = params[9];
-
+                String payment_id = params[0];
+                String kupon_id = params[1];
+                String delivery_id = params[2];
+                String order_lat = params[3];
+                String order_lon = params[4];
+                String order_jarak = params[5];
+                String status_order_id = params[6];
+                String order_note = params[7];
+                String detail_address = params[8];
+                String total_harga = params[9];
 
                 JSONControl jsControl = new JSONControl();
-                JSONObject responseOrder = jsControl.postOrder(activity,order_id,payment_id,kupon_id,delivery_id,order_lat,order_lon,order_jarak,status_order_id,order_note,detail_address);
+                JSONObject responseOrder = jsControl.postOrder(activity,payment_id,kupon_id,delivery_id,order_lat,order_lon,order_jarak,status_order_id,order_note,detail_address, total_harga);
                 Log.d("json responseOrder", responseOrder.toString());
                 if (!responseOrder.toString().contains("error")) {
-
+                    order_id = responseOrder.getString("order_id");
+                    jsControl.postOrderDetail(order_id, AppData.menus);
                     return "OK";
                 }
                 else {

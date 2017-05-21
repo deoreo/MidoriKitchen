@@ -48,4 +48,6 @@ public class ConfigManager {
     public static final String API_KEY = "AIzaSyAHSIjLkUABvce1psAveGWwFOqSNJ6AT1A";
     public static final String URL_SUGGESTION = PLACES_API_BASE +"/autocomplete/json?components=country:id&key="+API_KEY+"&input=";
 
+
+    public static final String ORDERDETAIL = SERVER+"/post_order_detail";
 }
