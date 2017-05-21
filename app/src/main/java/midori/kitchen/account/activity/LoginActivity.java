@@ -1,7 +1,11 @@
 package midori.kitchen.account.activity;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -42,12 +46,15 @@ import org.json.JSONObject;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import midori.kitchen.R;
+import midori.kitchen.account.model.ModelUser;
 import midori.kitchen.content.activity.HomeActivity;
 import midori.kitchen.manager.AppPrefManager;
+import midori.kitchen.manager.JSONControl;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 import static android.content.ContentValues.TAG;
@@ -58,6 +65,7 @@ import static android.content.ContentValues.TAG;
 
 public class LoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
+    private Activity mActivity;
     //facebook
     private CallbackManager callbackManager;
     private static final int facebookSignUp = 64206;
@@ -70,7 +78,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     private GoogleApiClient mGoogleApiClient;
     private static final int googleSignUp = 9001;
 
-    private String id, fullname, email, photo;
+    private String id, fullname="-", email="-", photo="-", phone="-",password="-", address = "-";
     private AppPrefManager appPrefManager;
 
     @Override
@@ -104,6 +112,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
 
+        mActivity = this;
         // check is logged in
         if (appPrefManager.getIsLoggedIn()) {
             launchHome();
@@ -212,6 +221,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                                                 Log.d("facebookAccount", id + "/" + fullname + "/" + email + "/" + photo);
                                                 appPrefManager.setIsLoggedIn(true);
                                                 appPrefManager.setUser(id, fullname, email, photo);
+
                                                 launchHome();
                                             } catch (Exception e) {
                                                 Log.d("facebookResponseError", e.getMessage());
@@ -312,6 +322,13 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     }
 
     private void launchHome() {
+        new DoRegister(mActivity).execute(
+                fullname,
+                email,
+                password,
+                phone,
+                address
+        );
         startActivity(new Intent(LoginActivity.this, HomeActivity.class));
         finish();
     }
@@ -358,6 +375,87 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
             mGoogleApiClient.stopAutoManage(this);
             mGoogleApiClient.disconnect();
+        }
+    }
+
+    private class DoRegister extends AsyncTask<String, Void, String> {
+        private Activity activity;
+        private Context context;
+        private Resources resources;
+
+        public DoRegister(Activity activity) {
+            super();
+            this.activity = activity;
+            this.context = activity.getApplicationContext();
+            this.resources = activity.getResources();
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+
+                String name = params[0];
+                String email = params[1];
+                String password = params[2];
+                String phone = params[3];
+                String address = params[4];
+
+                if(password.isEmpty()){
+                    Random r = new Random();
+                    int pass = r.nextInt(999999);
+                    password = ""+pass;
+                }
+
+                JSONControl jsControl = new JSONControl();
+                JSONObject responseRegister = jsControl.postRegister(name, email, password, phone, address);
+                Log.d("json responseRegister", responseRegister.toString());
+                if (!responseRegister.toString().contains("error")) {
+                    ModelUser user = new ModelUser();
+                    user.setNama(name);
+                    user.setPonsel(phone);
+                    user.setEmail(email);
+                    user.setApi_key(responseRegister.getString("user_api_key"));
+                    appPrefManager.setUserApiKey(user.getApi_key());
+                    return "OK";
+                } else if(responseRegister.toString().contains("email already existed")){
+                    JSONObject responseLogin = jsControl.postLogin(email, password);
+                    if (!responseLogin.toString().contains("error")) {
+                        ModelUser user = new ModelUser();
+                        user.setNama(responseLogin.getString("name"));
+                        user.setPonsel(responseLogin.getString("telepon"));
+                        user.setEmail(responseLogin.getString("email"));
+                        user.setApi_key(responseLogin.getString("apiKey"));
+                        appPrefManager.setUserApiKey(user.getApi_key());
+                    }
+                    return "OK";
+                }
+
+                else {
+                    return "FAIL";
+                }
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return "FAIL";
+
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            switch (result) {
+                case "FAIL":
+                    break;
+                case "OK":
+                    break;
+            }
         }
     }
 }

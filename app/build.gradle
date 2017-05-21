@@ -64,7 +64,23 @@ dependencies {
     compile "com.github.bumptech.glide:glide:3.7.0"
     compile "com.makeramen:roundedimageview:2.2.1"
 
-    compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha8'
+    //compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha8'
+
+    //apache
+    compile 'org.jbundle.util.osgi.wrapped:org.jbundle.util.osgi.wrapped.org.apache.http.client:4.1.2'
+
+    //maps
+    compile 'com.google.android.gms:play-services:10.0.1'
+
+    //flurry analytics
+    compile 'com.flurry.android:analytics:6.9.0'
+
+    //gson
+    compile 'com.google.code.gson:gson:2.7'
+
+    //Dialog
+    compile 'com.afollestad.material-dialogs:core:0.9.4.5'
+
     testCompile 'junit:junit:4.12'
 }
 

@@ -83,7 +83,7 @@ public class BuyPaymentFragment extends Fragment {
     }
 
     private void initView() {
-        tvTotalPayment.setText("Rp. " + AppData.buyModel.getTotal_pay());
+        tvTotalPayment.setText("Rp. " + AppData.menuModel.getTotal_pay());
     }
 
     private void initButtonFinish() {

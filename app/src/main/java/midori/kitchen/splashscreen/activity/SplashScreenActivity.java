@@ -86,7 +86,7 @@ public class SplashScreenActivity extends AppCompatActivity {
     }
 
     private void animateBackground() {
-        kbvBackground.setImageResource(R.drawable.bg_splash_screen);
+        //kbvBackground.setImageResource(R.drawable.bg_splash_screen);
         RandomTransitionGenerator generator = new RandomTransitionGenerator(10000, new AccelerateDecelerateInterpolator());
         kbvBackground.setTransitionGenerator(generator);
     }

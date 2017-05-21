@@ -35,7 +35,7 @@ public class DetailActivity extends AppCompatActivity {
     ImageView btnBack;
 
     private String tag_detail, name_detail;
-    private String menu, description, price, delivery_date, photo;
+    private String id, menu, description, price, delivery_date, photo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

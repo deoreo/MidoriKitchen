@@ -89,18 +89,31 @@
                     fontPath="@string/GothamRndBold"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
                     android:ellipsize="marquee"
                     android:maxLines="1"
                     android:text="Pecel Bu Iin"
                     android:textColor="@color/colorGreen"
-                    android:textSize="20sp" />
+                    android:textSize="16sp"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentStart="true" />
+
+                <TextView
+                    android:id="@+id/tv_ibu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_menu"
+                    android:layout_marginBottom="16dp"
+                    android:ellipsize="marquee"
+                    android:maxLines="1"
+                    android:text="Bu Iin"
+                    android:textColor="@color/colorGreen"
+                    android:textSize="10sp" />
 
                 <TextView
                     android:id="@+id/delivery"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/tv_menu"
+                    android:layout_below="@+id/tv_ibu"
                     android:layout_marginBottom="5dp"
                     android:ellipsize="marquee"
                     android:maxLines="3"
@@ -117,7 +130,7 @@
                     android:maxLines="3"
                     android:text="Senin, 27 Maret 2017"
                     android:textColor="@color/colorDarkGrey"
-                    android:textSize="14sp" />
+                    android:textSize="12sp" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -133,9 +146,9 @@
 
                     <TextView
                         android:id="@+id/tv_price"
+                        fontPath="@string/GothamRndMedium"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        fontPath="@string/GothamRndMedium"
                         android:layout_gravity="center"
                         android:text="Rp. 7.000"
                         android:textAlignment="center"

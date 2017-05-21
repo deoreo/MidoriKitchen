@@ -1,9 +1,12 @@
 package midori.kitchen.manager;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import java.util.HashMap;
 
 import midori.kitchen.content.model.BuyModel;
 import midori.kitchen.content.model.CartModel;
+import midori.kitchen.content.model.MenuModel;
 
 /**
  * Created by M. Asrof Bayhaqqi on 3/11/2017.
@@ -26,5 +29,21 @@ public class AppData {
 
     public static HashMap<String, CartModel> cart = new HashMap<>();
 
-    public static BuyModel buyModel = new BuyModel();
+    //public static BuyModel buyModel = new BuyModel();
+    public static MenuModel menuModel = new MenuModel(
+
+    );
+    public static String id="0";
+    public static String payment="0";
+    public static String kupon="0";
+    public static String delivery="0";
+    public static String status="0";
+    public static String note="0";
+    public static String address="0";
+    public static String locationDetail="0";
+    public static Double lat=0.0;
+    public static Double lon=0.0;
+    public static double distance=0.0;
+    public static LatLng latLngDelivery = null;
+    public static int priceDelivery = 8000;
 }

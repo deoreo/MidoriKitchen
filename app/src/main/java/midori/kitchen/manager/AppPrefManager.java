@@ -3,6 +3,8 @@ package midori.kitchen.manager;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.google.android.gms.maps.model.LatLng;
+import com.google.gson.Gson;
 import java.util.HashMap;
 
 /**
@@ -10,7 +12,7 @@ import java.util.HashMap;
  */
 
 public class AppPrefManager {
-
+    private static AppPrefManager sInstance = null;
     SharedPreferences pref;
     SharedPreferences.Editor editor;
     Context context;
@@ -26,11 +28,20 @@ public class AppPrefManager {
     public static final String KEY_EMAIL = "email";
     public static final String KEY_PHONE = "phone";
     public static final String KEY_PHOTO = "photo";
+    private static final String KEY_ALAMAT = "alamat";
+    public static final String USER_API_KEY = "user_api_key";
 
     public AppPrefManager(Context context) {
         this.context = context;
         pref = context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
         editor = pref.edit();
+    }
+
+
+    public static AppPrefManager getInstance(Context ctx) {
+        if (sInstance == null)
+            sInstance = new AppPrefManager(ctx);
+        return sInstance;
     }
 
     public void setIsLoggedIn(boolean isLoggedIn) {
@@ -73,6 +84,44 @@ public class AppPrefManager {
         editor.remove(KEY_PHOTO);
         editor.remove(KEY_PHONE);
         editor.apply();
+    }
+
+
+    public void setUserApiKey(String api) {
+        editor.putString(USER_API_KEY, api);
+        editor.commit();
+    }
+
+    public String getUserApiKey(){
+        return pref.getString(USER_API_KEY, "");
+    }
+
+    public void setAlamat(String alamat) {
+        try {
+            editor.putString(KEY_ALAMAT, alamat);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new NullPointerException();
+        }
+        editor.commit();
+    }
+    public String getAlamat() {
+        return pref.getString(KEY_ALAMAT, null);
+    }
+
+    public void setGeocode(LatLng geocode){
+        Gson gson = new Gson();
+        String dataJson = gson.toJson(geocode);
+        editor.putString("geocode", dataJson);
+        editor.commit();
+
+    }
+
+    public LatLng getGeocode(){
+        Gson gson = new Gson();
+        String json = pref.getString("geocode", null);
+        LatLng obj = gson.fromJson(json, LatLng.class);
+        return obj;
     }
 
 }

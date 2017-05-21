@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,14 +54,15 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
 
         final String id = items.getId();
         final String menu = items.getMenu();
-        final int price = items.getPrice();
+        final int price = items.getPrice_menu();
         final String time = items.getDeliveryDate();
         final String photo = items.getPhoto();
+        final String ibu = items.getIbuNama();
 
         if (items.getPhoto().isEmpty()) {
             holder.ivPlaceholder.setVisibility(View.VISIBLE);
             holder.rvAvatar.setVisibility(View.INVISIBLE);
-        } else {
+        } else if(items.getPhoto().contains("http")){
             holder.ivPlaceholder.setVisibility(View.INVISIBLE);
             holder.rvAvatar.setVisibility(View.VISIBLE);
             Glide
@@ -72,8 +74,22 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(holder.rvAvatar);
         }
+        else {
+            byte[] imageByteArray = Base64.decode(items.getPhoto(), Base64.DEFAULT);
+            holder.ivPlaceholder.setVisibility(View.INVISIBLE);
+            holder.rvAvatar.setVisibility(View.VISIBLE);
+            Glide
+                    .with(activity)
+                    .load(imageByteArray)
+                    .centerCrop()
+                    .crossFade()
+                    .thumbnail(0.5f)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .into(holder.rvAvatar);
+        }
         holder.tvMenu.setText(menu);
         holder.tvPrice.setText("Rp. " + String.valueOf(price));
+        holder.tvIbu.setText("Dimasak oleh "+ ibu);
         holder.tvTime.setText(time);
         holder.listItem.setTag(position);
     }
@@ -91,6 +107,8 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
         RoundedImageView rvAvatar;
         @BindView(R.id.tv_menu)
         TextView tvMenu;
+        @BindView(R.id.tv_ibu)
+        TextView tvIbu;
         @BindView(R.id.tv_price)
         TextView tvPrice;
         @BindView(R.id.tv_time)
@@ -108,14 +126,22 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
             int i = getAdapterPosition();
             MenuModel item = menuItems.get(i);
             Intent intent = new Intent(v.getContext(), DetailActivity.class);
+            AppData.menuModel.setId(item.getId());
+            AppData.menuModel.setMenu(item.getMenu());
+            AppData.menuModel.setDescription(item.getDescription());
+            AppData.menuModel.setPrice_menu(item.getPrice_menu());
+            AppData.menuModel.setPhoto(item.getPhoto());
+
             Bundle extras = new Bundle();
+            //AppData.id = item.getId();
+            //extras.putString("id", item.getId());
             extras.putString("tag_detail", AppData.detail_menu_tag);
-            extras.putString("name_detail", item.getMenu());
-            extras.putString("menu", item.getMenu());
-            extras.putString("description", item.getDescription());
-            extras.putString("price", String.valueOf(item.getPrice()));
-            extras.putString("delivery_date", item.getDeliveryDate());
-            extras.putString("photo", item.getPhoto());
+            //extras.putString("name_detail", item.getMenu());
+            //extras.putString("menu", item.getMenu());
+            //extras.putString("description", item.getDescription());
+            //extras.putString("price", String.valueOf(item.getPrice_menu()));
+            //extras.putString("delivery_date", item.getDeliveryDate());
+            //extras.putString("photo", item.getPhoto());
             intent.putExtras(extras);
             activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             activity.startActivity(intent);
