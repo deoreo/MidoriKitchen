@@ -52,6 +52,12 @@ public class HistroyAdapter extends RecyclerView.Adapter<HistroyAdapter.ViewHold
         holder.tvTime.setText(time);
         holder.tvStatus.setText(status);
         holder.listItem.setTag(position);
+
+        if(status.equalsIgnoreCase("wait payment")){
+            holder.layoutStatus.setBackgroundResource(R.drawable.rounded_red);
+        }else{
+            holder.layoutStatus.setBackgroundResource(R.drawable.rounded_bg_transparent);
+        }
     }
 
     @Override
