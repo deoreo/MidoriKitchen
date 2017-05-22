@@ -11,11 +11,26 @@ public class HistoryModel {
     private String status;
     private int total_pay;
 
+    private String order_id;
+
+
+    private String menu_id;
+
     public HistoryModel() {
     }
 
     public HistoryModel(String id, String menu, int total_pay, String deliveryDate, String status) {
         this.id = id;
+        this.menu = menu;
+        this.total_pay = total_pay;
+        this.deliveryDate = deliveryDate;
+        this.status = status;
+    }
+
+    public HistoryModel(String id, String order_id, String menu_id, String menu, int total_pay, String deliveryDate, String status) {
+        this.id = id;
+        this.menu_id = menu_id;
+        this.order_id = order_id;
         this.menu = menu;
         this.total_pay = total_pay;
         this.deliveryDate = deliveryDate;
@@ -62,4 +77,21 @@ public class HistoryModel {
     public void setTotal_pay(int total_pay) {
         this.total_pay = total_pay;
     }
+
+    public String getOrder_id() {
+        return order_id;
+    }
+
+    public void setOrder_id(String order_id) {
+        this.order_id = order_id;
+    }
+
+    public String getMenu_id() {
+        return menu_id;
+    }
+
+    public void setMenu_id(String menu_id) {
+        this.menu_id = menu_id;
+    }
+
 }

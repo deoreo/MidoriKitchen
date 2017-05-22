@@ -50,4 +50,5 @@ public class ConfigManager {
 
 
     public static final String ORDERDETAIL = SERVER+"/post_order_detail";
+    public static final String ORDERS = SERVER+"/orders";
 }

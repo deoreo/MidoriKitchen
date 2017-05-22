@@ -111,6 +111,19 @@ public class JSONControl {
         return jsonObj;
     }
 
+    public JSONObject getOrderUser(Activity activity) {
+        AppPrefManager appPrefManager = new AppPrefManager(activity);
+        JSONObject jsonObj = new JSONObject();
+
+        try {
+            Log.d("API_KEY", appPrefManager.getUserApiKey());
+            jsonObj = _JSONResponse.GETResponseToken(ConfigManager.ORDERS, appPrefManager.getUserApiKey());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return jsonObj;
+    }
+
     public JSONObject postOrder(Activity activity, String payment_id, String kupon_id, String delivery_id,
                                 String order_lat,String order_lon,
                                 String order_jarak, String status_order, String order_note, String detail_address, String order_total_harga) {

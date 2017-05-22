@@ -96,6 +96,8 @@ public class AppPrefManager {
         return pref.getString(USER_API_KEY, "");
     }
 
+
+
     public void setAlamat(String alamat) {
         try {
             editor.putString(KEY_ALAMAT, alamat);
