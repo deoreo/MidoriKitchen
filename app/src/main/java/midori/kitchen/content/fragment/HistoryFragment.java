@@ -150,6 +150,8 @@ public class HistoryFragment extends Fragment {
                 case "OK":
                     adapter = new HistroyAdapter(historyItems, activity);
                     recyclerView.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
+                    swipeRefresh.setRefreshing(false);
                     break;
             }
         }
