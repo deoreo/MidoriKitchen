@@ -106,7 +106,7 @@ public class BuyPaymentFragment extends Fragment {
         order_lat =""+AppData.latLngDelivery.latitude;
         order_lon =""+AppData.latLngDelivery.longitude;
         order_jarak =""+AppData.distance;
-
+        status_order_id = "1";
         order_note=AppData.note;
         detail_address=AppData.detail_address;
         total_harga = AppData.total_harga;
