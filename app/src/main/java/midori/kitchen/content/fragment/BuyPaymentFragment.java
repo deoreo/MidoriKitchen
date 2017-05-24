@@ -106,7 +106,7 @@ public class BuyPaymentFragment extends Fragment {
         order_lat =""+AppData.latLngDelivery.latitude;
         order_lon =""+AppData.latLngDelivery.longitude;
         order_jarak =""+AppData.distance;
-        status_order_id="1";
+
         order_note=AppData.note;
         detail_address=AppData.detail_address;
         total_harga = AppData.total_harga;
@@ -141,6 +141,7 @@ public class BuyPaymentFragment extends Fragment {
                     tvSubhead.setText(R.string.bank_subhead);
                     layoutBalance.setVisibility(View.GONE);
                     AppData.payment_id= "1";
+                    status_order_id="1";
                 }
             }
         });
@@ -159,6 +160,7 @@ public class BuyPaymentFragment extends Fragment {
                     tvSubhead.setText(R.string.cod_subhead);
                     layoutBalance.setVisibility(View.GONE);
                     AppData.payment_id= "2";
+                    status_order_id="2";
                 }
             }
         });
@@ -175,6 +177,7 @@ public class BuyPaymentFragment extends Fragment {
                     layoutInfoBni.setVisibility(View.VISIBLE);
                     layoutBalance.setVisibility(View.GONE);
                     AppData.payment_id= "3";
+                    status_order_id="2";
                 }
             }
         });
@@ -191,6 +194,7 @@ public class BuyPaymentFragment extends Fragment {
                     layoutInfoBni.setVisibility(View.GONE);
                     layoutBalance.setVisibility(View.VISIBLE);
                     AppData.payment_id= "4";
+                    status_order_id="2";
                 }
             }
         });

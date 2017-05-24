@@ -81,6 +81,9 @@ dependencies {
     //Dialog
     compile 'com.afollestad.material-dialogs:core:0.9.4.5'
 
+    //ion
+    compile 'com.koushikdutta.ion:ion:2.1.9'
+    compile 'com.koushikdutta.async:androidasync:2.+'
     testCompile 'junit:junit:4.12'
 }
 

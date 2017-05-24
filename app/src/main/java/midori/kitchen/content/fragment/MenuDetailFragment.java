@@ -65,7 +65,7 @@ public class MenuDetailFragment extends Fragment {
     @BindView(R.id.fab_checkout)
     FloatingActionButton fabCheckout;
 
-    private String id, menu, description, price, delivery_date, photo;
+    private String id, menu, description, price, delivery_date, photo, ibunama;
     private int stok;
 
     @Override
@@ -78,7 +78,12 @@ public class MenuDetailFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        new GetProdukDetail(getActivity(),id, "detail").execute();
+        if(AppData.TAG == "Midori") {
+            new GetProdukDetail(getActivity(), id, "detail").execute();
+        }
+        else{
+            new GetProdukBukalapak(getActivity(), id, "detail").execute();
+        }
     }
 
     private void getData() {
@@ -89,6 +94,7 @@ public class MenuDetailFragment extends Fragment {
         delivery_date = AppData.menuModel.getDeliveryDate();
         photo = AppData.menuModel.getPhoto();
         stok = AppData.menuModel.getStok();
+        ibunama = AppData.menuModel.getIbuNama();
         initView();
     }
 
@@ -132,7 +138,12 @@ public class MenuDetailFragment extends Fragment {
 //        AppData.buyModel.setPrice_menu(Integer.parseInt(price));
 //        Intent intent = new Intent(getActivity(), BuyActivity.class);
 //        getActivity().startActivity(intent);
-        new GetProdukDetail(getActivity(),id, "buy").execute();
+        if(AppData.TAG == "Midori") {
+            new GetProdukDetail(getActivity(), id, "buy").execute();
+        }
+        else{
+            new GetProdukBukalapak(getActivity(), id, "buy").execute();
+        }
     }
 
     private class GetProdukDetail extends AsyncTask<String, Void, String> {
@@ -212,4 +223,107 @@ public class MenuDetailFragment extends Fragment {
             }
         }
     }
+
+    private class GetProdukBukalapak extends AsyncTask<String, Void, String> {
+        private Activity activity;
+        private Context context;
+        private Resources resources;
+        private String id;
+        private ProgressDialog progressDialog;
+        private String TAG;
+        public GetProdukBukalapak(Activity activity, String id, String TAG) {
+            super();
+            this.activity = activity;
+            this.context = activity.getApplicationContext();
+            this.resources = activity.getResources();
+            this.id = id;
+            this.TAG = TAG;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressDialog = new ProgressDialog(activity);
+            progressDialog.setMessage("Memuat menu makanan. . .");
+            progressDialog.setIndeterminate(false);
+            progressDialog.setCancelable(false);
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progressDialog.show();
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+                String ibuName, menuName, deliveryDate;
+                JSONControl jsControl = new JSONControl();
+                JSONObject response = jsControl.readProdukBukalapak(id);
+                JSONObject responseIbu = jsControl.postIbuProfile(ibunama);
+
+                Log.d("json responseDetail", response.toString());
+                Log.d("json responseIbu", responseIbu.toString());
+
+                JSONObject responseProduk = response.getJSONObject("product");
+
+                MenuModel menuModel = new MenuModel();
+                menuModel.setId(responseProduk.getString("id"));
+                String words[] = responseProduk.getString("name").split("-");
+                try{
+                    ibuName = words[0];
+                }
+                catch (Exception e){
+                    ibuName = "Midori Kitchen";
+                }
+                try{
+                    menuName = words[1];
+                }
+                catch (Exception e){
+                    menuName = "Menu Midori Kitchen";
+                }
+                try{ deliveryDate = words[2];}
+                catch (Exception e){
+                    deliveryDate = "Now";
+                }
+                menuModel.setMenu(menuName);
+                menuModel.setPrice_menu(responseProduk.getInt("price"));
+                menuModel.setDescription(responseProduk.getString("desc"));
+                menuModel.setStok(responseProduk.getInt("stock"));
+                menuModel.setDeliveryDate(deliveryDate);
+                JSONArray images = responseProduk.getJSONArray("images");
+                menuModel.setPhoto(images.getString(0));
+                menuModel.setIbuNama(ibuName);
+                menuModel.setIbuAlamat(responseIbu.getString("alamat"));
+                menuModel.setIbuLat(responseIbu.getDouble("latitude"));
+                menuModel.setIbuLon(responseIbu.getDouble("longitude"));
+                AppData.menuModel = menuModel;
+                AppData.menus.add(AppData.menuModel);
+                return "OK";
+
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return "OK";
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            progressDialog.dismiss();
+            switch (result) {
+                case "FAIL":
+                    Toast.makeText(activity,"Sorry", Toast.LENGTH_SHORT);
+                    break;
+                case "OK":
+                    if(TAG == "buy") {
+                        Intent intent = new Intent(getActivity(), BuyActivity.class);
+                        getActivity().startActivity(intent);
+                    } else if(TAG == "detail"){
+                        getData();
+                    }
+                    break;
+            }
+        }
+    }
+
 }

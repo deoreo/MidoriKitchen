@@ -1,10 +1,14 @@
 package midori.kitchen.manager;
 
 import android.app.Activity;
+import android.util.Base64;
 import android.util.Log;
 
 
 import com.google.android.gms.maps.model.LatLng;
+import com.google.gson.JsonObject;
+import com.koushikdutta.async.future.FutureCallback;
+import com.koushikdutta.ion.Ion;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -31,6 +35,36 @@ public class JSONControl {
         _JSONResponse = new JSONResponse();
     }
 
+
+    //API Bukalapak//
+    public JSONObject getMyLapak() {
+        JSONObject jsonObj = new JSONObject();
+        Log.v("Bukalapak", "getMyLapak");
+        try {
+            jsonObj = _JSONResponse.GETResponseMyLapak();
+            Log.v("Bukalapak",jsonObj.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return jsonObj;
+    }
+
+    public JSONObject readProdukBukalapak(String idProduk) {
+        JSONObject jsonObj = new JSONObject();
+        Log.v("Bukalapak", "getMyLapak");
+        try {
+            jsonObj = _JSONResponse.GETResponse(ConfigManager.BL_READ_PRODUK+idProduk+".json");
+            Log.v("Bukalapak",jsonObj.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return jsonObj;
+    }
+
+
+    //API MidoriKitchen
     public JSONArray listPlace(String addressInput) {
         JSONArray json = null;
         JSONObject jsonObj = null;
@@ -50,6 +84,24 @@ public class JSONControl {
 
     }
 
+    public JSONObject postIbuProfile(String name) {
+
+        JSONObject jsonObj = null;
+
+        try {
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("name", name));
+            jsonObj = _JSONResponse.POSTResponse(ConfigManager.IBU_PROFILE, ConfigManager.MIDORIKEY, params);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return jsonObj;
+    }
+
+
+
     public JSONObject postLogin(String email, String password) {
 
         JSONObject jsonObj = null;
@@ -63,6 +115,7 @@ public class JSONControl {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         return jsonObj;
     }
 
@@ -186,4 +239,18 @@ public class JSONControl {
         }
     }
 
+    public JSONObject updateStatus(Activity activity, String order_id, String status_id) {
+
+        JSONObject jsonObject = null;
+        try {
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("order_id", order_id));
+            params.add(new BasicNameValuePair("status_id", status_id));
+            jsonObject = _JSONResponse.POSTResponse(ConfigManager.UPDATESTATUS, AppPrefManager.getInstance(activity).getUserApiKey(), params);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return jsonObject;
+    }
 }

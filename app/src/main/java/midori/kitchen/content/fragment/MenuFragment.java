@@ -78,7 +78,9 @@ public class MenuFragment extends Fragment {
     }
 
     private void getDataMenu() {
+        menuItems.clear();
         new GetProduk(getActivity()).execute();
+        new GetProdukBukalapak(getActivity()).execute();
         swipeRefresh.setRefreshing(false);
     }
 
@@ -105,8 +107,6 @@ public class MenuFragment extends Fragment {
                 JSONControl jsControl = new JSONControl();
                 JSONObject response = jsControl.getAllMenus(activity);
 
-                Log.d("json responseRegister", response.toString());
-
                 menuItems.clear();
                 if (!response.toString().contains("error")) {
                     JSONArray allmenus = response.getJSONArray("allmenus");
@@ -129,6 +129,88 @@ public class MenuFragment extends Fragment {
                 } else {
                     return "FAIL";
                 }
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return "OK";
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            switch (result) {
+                case "FAIL":
+                    break;
+                case "OK":
+                    adapter = new MenuAdapter(menuItems, activity);
+                    recyclerView.setAdapter(adapter);
+                    break;
+            }
+        }
+    }
+
+    private class GetProdukBukalapak extends AsyncTask<String, Void, String> {
+        private Activity activity;
+        private Context context;
+        private Resources resources;
+
+        public GetProdukBukalapak(Activity activity) {
+            super();
+            this.activity = activity;
+            this.context = activity.getApplicationContext();
+            this.resources = activity.getResources();
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+                String ibuName, menuName, deliveryDate;
+
+                JSONControl jsControl = new JSONControl();
+                JSONObject response = jsControl.getMyLapak();
+                    JSONArray allmenus = response.getJSONArray("products");
+                    for(int i =0; i< allmenus.length();i++){
+                        MenuModel menuModel = new MenuModel();
+                        JSONObject menuObject = allmenus.getJSONObject(i);
+                        menuModel.setId(menuObject.getString("id"));
+                        String words[] = menuObject.getString("name").split("-");
+                        try{
+                            ibuName = words[0];
+                        }
+                        catch (Exception e){
+                            ibuName = "Midori Kitchen";
+                        }
+                        try{
+                            menuName = words[1];
+                        }
+                        catch (Exception e){
+                            menuName = "Menu Midori Kitchen";
+                        }
+                        try{ deliveryDate = words[2];}
+                        catch (Exception e){
+                            deliveryDate = "Now";
+                        }
+                        menuModel.setMenu(menuName);
+                        menuModel.setPrice_menu(menuObject.getInt("price"));
+                        menuModel.setDescription(menuObject.getString("desc"));
+                        menuModel.setStok(menuObject.getInt("stock"));
+                        menuModel.setDeliveryDate(deliveryDate);
+                        JSONArray images = menuObject.getJSONArray("images");
+                        menuModel.setPhoto(images.getString(0));
+                        menuModel.setIbuNama(ibuName);
+                        menuItems.add(menuModel);
+
+                    }
+
+                    return "OK";
+
 
 
             } catch (Exception e) {

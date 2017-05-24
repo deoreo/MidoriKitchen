@@ -9,6 +9,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -41,6 +42,10 @@ import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.gson.JsonObject;
+import com.koushikdutta.async.future.FutureCallback;
+import com.koushikdutta.ion.Ion;
+import com.koushikdutta.ion.Response;
 
 import org.json.JSONObject;
 
@@ -54,6 +59,7 @@ import midori.kitchen.R;
 import midori.kitchen.account.model.ModelUser;
 import midori.kitchen.content.activity.HomeActivity;
 import midori.kitchen.manager.AppPrefManager;
+import midori.kitchen.manager.ConfigManager;
 import midori.kitchen.manager.JSONControl;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -117,6 +123,9 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         if (appPrefManager.getIsLoggedIn()) {
             launchHome();
         }
+
+
+
     }
 
     private void initFirebaseAuth() {
@@ -414,6 +423,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 JSONControl jsControl = new JSONControl();
                 JSONObject responseRegister = jsControl.postRegister(name, email, password, phone, address);
                 Log.d("json responseRegister", responseRegister.toString());
+
                 if (!responseRegister.toString().contains("error")) {
                     ModelUser user = new ModelUser();
                     user.setNama(name);
@@ -421,6 +431,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                     user.setEmail(email);
                     user.setApi_key(responseRegister.getString("user_api_key"));
                     appPrefManager.setUserApiKey(user.getApi_key());
+
+
                     return "OK";
                 } else if(responseRegister.toString().contains("email already existed")){
                     JSONObject responseLogin = jsControl.postLogin(email, password);
@@ -438,6 +450,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 else {
                     return "FAIL";
                 }
+
+
 
 
             } catch (Exception e) {

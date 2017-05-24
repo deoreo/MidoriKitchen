@@ -139,6 +139,9 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
             AppData.menuModel.setIbuAlamat(item.getIbuAlamat());
             AppData.menuModel.setIbuTelepon(item.getIbuTelepon());
 
+            if(AppData.isInteger(AppData.menuModel.getId())){
+                AppData.TAG = "Midori";
+            }
             Bundle extras = new Bundle();
             //AppData.id = item.getId();
             //extras.putString("id", item.getId());
@@ -154,4 +157,6 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
             activity.startActivity(intent);
         }
     }
+
+
 }

@@ -1,5 +1,6 @@
 package midori.kitchen.manager;
 
+import android.util.Base64;
 import android.util.Log;
 
 import org.apache.http.Header;
@@ -162,158 +163,6 @@ public class JSONResponse {
         return _jObj;
     }
 
-    public JSONObject GETResponse(String url,String apptoken, String token) throws ConnectException {
-        try {
-
-            DefaultHttpClient  httpClient = (DefaultHttpClient)createDevelopmentHttpClientInstance();
-            HttpGet httpGet = new HttpGet(url);
-            httpGet.addHeader("Accept-Encoding", "gzip");
-            httpGet.setHeader("X-App-Token", apptoken);
-            httpGet.setHeader("Accept-Version", ConfigManager.version);
-            httpGet.setHeader("X-Access-Token", token);
-            HttpResponse httpResponse = httpClient.execute(httpGet);
-            HttpEntity httpEntity = httpResponse.getEntity();
-            _inputStream = httpEntity.getContent();
-            Header contentEncoding = httpResponse.getFirstHeader("Content-Encoding");
-            if (contentEncoding != null && contentEncoding.getValue().equalsIgnoreCase("gzip")) {
-                _inputStream = new GZIPInputStream(_inputStream);
-            }
-
-        }
-        catch(ConnectException e){
-            throw e;
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (ClientProtocolException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-        try {
-            BufferedReader reader = new BufferedReader(new InputStreamReader(
-                    _inputStream, "iso-8859-1"), 8);
-            StringBuilder sb = new StringBuilder();
-            String line = null;
-            while ((line = reader.readLine()) != null) {
-                sb.append(line + "\n");
-            }
-            _inputStream.close();
-            _json = sb.toString();
-            Log.d("token",_json);
-        } catch (Exception e) {
-            Log.e("Buffer Error", "Error converting result " + e.toString());
-        }
-        try {
-            _jObj = new JSONObject(_json);
-        } catch (JSONException e) {
-            Log.e("JSON Parser", "Error parsing data " + e.toString());
-        }
-        return _jObj;
-    }
-
-    public JSONArray GETResponseArray(String url,String apptoken, String token) throws ConnectException {
-        try {
-
-            DefaultHttpClient  httpClient = (DefaultHttpClient)createDevelopmentHttpClientInstance();
-            HttpGet httpGet = new HttpGet(url);
-            httpGet.addHeader("Accept-Encoding", "gzip");
-            httpGet.setHeader("X-App-Token", apptoken);
-            httpGet.setHeader("Accept-Version", ConfigManager.version);
-            httpGet.setHeader("X-Access-Token", token);
-            HttpResponse httpResponse = httpClient.execute(httpGet);
-            HttpEntity httpEntity = httpResponse.getEntity();
-            _inputStream = httpEntity.getContent();
-            Header contentEncoding = httpResponse.getFirstHeader("Content-Encoding");
-            if (contentEncoding != null && contentEncoding.getValue().equalsIgnoreCase("gzip")) {
-                _inputStream = new GZIPInputStream(_inputStream);
-            }
-
-        }
-        catch(ConnectException e){
-            throw e;
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (ClientProtocolException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-        try {
-            BufferedReader reader = new BufferedReader(new InputStreamReader(
-                    _inputStream, "iso-8859-1"), 8);
-            StringBuilder sb = new StringBuilder();
-            String line = null;
-            while ((line = reader.readLine()) != null) {
-                sb.append(line + "\n");
-            }
-            _inputStream.close();
-            _json = sb.toString();
-        } catch (Exception e) {
-            Log.e("Buffer Error", "Error converting result " + e.toString());
-        }
-        try {
-            jsonArray = new JSONArray(_json);
-        } catch (JSONException e) {
-            Log.e("JSON Parser", "Error parsing data " + e.toString());
-            jsonArray = new JSONArray();
-        }
-        return jsonArray;
-    }
-
-    public JSONObject GETResponseObject(String url,String apptoken) throws ConnectException {
-        try {
-
-            DefaultHttpClient  httpClient = (DefaultHttpClient)createDevelopmentHttpClientInstance();
-            HttpGet httpGet = new HttpGet(url);
-            httpGet.addHeader("Accept-Encoding", "gzip");
-            httpGet.setHeader("X-App-Token", apptoken);
-            httpGet.setHeader("Accept-Version", ConfigManager.version);
-            HttpResponse httpResponse = httpClient.execute(httpGet);
-            HttpEntity httpEntity = httpResponse.getEntity();
-            _inputStream = httpEntity.getContent();
-            Header contentEncoding = httpResponse.getFirstHeader("Content-Encoding");
-            if (contentEncoding != null && contentEncoding.getValue().equalsIgnoreCase("gzip")) {
-                _inputStream = new GZIPInputStream(_inputStream);
-            }
-
-        }
-        catch(ConnectException e){
-            throw e;
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (ClientProtocolException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-        try {
-            BufferedReader reader = new BufferedReader(new InputStreamReader(
-                    _inputStream, "iso-8859-1"), 8);
-            StringBuilder sb = new StringBuilder();
-            String line = null;
-            while ((line = reader.readLine()) != null) {
-                sb.append(line + "\n");
-            }
-            _inputStream.close();
-            _json = sb.toString();
-        } catch (Exception e) {
-            Log.e("Buffer Error", "Error converting result " + e.toString());
-        }
-        try {
-            _jObj = new JSONObject(_json);
-        } catch (JSONException e) {
-            Log.e("JSON Parser", "Error parsing data " + e.toString());
-            jsonArray = new JSONArray();
-        }
-        return _jObj;
-    }
-
     public JSONObject POSTResponse(String url, List<NameValuePair> params) {
 
         try {
@@ -409,23 +258,18 @@ public class JSONResponse {
 
     }
 
-    public JSONObject POSTResponseToken(String url, String apptoken, String accessToken, List<NameValuePair> params) {
+    public JSONObject POSTResponse(String url) {
 
         try {
             DefaultHttpClient  httpClient = (DefaultHttpClient)createDevelopmentHttpClientInstance();
             HttpPost httpPost = new HttpPost(url);
-            httpPost.setEntity(new UrlEncodedFormEntity(params));
-            httpPost.addHeader("Accept-Encoding", "gzip");
-            httpPost.setHeader("X-App-Token", apptoken);
-            httpPost.setHeader("X-Access-Token", accessToken);
-            httpPost.setHeader("Accept-Version", ConfigManager.version);
             HttpResponse httpResponse = httpClient.execute(httpPost);
+            String base64EncodedCredentials = Base64.encodeToString(
+                    ("33172156:T3GUXckp8K8mC5zMseGI").getBytes(),
+                    Base64.NO_WRAP);
+            httpPost.setHeader("Authorization", base64EncodedCredentials);
             HttpEntity httpEntity = httpResponse.getEntity();
             _inputStream = httpEntity.getContent();
-            Header contentEncoding = httpResponse.getFirstHeader("Content-Encoding");
-            if (contentEncoding != null && contentEncoding.getValue().equalsIgnoreCase("gzip")) {
-                _inputStream = new GZIPInputStream(_inputStream);
-            }
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         } catch (ClientProtocolException e) {
@@ -462,31 +306,28 @@ public class JSONResponse {
 
     }
 
-    public String POSTResponseString(String url, String token, List<NameValuePair> params) {
+    public JSONObject GETResponseMyLapak() throws ConnectException {
         try {
 
-            DefaultHttpClient  httpClient = (DefaultHttpClient)createDevelopmentHttpClientInstance();
-            HttpPost httpPost = new HttpPost(url);
-            httpPost.setEntity(new UrlEncodedFormEntity(params));
-            httpPost.addHeader("Accept-Encoding", "gzip");
-            httpPost.setHeader("X-App-Token", token);
-            httpPost.setHeader("Accept-Version", ConfigManager.version);
-            HttpResponse httpResponse = httpClient.execute(httpPost);
+            DefaultHttpClient httpClient = new DefaultHttpClient();
+            HttpGet httpGet = new HttpGet(ConfigManager.BL_GET_MYLAPAK);
+            httpGet.addHeader("authorization", "Basic MzMxNzIxNTY6VDNHVVhja3A4SzhtQzV6TXNlR0k=");
+            httpGet.addHeader("cache-control", "no-cache");
+            HttpResponse httpResponse = httpClient.execute(httpGet);
             HttpEntity httpEntity = httpResponse.getEntity();
             _inputStream = httpEntity.getContent();
-            Header contentEncoding = httpResponse.getFirstHeader("Content-Encoding");
-            if (contentEncoding != null && contentEncoding.getValue().equalsIgnoreCase("gzip")) {
-                _inputStream = new GZIPInputStream(_inputStream);
-            }
-
+        }
+        catch(ConnectException e){
+            throw e;
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         } catch (ClientProtocolException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (Exception e){
+            e.printStackTrace();
         }
-
         try {
             BufferedReader reader = new BufferedReader(new InputStreamReader(
                     _inputStream, "iso-8859-1"), 8);
@@ -497,151 +338,15 @@ public class JSONResponse {
             }
             _inputStream.close();
             _json = sb.toString();
-
         } catch (Exception e) {
             Log.e("Buffer Error", "Error converting result " + e.toString());
         }
-
-        // return JSON String
-        return _json;
-
+        try {
+            _jObj = new JSONObject(_json);
+        } catch (JSONException e) {
+            Log.e("JSON Parser", "Error parsing data " + e.toString());
+        }
+        return _jObj;
     }
-
-    public String POSTResponseTokenString(String url, String xToken,String token, List<NameValuePair> params) {
-        try {
-
-            DefaultHttpClient  httpClient = (DefaultHttpClient)createDevelopmentHttpClientInstance();
-            HttpPost httpPost = new HttpPost(url);
-            httpPost.setEntity(new UrlEncodedFormEntity(params));
-            httpPost.addHeader("Accept-Encoding", "gzip");
-            httpPost.setHeader("X-Access-Token", xToken);
-            httpPost.setHeader("X-App-Token", token);
-            httpPost.setHeader("Accept-Version", ConfigManager.version);
-            HttpResponse httpResponse = httpClient.execute(httpPost);
-            HttpEntity httpEntity = httpResponse.getEntity();
-            _inputStream = httpEntity.getContent();
-            Header contentEncoding = httpResponse.getFirstHeader("Content-Encoding");
-            if (contentEncoding != null && contentEncoding.getValue().equalsIgnoreCase("gzip")) {
-                _inputStream = new GZIPInputStream(_inputStream);
-            }
-
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (ClientProtocolException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        try {
-            BufferedReader reader = new BufferedReader(new InputStreamReader(
-                    _inputStream, "iso-8859-1"), 8);
-            StringBuilder sb = new StringBuilder();
-            String line = null;
-            while ((line = reader.readLine()) != null) {
-                sb.append(line + "\n");
-            }
-            _inputStream.close();
-            _json = sb.toString();
-
-        } catch (Exception e) {
-            Log.e("Buffer Error", "Error converting result " + e.toString());
-        }
-
-        // return JSON String
-        return _json;
-
-    }
-
-    public String PutResponseTokenString(String url, String xToken,String token, List<NameValuePair> params) {
-        try {
-
-            DefaultHttpClient  httpClient = (DefaultHttpClient)createDevelopmentHttpClientInstance();
-            HttpPut httpPost = new HttpPut(url);
-            httpPost.setEntity(new UrlEncodedFormEntity(params));
-            httpPost.addHeader("Accept-Encoding", "gzip");
-            httpPost.setHeader("X-Access-Token", xToken);
-            httpPost.setHeader("X-App-Token", token);
-            httpPost.setHeader("Accept-Version", ConfigManager.version);
-            HttpResponse httpResponse = httpClient.execute(httpPost);
-            HttpEntity httpEntity = httpResponse.getEntity();
-            _inputStream = httpEntity.getContent();
-            Header contentEncoding = httpResponse.getFirstHeader("Content-Encoding");
-            if (contentEncoding != null && contentEncoding.getValue().equalsIgnoreCase("gzip")) {
-                _inputStream = new GZIPInputStream(_inputStream);
-            }
-
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (ClientProtocolException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        try {
-            BufferedReader reader = new BufferedReader(new InputStreamReader(
-                    _inputStream, "iso-8859-1"), 8);
-            StringBuilder sb = new StringBuilder();
-            String line = null;
-            while ((line = reader.readLine()) != null) {
-                sb.append(line + "\n");
-            }
-            _inputStream.close();
-            _json = sb.toString();
-
-        } catch (Exception e) {
-            Log.e("Buffer Error", "Error converting result " + e.toString());
-        }
-
-        // return JSON String
-        return _json;
-
-    }
-
-    public String POSTLogoutAll(String url, String token, String apptoken, List<NameValuePair> params) {
-        try {
-
-            DefaultHttpClient  httpClient = (DefaultHttpClient)createDevelopmentHttpClientInstance();
-            HttpPost httpPost = new HttpPost(url);
-            httpPost.addHeader("Accept-Encoding", "gzip");
-            httpPost.setHeader("X-App-Token", token);
-            httpPost.setHeader("Accept-Version", ConfigManager.version);
-            httpPost.setEntity(new UrlEncodedFormEntity(params));
-            HttpResponse httpResponse = httpClient.execute(httpPost);
-            HttpEntity httpEntity = httpResponse.getEntity();
-            _inputStream = httpEntity.getContent();
-
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (ClientProtocolException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        try {
-            BufferedReader reader = new BufferedReader(new InputStreamReader(
-                    _inputStream, "iso-8859-1"), 8);
-            StringBuilder sb = new StringBuilder();
-            String line = null;
-            while ((line = reader.readLine()) != null) {
-                sb.append(line + "\n");
-            }
-            _inputStream.close();
-            _json = sb.toString();
-
-        } catch (Exception e) {
-            Log.e("Buffer Error", "Error converting result " + e.toString());
-        }
-
-        // return JSON String
-        return _json;
-
-    }
-
-
-
-
 
 }

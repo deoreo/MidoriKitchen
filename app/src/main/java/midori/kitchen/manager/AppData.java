@@ -45,10 +45,23 @@ public class AppData {
     public static String address="0";
     public static String locationDetail="0";
     public static double distance=0.0;
-    public static LatLng latLngDelivery = null;
+    public static LatLng latLngDelivery = new LatLng(0.0, 0.0);
     public static int priceDelivery = 8000;
     public static String delivery_id;
     public static String detail_address;
     public static String total_harga;
     public static ArrayList<MenuModel> menus = new ArrayList<>();
+    public static String TAG = "MidoriKitchen Server";
+
+    public static boolean isInteger(String s) {
+        try {
+            Integer.parseInt(s);
+        } catch(NumberFormatException e) {
+            return false;
+        } catch(NullPointerException e) {
+            return false;
+        }
+        // only got here if we didn't return false
+        return true;
+    }
 }

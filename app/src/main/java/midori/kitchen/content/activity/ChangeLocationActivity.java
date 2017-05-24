@@ -136,6 +136,7 @@ public class ChangeLocationActivity extends AppCompatActivity
         itemCurrent = (FrameLayout) findViewById(R.id.itemCurrent);
         mListView = (ListView) findViewById(R.id.lvSuggestion);
         layoutfillForm = (LinearLayout) findViewById(R.id.layoutfillForm);
+        Log.v("responseIbu", ibuLocation.toString());
 //
 //        mapView = (MapView) findViewById(R.id.mapView);
 //        mapView.onCreate(savedInstanceState);
@@ -167,16 +168,16 @@ public class ChangeLocationActivity extends AppCompatActivity
         wrapperSimpan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!txtAddress.getText().toString().isEmpty() && AppData.latLngDelivery != null && AppData.distance<18) {
+                if(!txtAddress.getText().toString().isEmpty() && AppData.latLngDelivery != null && AppData.distance<18000) {
                     AppPrefManager.getInstance(mActivity).setAlamat(txtAddress.getText().toString());
                     SendBroadcast("changeAlamat", txtAddress.getText().toString());
                     finish();
                 }
-                else if(AppData.distance>=18){
+                else if(AppData.distance>=18000){
                     Drawable drawable = getResources().getDrawable(R.drawable.ic_midori);
                     new MaterialDialog.Builder(mActivity)
                             .title("Mohon maaf...")
-                            .content("Jarak pengiriman max. 17 Km")
+                            .content("Jarak pengiriman max. 17999 Km")
                             .positiveText("OK")
                             .icon(drawable)
                             .typeface("GothamRnd-Book.otf","GothamRnd-Light.otf" )
@@ -743,20 +744,22 @@ public class ChangeLocationActivity extends AppCompatActivity
 
 
     private void SendBroadcast(String typeBroadcast, String type) {
-        Intent intent = new Intent(typeBroadcast);
-        // add data
-        intent.putExtra("message", type);
-        LocalBroadcastManager.getInstance(mActivity).sendBroadcast(intent);
-    }
+    Intent intent = new Intent(typeBroadcast);
+    // add data
+    intent.putExtra("message", type);
+    LocalBroadcastManager.getInstance(mActivity).sendBroadcast(intent);
+}
 
     private void CalculatePrice(Double distance){
         int price = 0;
         if(distance<=3.9){
             price = 8000;
-        } else if(distance>=4.0){
+        } else if(distance>=4.0 && distance <=15){
             double selisihjarak = distance - 4.0;
             double hargaselisihjarak = (Math.round(selisihjarak*2)/2.0) * 2000;
             price = 8000 + (int)hargaselisihjarak;
+        } else if(distance>=15){
+            price = 30000;
         }
         AppData.priceDelivery = price;
         SendBroadcast("changePriceDelivery", ""+AppData.priceDelivery);

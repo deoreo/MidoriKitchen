@@ -77,7 +77,7 @@ public class BuyReviewFragment extends Fragment {
     Spinner spinnerDelivery;
 
     private boolean isKurir = true;
-    private int deliveryPrice = AppData.priceDelivery;
+    private int deliveryPrice = 8000;
     private BroadcastReceiver changeAlamat,changeDistance,changePriceDelivery;
 
 
@@ -194,7 +194,7 @@ public class BuyReviewFragment extends Fragment {
         AppData.menuModel.setTotal_menu(1);
         AppData.menuModel.setDelivery_price(deliveryPrice);
         tvMenu.setText(AppData.menuModel.getMenu());
-        tvDistance.setText((int)AppData.distance+" KM");
+        tvDistance.setText("0 KM");
 
         tvPrice.setText("Rp. " + AppData.menuModel.getPrice_menu() * AppData.menuModel.getTotal_menu());
         tvMenu.setText(AppData.menuModel.getMenu());

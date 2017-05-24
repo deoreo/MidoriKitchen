@@ -1,12 +1,16 @@
 package midori.kitchen.content.fragment;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -47,11 +51,12 @@ public class HistoryFragment extends Fragment {
     private RecyclerView.LayoutManager layoutManager;
     private RecyclerView.Adapter adapter;
     private ArrayList<HistoryModel> historyItems = new ArrayList<>();
-
+    private BroadcastReceiver refresh;
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_history_payment, container, false);
         ButterKnife.bind(this, view);
+
         return view;
     }
 
@@ -65,6 +70,13 @@ public class HistoryFragment extends Fragment {
         initRecyclerView();
         //getDataMenu();
         new GetUserOrder(getActivity()).execute();
+        refresh = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                swipeRefresh.setRefreshing(true);
+                new GetUserOrder(getActivity()).execute();
+            }
+        };
     }
 
     private void initRecyclerView() {
@@ -107,6 +119,7 @@ public class HistoryFragment extends Fragment {
         @Override
         protected String doInBackground(String... params) {
             try {
+                String menu_id, menu_nama = "Midori food";
                 JSONControl jsControl = new JSONControl();
                 JSONObject response = jsControl.getOrderUser(activity);
 
@@ -120,8 +133,23 @@ public class HistoryFragment extends Fragment {
                         JSONObject historyObject = orders.getJSONObject(i);
                         historyModel.setId(""+i);
                         historyModel.setOrder_id(historyObject.getString("order_id"));
+                        if(AppData.isInteger(historyObject.getString("menu_id")))
+                        {
+                            menu_nama = historyObject.getString("menu_nama");
+                        } else{
+                            JSONObject responsebukalapak = jsControl.readProdukBukalapak(historyObject.getString("menu_id"));
+                            JSONObject responseProduk = responsebukalapak.getJSONObject("product");
+                            String words[] = responseProduk.getString("name").split("-");
+
+                            try{
+                                menu_nama = words[1];
+                            }
+                            catch (Exception e){
+                                menu_nama = "Menu Midori Kitchen";
+                            }
+                        }
                         historyModel.setMenu_id(historyObject.getString("menu_id"));
-                        historyModel.setMenu(historyObject.getString("menu_nama"));
+                        historyModel.setMenu(menu_nama);
                         historyModel.setStatus(historyObject.getString("status_order"));
                         historyModel.setDeliveryDate(historyObject.getString("order_created_at"));
                         historyModel.setTotal_pay(historyObject.getInt("order_total_harga"));
@@ -155,6 +183,14 @@ public class HistoryFragment extends Fragment {
                     break;
             }
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        // Register mMessageReceiver to receive messages.
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(refresh,
+                new IntentFilter("refresh"));
     }
 
 }
