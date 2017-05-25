@@ -37,26 +37,20 @@ public class JSONControl {
 
 
     //API Bukalapak//
-    public JSONObject bukalapakRegister(String email,String username, String name, String password,String phone, String image,
-                                       String province, String area, String city, String address, String post_code) {
+    public JSONObject bukalapakRegister(String email,String username, String name, String password) {
 
         JSONObject jsonObj = null;
 
         try {
-            List<NameValuePair> params = new ArrayList<NameValuePair>();
-            params.add(new BasicNameValuePair("email", email));
-            params.add(new BasicNameValuePair("username", username));
-            params.add(new BasicNameValuePair("name", name));
-            params.add(new BasicNameValuePair("password", password));
-            params.add(new BasicNameValuePair("password_confirmation", password));
-            params.add(new BasicNameValuePair("phone", phone));
-            params.add(new BasicNameValuePair("data", image));
-            params.add(new BasicNameValuePair("province", province));
-            params.add(new BasicNameValuePair("city", city));
-            params.add(new BasicNameValuePair("area", area));
-            params.add(new BasicNameValuePair("address", address));
-            params.add(new BasicNameValuePair("post_code", post_code));
-            jsonObj = _JSONResponse.POSTResponse(ConfigManager.BL_REGISTER, params);
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("email", email);
+            jsonObject.put("username", username);
+            jsonObject.put("name", name);
+            jsonObject.put("password", password);
+            jsonObject.put("password_confirmation", password);
+            jsonObject.put("policy", "1");
+            jsonObject.put("referer", "midorikitchen");
+            jsonObj = _JSONResponse.POSTJsonResponse(ConfigManager.BL_REGISTER, jsonObject);
 
         } catch (Exception e) {
             e.printStackTrace();

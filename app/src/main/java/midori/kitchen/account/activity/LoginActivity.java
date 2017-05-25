@@ -84,7 +84,14 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     private GoogleApiClient mGoogleApiClient;
     private static final int googleSignUp = 9001;
 
-    private String id, fullname="-", email="-", photo="-", phone="-",password="-", address = "-";
+    private String id,
+            fullname="-",
+            email="-",
+            photo="-",
+            phone="-",
+            password="-",
+            address = "-",
+    city="-", area="-", province="-", postcode = "-";
     private AppPrefManager appPrefManager;
 
     @Override
@@ -414,6 +421,10 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 String phone = params[3];
                 String address = params[4];
 
+                //Param Bukalapak
+                String[] emails = email.split("@");
+                String username = emails[0];
+
                 if(password.isEmpty()){
                     Random r = new Random();
                     int pass = r.nextInt(999999);
@@ -422,8 +433,9 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
                 JSONControl jsControl = new JSONControl();
                 JSONObject responseRegister = jsControl.postRegister(name, email, password, phone, address);
-                Log.d("json responseRegister", responseRegister.toString());
-
+                JSONObject responseRegisterBL = jsControl.bukalapakRegister(email,username, name,password);
+                Log.d("responseRegister", responseRegister.toString());
+                Log.d("responseRegisterBL", responseRegisterBL.toString());
                 if (!responseRegister.toString().contains("error")) {
                     ModelUser user = new ModelUser();
                     user.setNama(name);
