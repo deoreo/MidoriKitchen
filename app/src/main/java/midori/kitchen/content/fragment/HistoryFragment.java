@@ -29,12 +29,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import midori.kitchen.R;
 import midori.kitchen.content.adapter.HistroyAdapter;
-import midori.kitchen.content.adapter.MenuAdapter;
-import midori.kitchen.content.data.DataHelper;
 import midori.kitchen.content.model.HistoryModel;
-import midori.kitchen.content.model.MenuModel;
 import midori.kitchen.manager.AppData;
-import midori.kitchen.manager.AppPrefManager;
 import midori.kitchen.manager.JSONControl;
 
 /**
@@ -137,16 +133,9 @@ public class HistoryFragment extends Fragment {
                         {
                             menu_nama = historyObject.getString("menu_nama");
                         } else{
-                            JSONObject responsebukalapak = jsControl.readProdukBukalapak(historyObject.getString("menu_id"));
+                            JSONObject responsebukalapak = jsControl.bukalapakReadProduct(historyObject.getString("menu_id"));
                             JSONObject responseProduk = responsebukalapak.getJSONObject("product");
-                            String words[] = responseProduk.getString("name").split("-");
-
-                            try{
-                                menu_nama = words[1];
-                            }
-                            catch (Exception e){
-                                menu_nama = "Menu Midori Kitchen";
-                            }
+                            menu_nama = responseProduk.getString("name");
                         }
                         historyModel.setMenu_id(historyObject.getString("menu_id"));
                         historyModel.setMenu(menu_nama);

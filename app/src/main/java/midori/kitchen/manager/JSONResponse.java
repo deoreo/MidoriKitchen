@@ -306,12 +306,12 @@ public class JSONResponse {
 
     }
 
-    public JSONObject GETResponseMyLapak() throws ConnectException {
+    public JSONObject GETResponseMyLapak(String Base64Key) throws ConnectException {
         try {
 
             DefaultHttpClient httpClient = new DefaultHttpClient();
             HttpGet httpGet = new HttpGet(ConfigManager.BL_GET_MYLAPAK);
-            httpGet.addHeader("authorization", "Basic MzMxNzIxNTY6VDNHVVhja3A4SzhtQzV6TXNlR0k=");
+            httpGet.addHeader("authorization", "Basic "+Base64Key);
             httpGet.addHeader("cache-control", "no-cache");
             HttpResponse httpResponse = httpClient.execute(httpGet);
             HttpEntity httpEntity = httpResponse.getEntity();

@@ -27,5 +27,6 @@ public class ConfigManager {
     public static final String BL_GET_MYLAPAK = "https://api.bukalapak.com/v2/products/mylapak.json";
     public static final String BL_READ_PRODUK = "https://api.bukalapak.com/v2/products/";
     public static final String IBU_PROFILE = SERVER+"/ibu_profile";
-    public static final java.lang.String UPDATESTATUS = SERVER+"/update_order_status" ;
+    public static final String UPDATESTATUS = SERVER+"/update_order_status" ;
+    public static final String BL_REGISTER = "https://api.bukalapak.com/v2/users.json";
 }

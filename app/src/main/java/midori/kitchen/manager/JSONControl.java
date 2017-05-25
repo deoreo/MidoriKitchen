@@ -37,11 +37,38 @@ public class JSONControl {
 
 
     //API Bukalapak//
-    public JSONObject getMyLapak() {
-        JSONObject jsonObj = new JSONObject();
-        Log.v("Bukalapak", "getMyLapak");
+    public JSONObject bukalapakRegister(String email,String username, String name, String password,String phone, String image,
+                                       String province, String area, String city, String address, String post_code) {
+
+        JSONObject jsonObj = null;
+
         try {
-            jsonObj = _JSONResponse.GETResponseMyLapak();
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("email", email));
+            params.add(new BasicNameValuePair("username", username));
+            params.add(new BasicNameValuePair("name", name));
+            params.add(new BasicNameValuePair("password", password));
+            params.add(new BasicNameValuePair("password_confirmation", password));
+            params.add(new BasicNameValuePair("phone", phone));
+            params.add(new BasicNameValuePair("data", image));
+            params.add(new BasicNameValuePair("province", province));
+            params.add(new BasicNameValuePair("city", city));
+            params.add(new BasicNameValuePair("area", area));
+            params.add(new BasicNameValuePair("address", address));
+            params.add(new BasicNameValuePair("post_code", post_code));
+            jsonObj = _JSONResponse.POSTResponse(ConfigManager.BL_REGISTER, params);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return jsonObj;
+    }
+
+    public JSONObject bukalapakMidoriLapak(String Base64Key) {
+        JSONObject jsonObj = new JSONObject();
+        Log.v("Bukalapak", "bukalapakMidoriLapak");
+        try {
+            jsonObj = _JSONResponse.GETResponseMyLapak(Base64Key);
             Log.v("Bukalapak",jsonObj.toString());
         } catch (Exception e) {
             e.printStackTrace();
@@ -50,9 +77,9 @@ public class JSONControl {
         return jsonObj;
     }
 
-    public JSONObject readProdukBukalapak(String idProduk) {
+    public JSONObject bukalapakReadProduct(String idProduk) {
         JSONObject jsonObj = new JSONObject();
-        Log.v("Bukalapak", "getMyLapak");
+        Log.v("Bukalapak", "bukalapakMidoriLapak");
         try {
             jsonObj = _JSONResponse.GETResponse(ConfigManager.BL_READ_PRODUK+idProduk+".json");
             Log.v("Bukalapak",jsonObj.toString());

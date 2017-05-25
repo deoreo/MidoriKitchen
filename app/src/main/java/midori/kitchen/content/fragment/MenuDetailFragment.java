@@ -32,8 +32,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import midori.kitchen.R;
 import midori.kitchen.content.activity.BuyActivity;
-import midori.kitchen.content.adapter.MenuAdapter;
-import midori.kitchen.content.model.BuyModel;
 import midori.kitchen.content.model.MenuModel;
 import midori.kitchen.manager.AppData;
 import midori.kitchen.manager.JSONControl;
@@ -254,9 +252,9 @@ public class MenuDetailFragment extends Fragment {
         @Override
         protected String doInBackground(String... params) {
             try {
-                String ibuName, menuName, deliveryDate;
+                String ibuName, desc, deliveryDate;
                 JSONControl jsControl = new JSONControl();
-                JSONObject response = jsControl.readProdukBukalapak(id);
+                JSONObject response = jsControl.bukalapakReadProduct(id);
                 JSONObject responseIbu = jsControl.postIbuProfile(ibunama);
 
                 Log.d("json responseDetail", response.toString());
@@ -266,26 +264,26 @@ public class MenuDetailFragment extends Fragment {
 
                 MenuModel menuModel = new MenuModel();
                 menuModel.setId(responseProduk.getString("id"));
-                String words[] = responseProduk.getString("name").split("-");
+                String words[] = responseProduk.getString("desc").split("-");
                 try{
-                    ibuName = words[0];
+                    ibuName = words[1];
                 }
                 catch (Exception e){
                     ibuName = "Midori Kitchen";
                 }
                 try{
-                    menuName = words[1];
+                    desc = words[0];
                 }
                 catch (Exception e){
-                    menuName = "Menu Midori Kitchen";
+                    desc = "Menu Midori Kitchen";
                 }
                 try{ deliveryDate = words[2];}
                 catch (Exception e){
                     deliveryDate = "Now";
                 }
-                menuModel.setMenu(menuName);
+                menuModel.setMenu(responseProduk.getString("name"));
                 menuModel.setPrice_menu(responseProduk.getInt("price"));
-                menuModel.setDescription(responseProduk.getString("desc"));
+                menuModel.setDescription(desc);
                 menuModel.setStok(responseProduk.getInt("stock"));
                 menuModel.setDeliveryDate(deliveryDate);
                 JSONArray images = responseProduk.getJSONArray("images");

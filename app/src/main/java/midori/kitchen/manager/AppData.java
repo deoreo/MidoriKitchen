@@ -52,6 +52,7 @@ public class AppData {
     public static String total_harga;
     public static ArrayList<MenuModel> menus = new ArrayList<>();
     public static String TAG = "MidoriKitchen Server";
+    public static String Base64KeyMidoriKitchen = "MzMxNzIxNTY6VDNHVVhja3A4SzhtQzV6TXNlR0k=";
 
     public static boolean isInteger(String s) {
         try {
