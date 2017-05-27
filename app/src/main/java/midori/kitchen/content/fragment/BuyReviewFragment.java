@@ -178,6 +178,12 @@ public class BuyReviewFragment extends Fragment {
                     AppData.menuModel.setTotal_pay(totalPay);
                     tvTotalPay.setText("Rp. " + AppData.menuModel.getTotal_pay());
                     layoutDelivery.setVisibility(View.VISIBLE);
+                    if(AppData.isInteger(AppData.menuModel.getId())){
+                        AppData.isBukaDompet = false;
+                    }
+                    else{
+                        AppData.isBukaDompet = true;
+                    }
                 } else if (item.equals("Ambil Sendiri")) {
                     isKurir = false;
                     deliveryPrice = 0;
@@ -186,6 +192,7 @@ public class BuyReviewFragment extends Fragment {
                     AppData.menuModel.setTotal_pay(totalPay);
                     tvTotalPay.setText("Rp. " + AppData.menuModel.getTotal_pay());
                     layoutDelivery.setVisibility(View.GONE);
+                    AppData.isBukaDompet = false;
                 }
             }
 

@@ -135,7 +135,8 @@ public class HistoryFragment extends Fragment {
                         } else{
                             JSONObject responsebukalapak = jsControl.bukalapakReadProduct(historyObject.getString("menu_id"));
                             JSONObject responseProduk = responsebukalapak.getJSONObject("product");
-                            menu_nama = responseProduk.getString("name");
+                            String menuStr[] = responseProduk.getString("name").split("-");
+                            menu_nama = menuStr[1];
                         }
                         historyModel.setMenu_id(historyObject.getString("menu_id"));
                         historyModel.setMenu(menu_nama);

@@ -60,6 +60,7 @@ public class AppData {
     public static String BukaDompetBalance = "1000";
     public static InvoiceModel invoiceModel = new InvoiceModel();
     public static String invoice_message = "Gagal menggunakan saldo";
+    public static boolean isBukaDompet = true;
 
     public static boolean isInteger(String s) {
         try {

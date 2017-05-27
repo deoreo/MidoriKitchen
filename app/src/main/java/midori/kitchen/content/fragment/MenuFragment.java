@@ -39,6 +39,7 @@ public class MenuFragment extends Fragment {
     @BindView(R.id.swipe_refresh)
     SwipeRefreshLayout swipeRefresh;
 
+
     private RecyclerView.LayoutManager layoutManager;
     private RecyclerView.Adapter adapter;
     private ArrayList<MenuModel> menuItems = new ArrayList<>();

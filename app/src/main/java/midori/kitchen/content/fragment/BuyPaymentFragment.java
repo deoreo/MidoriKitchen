@@ -45,6 +45,9 @@ import midori.kitchen.manager.GoogleAPIManager;
 import midori.kitchen.manager.JSONControl;
 import midori.kitchen.manager.MultiInputMaterialDialogBuilder;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+
 /**
  * Created by M. Asrof Bayhaqqi on 3/12/2017.
  */
@@ -91,6 +94,8 @@ public class BuyPaymentFragment extends Fragment {
     RelativeLayout layoutBalance;
     @BindView(R.id.layout_text)
     LinearLayout layoutText;
+    @BindView(R.id.layout_bukadompet)
+    LinearLayout layoutBukadompet;
 
     private AlertDialog dialogLogin;
     private EditText txtEmail, txtPassword;
@@ -126,6 +131,12 @@ public class BuyPaymentFragment extends Fragment {
         order_note=AppData.note;
         detail_address=AppData.detail_address;
         total_harga = AppData.total_harga;
+        if(AppData.isBukaDompet) {
+            layoutBukadompet.setVisibility(VISIBLE);
+        }
+        else{
+            layoutBukadompet.setVisibility(GONE);
+        }
         AppData.invoiceModel.setPhone(AppPrefManager.getInstance(getActivity()).getUser().get("phone"));
         if(AppData.invoiceModel.getPhone().isEmpty()){
             Drawable drawable = getResources().getDrawable(R.drawable.ic_midori);
@@ -180,12 +191,12 @@ public class BuyPaymentFragment extends Fragment {
                     rbCod.setChecked(false);
                     rbVaBni.setChecked(false);
                     rbBukadompet.setChecked(false);
-                    layoutText.setVisibility(View.VISIBLE);
-                    layoutInfoBank.setVisibility(View.VISIBLE);
-                    layoutInfoBni.setVisibility(View.GONE);
+                    layoutText.setVisibility(VISIBLE);
+                    layoutInfoBank.setVisibility(VISIBLE);
+                    layoutInfoBni.setVisibility(GONE);
                     tvHead.setText(R.string.bank_head);
                     tvSubhead.setText(R.string.bank_subhead);
-                    layoutBalance.setVisibility(View.GONE);
+                    layoutBalance.setVisibility(GONE);
                     AppData.payment_id= "1";
                     status_order_id="1";
                 }
@@ -199,12 +210,12 @@ public class BuyPaymentFragment extends Fragment {
                     rbBank.setChecked(false);
                     rbVaBni.setChecked(false);
                     rbBukadompet.setChecked(false);
-                    layoutText.setVisibility(View.VISIBLE);
-                    layoutInfoBank.setVisibility(View.GONE);
-                    layoutInfoBni.setVisibility(View.GONE);
+                    layoutText.setVisibility(VISIBLE);
+                    layoutInfoBank.setVisibility(GONE);
+                    layoutInfoBni.setVisibility(GONE);
                     tvHead.setText(R.string.cod_head);
                     tvSubhead.setText(R.string.cod_subhead);
-                    layoutBalance.setVisibility(View.GONE);
+                    layoutBalance.setVisibility(GONE);
                     AppData.payment_id= "2";
                     status_order_id="2";
                 }
@@ -218,10 +229,10 @@ public class BuyPaymentFragment extends Fragment {
                     rbBank.setChecked(false);
                     rbVaBni.setChecked(true);
                     rbBukadompet.setChecked(false);
-                    layoutText.setVisibility(View.GONE);
-                    layoutInfoBank.setVisibility(View.GONE);
-                    layoutInfoBni.setVisibility(View.VISIBLE);
-                    layoutBalance.setVisibility(View.GONE);
+                    layoutText.setVisibility(GONE);
+                    layoutInfoBank.setVisibility(GONE);
+                    layoutInfoBni.setVisibility(VISIBLE);
+                    layoutBalance.setVisibility(GONE);
                     AppData.payment_id= "3";
                     status_order_id="2";
                 }
@@ -235,10 +246,10 @@ public class BuyPaymentFragment extends Fragment {
                     rbBank.setChecked(false);
                     rbVaBni.setChecked(false);
                     rbBukadompet.setChecked(true);
-                    layoutText.setVisibility(View.GONE);
-                    layoutInfoBank.setVisibility(View.GONE);
-                    layoutInfoBni.setVisibility(View.GONE);
-                    layoutBalance.setVisibility(View.VISIBLE);
+                    layoutText.setVisibility(GONE);
+                    layoutInfoBank.setVisibility(GONE);
+                    layoutInfoBni.setVisibility(GONE);
+                    layoutBalance.setVisibility(VISIBLE);
                     AppData.payment_id= "4";
                     status_order_id="2";
                     InitDialogLogin();

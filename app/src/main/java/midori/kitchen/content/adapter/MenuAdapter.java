@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -25,6 +26,9 @@ import midori.kitchen.R;
 import midori.kitchen.content.activity.DetailActivity;
 import midori.kitchen.content.model.MenuModel;
 import midori.kitchen.manager.AppData;
+
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
 
 /**
  * Created by M. Asrof Bayhaqqi on 3/11/2017.
@@ -59,12 +63,16 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
         final String photo = items.getPhoto();
         final String ibu = items.getIbuNama();
 
+        if(AppData.isInteger(id)){
+            holder.iconBukalapak.setVisibility(GONE);
+        }
+
         if (items.getPhoto().isEmpty()) {
-            holder.ivPlaceholder.setVisibility(View.VISIBLE);
+            holder.ivPlaceholder.setVisibility(VISIBLE);
             holder.rvAvatar.setVisibility(View.INVISIBLE);
         } else if(items.getPhoto().contains("http")){
             holder.ivPlaceholder.setVisibility(View.INVISIBLE);
-            holder.rvAvatar.setVisibility(View.VISIBLE);
+            holder.rvAvatar.setVisibility(VISIBLE);
             Glide
                     .with(activity)
                     .load(photo)
@@ -77,7 +85,7 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
         else {
             byte[] imageByteArray = Base64.decode(items.getPhoto(), Base64.DEFAULT);
             holder.ivPlaceholder.setVisibility(View.INVISIBLE);
-            holder.rvAvatar.setVisibility(View.VISIBLE);
+            holder.rvAvatar.setVisibility(VISIBLE);
             Glide
                     .with(activity)
                     .load(imageByteArray)
@@ -115,6 +123,8 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
         TextView tvTime;
         @BindView(R.id.list_item)
         LinearLayout listItem;
+        @BindView(R.id.icon_bukalapak)
+        RelativeLayout iconBukalapak;
 
         public ViewHolder(final View itemView) {
             super(itemView);

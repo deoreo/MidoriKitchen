@@ -36,15 +36,30 @@
                         android:src="@drawable/ic_restaurant" />
 
                 </RelativeLayout>
+<RelativeLayout
+    android:layout_width="130dp"
+    android:layout_height="150dp">
 
-                <com.makeramen.roundedimageview.RoundedImageView
-                    android:id="@+id/rv_avatar"
-                    android:layout_width="130dp"
-                    android:layout_height="150dp"
-                    android:scaleType="centerCrop"
-                    android:visibility="invisible"
-                    card_view:riv_corner_radius_bottom_left="15dp"
-                    card_view:riv_corner_radius_top_left="15dp" />
+
+    <com.makeramen.roundedimageview.RoundedImageView
+        android:id="@+id/rv_avatar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:visibility="invisible"
+        card_view:riv_corner_radius_bottom_left="15dp"
+        card_view:riv_corner_radius_top_left="15dp" />
+    <RelativeLayout
+        android:id="@+id/icon_bukalapak"
+        android:layout_width="80dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="15dp"
+        android:layout_height="25dp"
+        android:background="@drawable/ic_bukalapak"
+        />
+</RelativeLayout>
+
 
             </RelativeLayout>
 
