@@ -252,7 +252,7 @@ public class MenuDetailFragment extends Fragment {
         @Override
         protected String doInBackground(String... params) {
             try {
-                String ibuName, desc, deliveryDate;
+                String ibuName, desc, menuName, deliveryDate;
                 JSONControl jsControl = new JSONControl();
                 JSONObject response = jsControl.bukalapakReadProduct(id);
                 JSONObject responseIbu = jsControl.postIbuProfile(ibunama);
@@ -264,24 +264,31 @@ public class MenuDetailFragment extends Fragment {
 
                 MenuModel menuModel = new MenuModel();
                 menuModel.setId(responseProduk.getString("id"));
-                String words[] = responseProduk.getString("desc").split("-");
+                String words[] = responseProduk.getString("name").split("-");
+                String words1[] = responseProduk.getString("desc").split("-");
                 try{
-                    ibuName = words[1];
+                    ibuName = words[0];
                 }
                 catch (Exception e){
                     ibuName = "Midori Kitchen";
                 }
                 try{
-                    desc = words[0];
+                    menuName = words[1];
+                }
+                catch (Exception e){
+                    menuName = "Midori Kitchen";
+                }
+                try{
+                    desc = words1[0];
                 }
                 catch (Exception e){
                     desc = "Menu Midori Kitchen";
                 }
-                try{ deliveryDate = words[2];}
+                try{ deliveryDate = words[1];}
                 catch (Exception e){
                     deliveryDate = "Now";
                 }
-                menuModel.setMenu(responseProduk.getString("name"));
+                menuModel.setMenu(menuName);
                 menuModel.setPrice_menu(responseProduk.getInt("price"));
                 menuModel.setDescription(desc);
                 menuModel.setStok(responseProduk.getInt("stock"));

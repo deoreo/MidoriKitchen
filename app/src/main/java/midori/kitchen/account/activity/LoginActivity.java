@@ -443,8 +443,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                     user.setEmail(email);
                     user.setApi_key(responseRegister.getString("user_api_key"));
                     appPrefManager.setUserApiKey(user.getApi_key());
-
-
                     return "OK";
                 } else if(responseRegister.toString().contains("email already existed")){
                     JSONObject responseLogin = jsControl.postLogin(email, password);

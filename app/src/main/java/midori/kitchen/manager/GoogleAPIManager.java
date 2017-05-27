@@ -162,6 +162,54 @@ public class GoogleAPIManager {
         return modelGeocode;
     }
 
+    public static String geocode(LatLng address) {
+        String formatted_address = null;
+        HttpURLConnection conn = null;
+        StringBuilder jsonResults = new StringBuilder();
+
+        try {
+            StringBuilder sb = new StringBuilder(GEOCODE_API_BASE + OUT_JSON);
+            sb.append("?key=" + API_KEY);
+            sb.append("&latlng=" + address.latitude+","+address.longitude);
+            sb.append("&region=id");
+
+            URL url = new URL(sb.toString());
+            conn = (HttpURLConnection) url.openConnection();
+            InputStreamReader in = new InputStreamReader(conn.getInputStream());
+            // Load the results into a StringBuilder
+            int read;
+            char[] buff = new char[1024];
+            while ((read = in.read(buff)) != -1) {
+                jsonResults.append(buff, 0, read);
+            }
+        } catch (MalformedURLException e) {
+            Log.e(TAG, "Error processing Places API URL", e);
+        } catch (IOException e) {
+            Log.e(TAG, "Error connecting to Places API", e);
+        } catch (Exception e){
+            Log.d(TAG, e.getMessage());
+        }
+        finally {
+            if (conn != null) {
+                conn.disconnect();
+            }
+        }
+
+        try {
+            // Create a JSON object hierarchy from the results
+            JSONObject jsonObj = new JSONObject(jsonResults.toString());
+            JSONArray resultsJsonArray = jsonObj.getJSONArray("results");
+            formatted_address = resultsJsonArray.getJSONObject(0).getString("formatted_address");
+
+
+
+        } catch (JSONException e) {
+            Log.e(TAG, "Cannot process JSON results", e);
+        }
+
+        return formatted_address;
+    }
+
     public static Document getRoute(LatLng start, LatLng end, String mode) {
         String url = "http://maps.googleapis.com/maps/api/directions/xml?"
                 + "origin=" + start.latitude + "," + start.longitude

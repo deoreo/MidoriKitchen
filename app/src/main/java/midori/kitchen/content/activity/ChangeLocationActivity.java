@@ -171,6 +171,14 @@ public class ChangeLocationActivity extends AppCompatActivity
                 if(!txtAddress.getText().toString().isEmpty() && AppData.latLngDelivery != null && AppData.distance<18000) {
                     AppPrefManager.getInstance(mActivity).setAlamat(txtAddress.getText().toString());
                     SendBroadcast("changeAlamat", txtAddress.getText().toString());
+                    String formattedAddress = GoogleAPIManager.geocode(AppData.latLngDelivery);
+                    Log.d("address", formattedAddress);
+                    String addresses[] = formattedAddress.split(",");
+                    AppData.invoiceModel.setAddress(addresses[0]);
+                    AppData.invoiceModel.setArea(addresses[2]);
+                    AppData.invoiceModel.setCity(addresses[3]);
+                    AppData.invoiceModel.setProvince(addresses[4].replaceAll("\\d",""));
+                    AppData.invoiceModel.setPost_code(addresses[4].replaceAll("[^\\d]", ""));
                     finish();
                 }
                 else if(AppData.distance>=18000){

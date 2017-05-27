@@ -219,7 +219,6 @@
                     android:background="@drawable/round_background_buy"
                     android:orientation="vertical"
                     android:padding="15dp">
-
                     <TextView
                         fontPath="@string/GothamRndMedium"
                         android:layout_width="match_parent"
@@ -229,7 +228,6 @@
                         android:text="Delivery Address"
                         android:textColor="@color/colorGreen"
                         android:textSize="18sp" />
-
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
@@ -241,7 +239,6 @@
                             android:layout_centerVertical="true"
                             android:layout_marginRight="10dp"
                             android:src="@drawable/ic_point" />
-
                         <TextView
                             android:id="@+id/et_address"
                             android:layout_width="match_parent"
@@ -258,7 +255,96 @@
                             android:textSize="16sp"
                             app:met_clearButton="true"
                             app:met_primaryColor="@color/colorGreen" />
+                    </RelativeLayout>
 
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/province"
+                            android:layout_width="20dp"
+                            android:layout_height="30dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="10dp"
+                            android:src="@drawable/ic_point" />
+
+                        <TextView
+                            android:id="@+id/et_province"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginTop="5dp"
+                            android:layout_toRightOf="@id/province"
+                            android:editable="true"
+                            android:gravity="top|left"
+                            android:hint="Province"
+                            android:imeOptions="actionDone"
+                            android:lines="1"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="16sp"
+                            app:met_clearButton="true"
+                            app:met_primaryColor="@color/colorGreen" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/city"
+                            android:layout_width="20dp"
+                            android:layout_height="30dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="10dp"
+                            android:src="@drawable/ic_point" />
+
+                        <TextView
+                            android:id="@+id/et_city"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginTop="5dp"
+                            android:layout_toRightOf="@id/city"
+                            android:editable="true"
+                            android:gravity="top|left"
+                            android:hint="City"
+                            android:imeOptions="actionDone"
+                            android:lines="1"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="16sp"
+                            app:met_clearButton="true"
+                            app:met_primaryColor="@color/colorGreen" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/area"
+                            android:layout_width="20dp"
+                            android:layout_height="30dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="10dp"
+                            android:src="@drawable/ic_point" />
+
+                        <TextView
+                            android:id="@+id/et_area"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginTop="5dp"
+                            android:layout_toRightOf="@id/area"
+                            android:editable="true"
+                            android:gravity="top|left"
+                            android:hint="Area"
+                            android:imeOptions="actionDone"
+                            android:lines="1"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="16sp"
+                            app:met_clearButton="true"
+                            app:met_primaryColor="@color/colorGreen" />
                     </RelativeLayout>
 
                     <RelativeLayout

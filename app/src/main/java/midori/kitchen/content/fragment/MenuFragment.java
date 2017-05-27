@@ -78,8 +78,8 @@ public class MenuFragment extends Fragment {
 
     private void getDataMenu() {
         menuItems.clear();
-        new GetProduk(getActivity()).execute();
         new GetProdukBukalapak(getActivity()).execute();
+        new GetProduk(getActivity()).execute();
         swipeRefresh.setRefreshing(false);
     }
 
@@ -106,7 +106,6 @@ public class MenuFragment extends Fragment {
                 JSONControl jsControl = new JSONControl();
                 JSONObject response = jsControl.getAllMenus(activity);
 
-                menuItems.clear();
                 if (!response.toString().contains("error")) {
                     JSONArray allmenus = response.getJSONArray("allmenus");
                     for(int i =0; i< allmenus.length();i++){
@@ -170,7 +169,7 @@ public class MenuFragment extends Fragment {
         @Override
         protected String doInBackground(String... params) {
             try {
-                String ibuName, desc, deliveryDate;
+                String ibuName, menuNama, desc, deliveryDate;
 
                 JSONControl jsControl = new JSONControl();
                 JSONObject response = jsControl.bukalapakMidoriLapak(AppData.Base64KeyMidoriKitchen);
@@ -179,24 +178,31 @@ public class MenuFragment extends Fragment {
                         MenuModel menuModel = new MenuModel();
                         JSONObject menuObject = allmenus.getJSONObject(i);
                         menuModel.setId(menuObject.getString("id"));
-                        String words[] = menuObject.getString("desc").split("-");
+                        String words[] = menuObject.getString("name").split("-");
+                        String words2[] = menuObject.getString("desc").split("-");
                         try{
-                            ibuName = words[1];
+                            ibuName = words[0];
                         }
                         catch (Exception e){
                             ibuName = "Midori Kitchen";
                         }
                         try{
-                            desc = words[0];
+                            menuNama = words[1];
                         }
                         catch (Exception e){
-                            desc = "Menu Midori Kitchen";
+                            menuNama = "Menu Midori Kitchen";
                         }
-                        try{ deliveryDate = words[2];}
+                        try{
+                            desc = words2[0];}
+                        catch (Exception e){
+                            desc = "-";
+                        }
+                        try{
+                            deliveryDate = words2[1];}
                         catch (Exception e){
                             deliveryDate = "Now";
                         }
-                        menuModel.setMenu(menuObject.getString("name"));
+                        menuModel.setMenu(menuNama);
                         menuModel.setPrice_menu(menuObject.getInt("price"));
                         menuModel.setDescription(desc);
                         menuModel.setStok(menuObject.getInt("stock"));

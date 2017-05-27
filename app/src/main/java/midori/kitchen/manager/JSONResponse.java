@@ -306,16 +306,65 @@ public class JSONResponse {
 
     }
 
-    public JSONObject POSTResponse(String url) {
+    public JSONObject POSTBukalapakResponse(String url, String base64EncodedCredentials, List<NameValuePair> params) {
 
         try {
             DefaultHttpClient  httpClient = (DefaultHttpClient)createDevelopmentHttpClientInstance();
             HttpPost httpPost = new HttpPost(url);
+            httpPost.addHeader("authorization", "Basic "+base64EncodedCredentials);
+            httpPost.addHeader("cache-control", "no-cache");
+            httpPost.setEntity(new UrlEncodedFormEntity(params));
             HttpResponse httpResponse = httpClient.execute(httpPost);
-            String base64EncodedCredentials = Base64.encodeToString(
-                    ("33172156:T3GUXckp8K8mC5zMseGI").getBytes(),
-                    Base64.NO_WRAP);
-            httpPost.setHeader("Authorization", base64EncodedCredentials);
+            HttpEntity httpEntity = httpResponse.getEntity();
+            _inputStream = httpEntity.getContent();
+            //Header contentEncoding = httpResponse.getFirstHeader("Content-Encoding");
+//            if (contentEncoding != null && contentEncoding.getValue().equalsIgnoreCase("gzip")) {
+//                _inputStream = new GZIPInputStream(_inputStream);
+//            }
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (ClientProtocolException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try {
+
+            BufferedReader reader = new BufferedReader(new InputStreamReader(
+                    _inputStream, "iso-8859-1"), 8);
+            StringBuilder sb = new StringBuilder();
+            String line = null;
+            while ((line = reader.readLine()) != null) {
+                sb.append(line + "\n");
+            }
+            _inputStream.close();
+            _json = sb.toString();
+
+        } catch (Exception e) {
+            Log.e("Buffer Error", "Error converting result " + e.toString());
+        }
+
+        // try parse the string to a JSON object
+        try {
+            _jObj = new JSONObject(_json);
+        } catch (JSONException e) {
+            Log.e("JSON Parser", "Error parsing data " + e.toString());
+        }
+
+        // return JSON String
+        return _jObj;
+
+    }
+
+    public JSONObject POSTResponse(String url, String base64EncodedCredentials) {
+
+        try {
+            DefaultHttpClient  httpClient = (DefaultHttpClient)createDevelopmentHttpClientInstance();
+            HttpPost httpPost = new HttpPost(url);
+            httpPost.addHeader("authorization", "Basic "+base64EncodedCredentials);
+            httpPost.addHeader("cache-control", "no-cache");
+            HttpResponse httpResponse = httpClient.execute(httpPost);
             HttpEntity httpEntity = httpResponse.getEntity();
             _inputStream = httpEntity.getContent();
         } catch (UnsupportedEncodingException e) {
@@ -354,11 +403,11 @@ public class JSONResponse {
 
     }
 
-    public JSONObject GETResponseMyLapak(String Base64Key) throws ConnectException {
+    public JSONObject GETResponseBukalapak(String url, String Base64Key) throws ConnectException {
         try {
 
             DefaultHttpClient httpClient = new DefaultHttpClient();
-            HttpGet httpGet = new HttpGet(ConfigManager.BL_GET_MYLAPAK);
+            HttpGet httpGet = new HttpGet(url);
             httpGet.addHeader("authorization", "Basic "+Base64Key);
             httpGet.addHeader("cache-control", "no-cache");
             HttpResponse httpResponse = httpClient.execute(httpGet);
@@ -397,4 +446,49 @@ public class JSONResponse {
         return _jObj;
     }
 
+    public JSONObject POSTBukalapakJSONResponse(String url, String base64KeyUser, JSONObject createInvoice) {
+        try {
+            DefaultHttpClient  httpClient = (DefaultHttpClient)createDevelopmentHttpClientInstance();
+            HttpPost httpPost = new HttpPost(url);
+            httpPost.addHeader("authorization", "Basic "+base64KeyUser);
+            httpPost.addHeader("content-type", "application/json");
+            httpPost.setEntity(new StringEntity(createInvoice.toString()));
+            HttpResponse httpResponse = httpClient.execute(httpPost);
+            HttpEntity httpEntity = httpResponse.getEntity();
+            _inputStream = httpEntity.getContent();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (ClientProtocolException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try {
+
+            BufferedReader reader = new BufferedReader(new InputStreamReader(
+                    _inputStream, "iso-8859-1"), 8);
+            StringBuilder sb = new StringBuilder();
+            String line = null;
+            while ((line = reader.readLine()) != null) {
+                sb.append(line + "\n");
+            }
+            _inputStream.close();
+            _json = sb.toString();
+
+        } catch (Exception e) {
+            Log.e("Buffer Error", "Error converting result " + e.toString());
+        }
+
+        // try parse the string to a JSON object
+        try {
+            _jObj = new JSONObject(_json);
+        } catch (JSONException e) {
+            Log.e("JSON Parser", "Error parsing data " + e.toString());
+        }
+
+        // return JSON String
+        return _jObj;
+
+    }
 }

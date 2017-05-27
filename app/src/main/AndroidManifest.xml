@@ -45,7 +45,6 @@
         <activity android:name=".content.activity.CheckoutActivity" />
         <activity android:name=".content.activity.DetailActivity" />
         <activity android:name=".content.activity.BuyActivity" />
-        <activity android:name=".content.activity.LocationActivity" />
         <activity android:name=".content.activity.ChangeLocationActivity" />
     </application>
 

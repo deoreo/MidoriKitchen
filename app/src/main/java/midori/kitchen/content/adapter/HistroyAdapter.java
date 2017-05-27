@@ -115,7 +115,7 @@ public class HistroyAdapter extends RecyclerView.Adapter<HistroyAdapter.ViewHold
             final HistoryModel item = historyItems.get(i);
             if(item.getStatus().equalsIgnoreCase("waiting payment")) {
                 new MaterialDialog.Builder(activity)
-                        .title("Konfirmasi Pembayaran" + item.getMenu())
+                        .title("Konfirmasi Pembayaran " + item.getMenu())
                         .typeface("GothamRnd-Medium.otf", "Gotham.ttf")
                         .inputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD)
                         .input("Nomor Rekening Anda", "", new MaterialDialog.InputCallback() {

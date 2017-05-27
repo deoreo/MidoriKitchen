@@ -8,6 +8,7 @@ import java.util.HashMap;
 
 import midori.kitchen.content.model.BuyModel;
 import midori.kitchen.content.model.CartModel;
+import midori.kitchen.content.model.InvoiceModel;
 import midori.kitchen.content.model.MenuModel;
 
 /**
@@ -53,6 +54,12 @@ public class AppData {
     public static ArrayList<MenuModel> menus = new ArrayList<>();
     public static String TAG = "MidoriKitchen Server";
     public static String Base64KeyMidoriKitchen = "MzMxNzIxNTY6VDNHVVhja3A4SzhtQzV6TXNlR0k=";
+    public static String Base64KeyUser = "";
+    public static String email_bukalapak = "";
+    public static String password_bukalapak ="";
+    public static String BukaDompetBalance = "1000";
+    public static InvoiceModel invoiceModel = new InvoiceModel();
+    public static String invoice_message = "Gagal menggunakan saldo";
 
     public static boolean isInteger(String s) {
         try {
