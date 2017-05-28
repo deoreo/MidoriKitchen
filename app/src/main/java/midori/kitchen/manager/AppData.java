@@ -61,6 +61,8 @@ public class AppData {
     public static InvoiceModel invoiceModel = new InvoiceModel();
     public static String invoice_message = "Gagal menggunakan saldo";
     public static boolean isBukaDompet = true;
+    public static String rekening_user = "11111111";
+    public static String order_id_history;
 
     public static boolean isInteger(String s) {
         try {

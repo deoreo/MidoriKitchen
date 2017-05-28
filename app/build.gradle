@@ -84,6 +84,7 @@ dependencies {
     //ion
     compile 'com.koushikdutta.ion:ion:2.1.9'
     compile 'com.koushikdutta.async:androidasync:2.+'
+    compile 'com.github.yesidlazaro:GmailBackground:1.2.0'
     testCompile 'junit:junit:4.12'
 }
 

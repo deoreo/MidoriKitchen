@@ -418,4 +418,21 @@ public class JSONControl {
 
         return jsonObj;
     }
+
+    public JSONObject sendSMS(String base64Auth, String from, String to, String body) {
+        JSONObject jsonObj = new JSONObject();
+        Log.v("Twillio", "SMS Twillio");
+        try {
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("From", ""+from));
+            params.add(new BasicNameValuePair("To", ""+to));
+            params.add(new BasicNameValuePair("Body", ""+to));
+            jsonObj = _JSONResponse.POSTBukalapakResponse(ConfigManager.TWILLIO_SMS, base64Auth, params);
+            Log.v("Twillio",jsonObj.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return jsonObj;
+    }
 }

@@ -19,7 +19,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -48,6 +47,9 @@ public class HistoryFragment extends Fragment {
     private RecyclerView.Adapter adapter;
     private ArrayList<HistoryModel> historyItems = new ArrayList<>();
     private BroadcastReceiver refresh;
+
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_history_payment, container, false);
@@ -69,7 +71,6 @@ public class HistoryFragment extends Fragment {
         refresh = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                swipeRefresh.setRefreshing(true);
                 new GetUserOrder(getActivity()).execute();
             }
         };

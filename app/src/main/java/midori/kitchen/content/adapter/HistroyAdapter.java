@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.creativityapps.gmailbackgroundlibrary.BackgroundMail;
 
 import org.json.JSONObject;
 
@@ -29,7 +30,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import midori.kitchen.R;
 import midori.kitchen.content.model.HistoryModel;
-import midori.kitchen.content.model.MenuModel;
 import midori.kitchen.manager.AppData;
 import midori.kitchen.manager.JSONControl;
 
@@ -118,9 +118,10 @@ public class HistroyAdapter extends RecyclerView.Adapter<HistroyAdapter.ViewHold
                         .title("Konfirmasi Pembayaran " + item.getMenu())
                         .typeface("GothamRnd-Medium.otf", "Gotham.ttf")
                         .inputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD)
-                        .input("Nomor Rekening Anda", "", new MaterialDialog.InputCallback() {
+                        .input("Nama Bank - Nomor Rekening Anda", "", new MaterialDialog.InputCallback() {
                             @Override
                             public void onInput(MaterialDialog dialog, CharSequence input) {
+                                AppData.rekening_user = input.toString();
 
                             }
                         }).inputType(InputType.TYPE_CLASS_NUMBER)
@@ -175,6 +176,7 @@ public class HistroyAdapter extends RecyclerView.Adapter<HistroyAdapter.ViewHold
                 JSONObject response = jsControl.updateStatus(activity, order_id, status_id);
                 Log.d("json responseStatus", response.toString());
                 if (!response.toString().contains("error")) {
+                    AppData.order_id_history = order_id;
                     return "OK";
                 }
                 else {
@@ -197,11 +199,42 @@ public class HistroyAdapter extends RecyclerView.Adapter<HistroyAdapter.ViewHold
                     Toast.makeText(activity, "Confirmation fail", Toast.LENGTH_SHORT).show();
                     break;
                 case "OK":
-                    Toast.makeText(activity, "Confirmation processed", Toast.LENGTH_SHORT).show();
+                    sendEmail(AppData.order_id_history, AppData.rekening_user);
+                    //Toast.makeText(activity, "Confirmation processed", Toast.LENGTH_SHORT).show();
                     SendBroadcast("refresh", "refresh");
                     break;
             }
         }
+    }
+
+    protected void sendEmail(String order_id, String norek) {
+
+            BackgroundMail.newBuilder(activity)
+                    .withUsername("midorichef@gmail.com")
+                    .withPassword("musLim@06")
+                    .withMailto("admin@midorikitchen.top")
+                    .withType(BackgroundMail.TYPE_PLAIN)
+                    .withSubject("Konfirmasi Pesanan no. "+order_id)
+                    .withBody("Dear Midori Kitchen,\n\nOrder dengan no."+order_id+" ,telah dibayar melalui rekening "+norek+"\n\nRegards")
+                    .withSendingMessage("Mengirim konfirmasi")
+                    .withOnSuccessCallback(new BackgroundMail.OnSuccessCallback() {
+                        @Override
+                        public void onSuccess() {
+                            //do some magic
+                            Toast.makeText(activity, "Konfirmasi sudah dikirim", Toast.LENGTH_SHORT);
+                        }
+                    })
+                    .withOnFailCallback(new BackgroundMail.OnFailCallback() {
+                        @Override
+                        public void onFail() {
+                            //do some magic
+                            Toast.makeText(activity, "Konfirmasi gagal", Toast.LENGTH_SHORT);
+                        }
+                    })
+                    .send();
+
+
+
     }
 
     private void SendBroadcast(String typeBroadcast, String type) {
