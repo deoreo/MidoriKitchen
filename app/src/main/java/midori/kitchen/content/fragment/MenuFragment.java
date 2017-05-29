@@ -120,6 +120,7 @@ public class MenuFragment extends Fragment {
                         menuModel.setDeliveryDate(menuObject.getString("menuJadwal"));
                         menuModel.setPhoto(menuObject.getString("menuImage"));
                         menuModel.setIbuNama(menuObject.getString("ibuNama"));
+                        menuModel.setIbuId(menuObject.getString("ibuId"));
                         menuItems.add(menuModel);
 
                     }
@@ -211,6 +212,8 @@ public class MenuFragment extends Fragment {
                         JSONArray images = menuObject.getJSONArray("images");
                         menuModel.setPhoto(images.getString(0));
                         menuModel.setIbuNama(ibuName);
+                        JSONObject responseIbu = jsControl.postIbuProfile(ibuName);
+                        menuModel.setIbuId(responseIbu.getString("id"));
                         menuItems.add(menuModel);
 
                     }

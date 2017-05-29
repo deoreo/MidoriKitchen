@@ -143,6 +143,7 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
             AppData.menuModel.setPrice_menu(item.getPrice_menu());
             AppData.menuModel.setStok(item.getStok());
             AppData.menuModel.setPhoto(item.getPhoto());
+            AppData.menuModel.setIbuId(item.getIbuId());
             AppData.menuModel.setIbuNama(item.getIbuNama());
             AppData.menuModel.setIbuLat(item.getIbuLat());
             AppData.menuModel.setIbuLon(item.getIbuLon());

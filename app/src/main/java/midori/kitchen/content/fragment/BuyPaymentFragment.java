@@ -28,6 +28,7 @@ import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.creativityapps.gmailbackgroundlibrary.BackgroundMail;
 import com.google.android.gms.common.api.GoogleApiClient;
 
 import org.json.JSONArray;
@@ -473,10 +474,65 @@ public class BuyPaymentFragment extends Fragment {
                     Toast.makeText(getActivity(), "Transaction fail", Toast.LENGTH_SHORT).show();
                     break;
                 case "OK":
-                    getActivity().finish();
-                    Toast.makeText(getActivity(), "Transaction processed", Toast.LENGTH_SHORT).show();
+                    if(AppData.payment_id=="1") {
+                        sendEmail();
+                    }
+                    //Toast.makeText(getActivity(), "Transaction processed", Toast.LENGTH_SHORT).show();
                     break;
             }
         }
     }
+
+    protected void sendEmail() {
+
+        BackgroundMail.newBuilder(getActivity())
+                .withUsername("midorichef@gmail.com")
+                .withPassword("musLim@06")
+                .withMailto(AppPrefManager.getInstance(getActivity()).getUser().get(AppPrefManager.KEY_EMAIL))
+                .withType(BackgroundMail.TYPE_PLAIN)
+                .withSubject("Konfirmasi Pesanan no. "+order_id)
+                .withBody("Dear "+AppPrefManager.getInstance(getActivity()).getUser().get(AppPrefManager.KEY_FULLNAME)+",\n\nTerima kasih telah memesan melalui Midori Kitchen.\nSegera lakukan pembayaran ke rekening CIMB Niaga - 703293580200 dan konfirmasi melalui Menu History\n\nBest Regards,\nMidori Kitchen")
+                .withSendingMessage("Mengirim konfirmasi")
+                .withOnSuccessCallback(new BackgroundMail.OnSuccessCallback() {
+                    @Override
+                    public void onSuccess() {
+                        new MaterialDialog.Builder(getActivity())
+                                .title("Terima kasih")
+                                .content("Segera lakukan pembayaran ke rekening CIMB Niaga - 703293580200 dan konfirmasi melalui Menu History")
+                                .typeface("GothamRnd-Medium.otf", "Gotham.ttf")
+                                .onNegative(new MaterialDialog.SingleButtonCallback() {
+                                    @Override
+                                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                        dialog.dismiss();
+                                        getActivity().finish();
+                                    }
+                                })
+                                .negativeText("Close")
+                                .show();
+                    }
+                })
+                .withOnFailCallback(new BackgroundMail.OnFailCallback() {
+                    @Override
+                    public void onFail() {
+                        new MaterialDialog.Builder(getActivity())
+                                .title("Terima Kasih")
+                                .content("Segera lakukan pembayaran ke rekening CIMB Niaga - 703293580200 dan konfirmasi melalui Menu History")
+                                .typeface("GothamRnd-Medium.otf", "Gotham.ttf")
+                                .onNegative(new MaterialDialog.SingleButtonCallback() {
+                                    @Override
+                                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                        dialog.dismiss();
+                                        getActivity().finish();
+                                    }
+                                })
+                                .negativeText("Close")
+                                .show();
+                    }
+                })
+                .send();
+
+
+
+    }
+
 }

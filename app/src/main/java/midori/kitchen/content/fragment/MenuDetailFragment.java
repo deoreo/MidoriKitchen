@@ -186,6 +186,7 @@ public class MenuDetailFragment extends Fragment {
                 menuModel.setStok(response.getInt("menuStok"));
                 menuModel.setDeliveryDate(response.getString("menuJadwal"));
                 menuModel.setPhoto(response.getString("menuImage"));
+                menuModel.setIbuId(""+response.getInt("ibuId"));
                 menuModel.setIbuNama(response.getString("ibuNama"));
                 menuModel.setIbuAlamat(response.getString("ibuAlamat"));
                 menuModel.setIbuLat(response.getDouble("ibuLat"));
@@ -296,6 +297,7 @@ public class MenuDetailFragment extends Fragment {
                 JSONArray images = responseProduk.getJSONArray("images");
                 menuModel.setPhoto(images.getString(0));
                 menuModel.setIbuNama(ibuName);
+                menuModel.setIbuId(""+responseIbu.getInt("id"));
                 menuModel.setIbuAlamat(responseIbu.getString("alamat"));
                 menuModel.setIbuLat(responseIbu.getDouble("latitude"));
                 menuModel.setIbuLon(responseIbu.getDouble("longitude"));

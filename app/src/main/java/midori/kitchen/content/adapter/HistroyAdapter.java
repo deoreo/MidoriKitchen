@@ -31,6 +31,7 @@ import butterknife.OnClick;
 import midori.kitchen.R;
 import midori.kitchen.content.model.HistoryModel;
 import midori.kitchen.manager.AppData;
+import midori.kitchen.manager.AppPrefManager;
 import midori.kitchen.manager.JSONControl;
 
 /**
@@ -110,37 +111,67 @@ public class HistroyAdapter extends RecyclerView.Adapter<HistroyAdapter.ViewHold
 
         @OnClick(R.id.list_item)
         public void onClick(View v) {
-
+            AppData.rekening_user = "";
             int i = getAdapterPosition();
             final HistoryModel item = historyItems.get(i);
             if(item.getStatus().equalsIgnoreCase("waiting payment")) {
                 new MaterialDialog.Builder(activity)
                         .title("Konfirmasi Pembayaran " + item.getMenu())
                         .typeface("GothamRnd-Medium.otf", "Gotham.ttf")
-                        .inputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD)
-                        .input("Nama Bank - Nomor Rekening Anda", "", new MaterialDialog.InputCallback() {
+                        .input("Nama Bank - No.Rekening", "", new MaterialDialog.InputCallback() {
                             @Override
                             public void onInput(MaterialDialog dialog, CharSequence input) {
                                 AppData.rekening_user = input.toString();
 
                             }
-                        }).inputType(InputType.TYPE_CLASS_NUMBER)
-                        .cancelable(false)
+                        }).inputType(InputType.TYPE_CLASS_TEXT)
                         .onAny(new MaterialDialog.SingleButtonCallback() {
                             @Override
                             public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                new DoUpdateStatus(activity).execute(item.getOrder_id(),"6");
+                                if(AppData.rekening_user.isEmpty()){
+                                    Toast.makeText(activity, "Silahkan isi nomor rekening pembayaran anda", Toast.LENGTH_SHORT);
+                                }else {
+                                    new DoUpdateStatus(activity).execute(item.getOrder_id(), item.getMenu(), "2");
+                                }
                             }
                         })
+                        .onNegative(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .negativeText("Close")
                         .alwaysCallInputCallback()
                         .show();
             }
-            else if(item.getStatus().contains("cooking")){
+            else if(item.getStatus().equalsIgnoreCase("cooking")){
                 new MaterialDialog.Builder(activity)
                         .title("Terima kasih")
                         .content(item.getMenu()+" akan dikirim pada "+item.getDeliveryDate())
                         .typeface("GothamRnd-Medium.otf", "Gotham.ttf")
-                        .cancelable(false)
+                        .onNegative(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .negativeText("Close")
+                        .show();
+            }
+
+            else if(item.getStatus().equalsIgnoreCase("confirm payment")){
+                new MaterialDialog.Builder(activity)
+                        .title("Terima kasih")
+                        .content("Admin akan segera mengkonfirmasi pembayaran Anda")
+                        .typeface("GothamRnd-Medium.otf", "Gotham.ttf")
+                        .onNegative(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .negativeText("Close")
                         .show();
             }
         }
@@ -152,7 +183,9 @@ public class HistroyAdapter extends RecyclerView.Adapter<HistroyAdapter.ViewHold
         private Context context;
         private Resources resources;
 
-        public DoUpdateStatus(Activity activity) {
+        public
+
+        DoUpdateStatus(Activity activity) {
             super();
             this.activity = activity;
             this.context = activity.getApplicationContext();
@@ -168,7 +201,8 @@ public class HistroyAdapter extends RecyclerView.Adapter<HistroyAdapter.ViewHold
         protected String doInBackground(String... params) {
             try {
                 String order_id = params[0];
-                String status_id = params[1];
+                String status_id = params[2];
+                String menu_nama = params[1];
 
 
                 JSONControl jsControl = new JSONControl();
@@ -177,6 +211,7 @@ public class HistroyAdapter extends RecyclerView.Adapter<HistroyAdapter.ViewHold
                 Log.d("json responseStatus", response.toString());
                 if (!response.toString().contains("error")) {
                     AppData.order_id_history = order_id;
+                    AppData.menu_nama_history = menu_nama;
                     return "OK";
                 }
                 else {
@@ -199,7 +234,7 @@ public class HistroyAdapter extends RecyclerView.Adapter<HistroyAdapter.ViewHold
                     Toast.makeText(activity, "Confirmation fail", Toast.LENGTH_SHORT).show();
                     break;
                 case "OK":
-                    sendEmail(AppData.order_id_history, AppData.rekening_user);
+                    sendEmail(AppData.order_id_history, AppData.menu_nama_history, AppData.rekening_user);
                     //Toast.makeText(activity, "Confirmation processed", Toast.LENGTH_SHORT).show();
                     SendBroadcast("refresh", "refresh");
                     break;
@@ -207,7 +242,7 @@ public class HistroyAdapter extends RecyclerView.Adapter<HistroyAdapter.ViewHold
         }
     }
 
-    protected void sendEmail(String order_id, String norek) {
+    protected void sendEmail(String order_id, String menunama, String norek) {
 
             BackgroundMail.newBuilder(activity)
                     .withUsername("midorichef@gmail.com")
@@ -215,20 +250,40 @@ public class HistroyAdapter extends RecyclerView.Adapter<HistroyAdapter.ViewHold
                     .withMailto("admin@midorikitchen.top")
                     .withType(BackgroundMail.TYPE_PLAIN)
                     .withSubject("Konfirmasi Pesanan no. "+order_id)
-                    .withBody("Dear Midori Kitchen,\n\nOrder dengan no."+order_id+" ,telah dibayar melalui rekening "+norek+"\n\nRegards")
+                    .withBody("Dear Midori Kitchen,\n\nOrder "+menunama+" dengan no."+order_id+" ,telah dibayar oleh "+ AppPrefManager.getInstance(activity).getUser().get(AppPrefManager.KEY_FULLNAME)+" melalui rekening "+norek+"\n\nRegards")
                     .withSendingMessage("Mengirim konfirmasi")
                     .withOnSuccessCallback(new BackgroundMail.OnSuccessCallback() {
                         @Override
                         public void onSuccess() {
-                            //do some magic
-                            Toast.makeText(activity, "Konfirmasi sudah dikirim", Toast.LENGTH_SHORT);
+                            new MaterialDialog.Builder(activity)
+                                    .title("Terima kasih")
+                                    .content("Admin akan segera mengkonfirmasi pembayaran Anda")
+                                    .typeface("GothamRnd-Medium.otf", "Gotham.ttf")
+                                    .onNegative(new MaterialDialog.SingleButtonCallback() {
+                                        @Override
+                                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                            dialog.dismiss();
+                                        }
+                                    })
+                                    .negativeText("Close")
+                                    .show();
                         }
                     })
                     .withOnFailCallback(new BackgroundMail.OnFailCallback() {
                         @Override
                         public void onFail() {
-                            //do some magic
-                            Toast.makeText(activity, "Konfirmasi gagal", Toast.LENGTH_SHORT);
+                            new MaterialDialog.Builder(activity)
+                                    .title("Mohon maaf")
+                                    .content("Konfirmasi Anda belum terkirim, silahkan menghubungi admin kami melalui +6281310175256 atau  admin@midorikitchen.top")
+                                    .typeface("GothamRnd-Medium.otf", "Gotham.ttf")
+                                    .onNegative(new MaterialDialog.SingleButtonCallback() {
+                                        @Override
+                                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                            dialog.dismiss();
+                                        }
+                                    })
+                                    .negativeText("Close")
+                                    .show();
                         }
                     })
                     .send();

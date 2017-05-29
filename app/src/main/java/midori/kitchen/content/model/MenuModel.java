@@ -15,7 +15,7 @@ public class MenuModel {
 
     private String promotion_code;
 
-    private String ibuNama, ibuAlamat, ibuTelepon;
+    private String ibuId,ibuNama, ibuAlamat, ibuTelepon;
     private Double ibuLat, ibuLon;
 
     private int total_menu;
@@ -91,6 +91,14 @@ public class MenuModel {
 
     public void setStok(int stok) {
         this.stok = stok;
+    }
+
+    public String getIbuId() {
+        return ibuId;
+    }
+
+    public void setIbuId(String ibuId) {
+        this.ibuId = ibuId;
     }
 
     public String getIbuNama() {

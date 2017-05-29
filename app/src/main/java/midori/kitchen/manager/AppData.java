@@ -38,7 +38,7 @@ public class AppData {
     );
     public static String id="0";
     public static String order_id = "INV-MK";
-    public static String payment_id="0";
+    public static String payment_id="1";
     public static String kupon_id="0";
     public static String delivery="0";
     public static String status="0";
@@ -63,6 +63,7 @@ public class AppData {
     public static boolean isBukaDompet = true;
     public static String rekening_user = "11111111";
     public static String order_id_history;
+    public static String menu_nama_history;
 
     public static boolean isInteger(String s) {
         try {

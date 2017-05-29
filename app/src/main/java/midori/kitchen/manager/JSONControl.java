@@ -355,6 +355,7 @@ public class JSONControl {
                 params.add(new BasicNameValuePair("order_id", order_id));
                 params.add(new BasicNameValuePair("menu_id", menuModels.get(i).getId()));
                 params.add(new BasicNameValuePair("order_detail_jumlah", "" + menuModels.get(i).getTotal_menu()));
+                params.add(new BasicNameValuePair("ibu_id", menuModels.get(i).getIbuId()));
                 _JSONResponse.POSTResponse(ConfigManager.ORDERDETAIL, params);
 
             } catch (Exception e) {
