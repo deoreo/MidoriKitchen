@@ -157,7 +157,7 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
             //AppData.id = item.getId();
             //extras.putString("id", item.getId());
             extras.putString("tag_detail", AppData.detail_menu_tag);
-            //extras.putString("name_detail", item.getMenu());
+            extras.putString("name_detail", item.getMenu());
             //extras.putString("menu", item.getMenu());
             //extras.putString("description", item.getDescription());
             //extras.putString("price", String.valueOf(item.getPrice_menu()));
