@@ -21,6 +21,7 @@ public class AppData {
     public static String backstack_tag = "";
     public static String menu_tag = "menu";
     public static String history_tag = "history_tag";
+    public static String resep_tag = "resep_tag";
     public static String detail_menu_tag = "detail_menu";
     public static String checkout_review_tag = "checkout_review";
     public static String checkout_delivery_tag = "checkout_delivery";

@@ -41,6 +41,7 @@
 
     <string name="history">History</string>
     <string name="profile">Profile</string>
+    <string name="resep">Resep</string>
 
     <!--    Permissions    -->
     <string name="permission_rationale_location">Access to the location service is required</string>

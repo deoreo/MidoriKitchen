@@ -35,6 +35,7 @@ import midori.kitchen.R;
 import midori.kitchen.account.model.ModelUser;
 import midori.kitchen.content.fragment.HistoryFragment;
 import midori.kitchen.content.fragment.MenuFragment;
+import midori.kitchen.content.fragment.ResepFragment;
 import midori.kitchen.content.model.MenuModel;
 import midori.kitchen.manager.AppData;
 import midori.kitchen.manager.AppPrefManager;
@@ -163,8 +164,9 @@ public class HomeActivity extends AppCompatActivity
             displayFragment(new MenuFragment(), AppData.menu_tag);
         } else if (id == R.id.nav_history) {
             displayFragment(new HistoryFragment(), AppData.history_tag);
+        } else if (id == R.id.nav_resep) {
+            displayFragment(new ResepFragment(), AppData.resep_tag);
         }
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;

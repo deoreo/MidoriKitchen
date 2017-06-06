@@ -46,4 +46,5 @@ public class ConfigManager {
             (ConfigManager.ACCOUNT_SID + ":" + ConfigManager.AUTH_TOKEN).getBytes(),
             Base64.NO_WRAP);
     public static final String mailcode = "RlU0NEg3ZGN1SQ==";
+    public static final String RESEP = SERVER+"/all_resep";
 }
