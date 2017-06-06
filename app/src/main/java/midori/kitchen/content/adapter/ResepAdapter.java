@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.RecyclerView;
@@ -34,6 +35,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import midori.kitchen.R;
+import midori.kitchen.content.activity.DetailActivity;
+import midori.kitchen.content.activity.ResepDetailActivity;
 import midori.kitchen.content.model.HistoryModel;
 import midori.kitchen.content.model.ResepModel;
 import midori.kitchen.manager.AppData;
@@ -128,7 +131,16 @@ public class ResepAdapter extends RecyclerView.Adapter<ResepAdapter.ViewHolder> 
         public void onClick(View v) {
             int i = getAdapterPosition();
             final ResepModel item = resepModels.get(i);
-
+            AppData.resepModel = item;
+            Intent intent = new Intent(v.getContext(), ResepDetailActivity.class);
+            Bundle extras = new Bundle();
+            //AppData.id = item.getId();
+            //extras.putString("id", item.getId());
+            extras.putString("tag_detail", AppData.resep_tag);
+            extras.putString("name_detail", item.getResep());
+            intent.putExtras(extras);
+            activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+            activity.startActivity(intent);
 
         }
 

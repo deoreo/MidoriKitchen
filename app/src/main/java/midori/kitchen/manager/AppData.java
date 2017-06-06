@@ -10,6 +10,7 @@ import midori.kitchen.content.model.BuyModel;
 import midori.kitchen.content.model.CartModel;
 import midori.kitchen.content.model.InvoiceModel;
 import midori.kitchen.content.model.MenuModel;
+import midori.kitchen.content.model.ResepModel;
 
 /**
  * Created by M. Asrof Bayhaqqi on 3/11/2017.
@@ -65,6 +66,7 @@ public class AppData {
     public static String rekening_user = "11111111";
     public static String order_id_history;
     public static String menu_nama_history;
+    public static ResepModel resepModel;
 
     public static boolean isInteger(String s) {
         try {

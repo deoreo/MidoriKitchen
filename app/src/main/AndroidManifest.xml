@@ -47,6 +47,7 @@
         <activity android:name=".content.activity.DetailActivity" />
         <activity android:name=".content.activity.BuyActivity" />
         <activity android:name=".content.activity.ChangeLocationActivity" />
+        <activity android:name=".content.activity.ResepDetailActivity" />
     </application>
 
 </manifest>
