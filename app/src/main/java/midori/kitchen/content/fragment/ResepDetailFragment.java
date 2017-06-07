@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -131,19 +133,36 @@ public class ResepDetailFragment extends Fragment {
         }
     }
 
-    @OnClick(R.id.fab_checkout)
-    public void onClick() {
-//        AppData.buyModel.setMenu(menu);
-//        AppData.buyModel.setTotal_menu(1);
-//        AppData.buyModel.setPrice_menu(Integer.parseInt(price));
-//        Intent intent = new Intent(getActivity(), BuyActivity.class);
-//        getActivity().startActivity(intent);
-//        if(AppData.TAG == "Midori") {
-//            new GetProdukDetail(getActivity(), id, "buy").execute();
-//        }
-//        else{
-//            new GetProdukBukalapak(getActivity(), id, "buy").execute();
-//        }
+    @OnClick({R.id.fab_checkout, R.id.tv_url})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.fab_checkout:
+                openApp(getActivity(),"midori.chef");
+                break;
+            case R.id.tv_url:
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(url));
+                startActivity(i);
+                break;
+        }
+    }
+
+    /** Open another app.
+     * @param context current Context, like Activity, App, or Service
+     * @param packageName the full package name of the app to open
+     * @return true if likely successful, false if unsuccessful
+     */
+    public void openApp(Context context, String packageName) {
+        PackageManager manager = context.getPackageManager();
+        try {
+            Intent i = manager.getLaunchIntentForPackage(packageName);
+            i.addCategory(Intent.CATEGORY_LAUNCHER);
+            context.startActivity(i);
+        } catch (Exception e) {
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse("market://details?id="+packageName));
+            context.startActivity(intent);
+        }
     }
 
     private class GetBahan extends AsyncTask<String, Void, String> {
