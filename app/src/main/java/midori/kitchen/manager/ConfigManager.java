@@ -37,7 +37,7 @@ public class ConfigManager {
     public static final String BL_PROVINCE = "https://api.bukalapak.com/v2/address/provinces.json" ;
     public static final String BL_CITY = "https://api.bukalapak.com/v2/address/cities.json?province=";
     public static final String BL_AREA = "https://api.bukalapak.com/v2/address.json";
-
+    public static final String BL_SEARCH_PRODUK = "https://api.bukalapak.com/v2/products.json?keywords=";
     public static final String ACCOUNT_SID = "ACa5faef99cdd025b3d768891c97741996";
     public static final String AUTH_TOKEN = "bce099324373753b37e6bb8be9c68331";
     public static final String TWILLIO_SMS = "https://api.twilio.com/2010-04-01/Accounts/"+ACCOUNT_SID+"/SMS/Messages";
@@ -47,4 +47,5 @@ public class ConfigManager {
             Base64.NO_WRAP);
     public static final String mailcode = "RlU0NEg3ZGN1SQ==";
     public static final String RESEP = SERVER+"/all_resep";
+    public static final String BAHAN = SERVER+"/bahan/";
 }

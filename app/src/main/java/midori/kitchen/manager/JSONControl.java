@@ -288,6 +288,17 @@ public class JSONControl {
         return jsonObj;
     }
 
+    public JSONObject getBahan(String idBahan) {
+        JSONObject jsonObj = new JSONObject();
+
+        try {
+            jsonObj = _JSONResponse.GETResponseToken(ConfigManager.BAHAN+idBahan, ConfigManager.MIDORIKEY);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return jsonObj;
+    }
+
     public JSONObject getOrderUser(Activity activity) {
         AppPrefManager appPrefManager = new AppPrefManager(activity);
         JSONObject jsonObj = new JSONObject();

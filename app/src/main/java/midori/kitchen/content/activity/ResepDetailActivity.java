@@ -78,8 +78,8 @@ public class ResepDetailActivity extends AppCompatActivity {
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(ResepDetailActivity.this, HomeActivity.class));
-                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+//                startActivity(new Intent(ResepDetailActivity.this, HomeActivity.class));
+//                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
                 finish();
             }
         });

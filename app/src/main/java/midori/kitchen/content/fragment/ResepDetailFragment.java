@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.google.gson.JsonArray;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -33,6 +34,7 @@ import butterknife.OnClick;
 import midori.kitchen.R;
 import midori.kitchen.content.activity.BuyActivity;
 import midori.kitchen.content.model.MenuModel;
+import midori.kitchen.content.model.ResepModel;
 import midori.kitchen.manager.AppData;
 import midori.kitchen.manager.JSONControl;
 
@@ -50,8 +52,8 @@ public class ResepDetailFragment extends Fragment {
     LinearLayout layoutAdd;
     @BindView(R.id.delivery)
     TextView delivery;
-    @BindView(R.id.tv_time)
-    TextView tvTime;
+    @BindView(R.id.tv_bahan)
+    TextView tv_bahan;
     @BindView(R.id.tv_description)
     TextView tvDescription;
     @BindView(R.id.iv_photo)
@@ -65,10 +67,11 @@ public class ResepDetailFragment extends Fragment {
 
     private String id, resep, photo, url, cara_buat;
     private int stok;
+    private String bahan = "";
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_menu_detail, container, false);
+        View view = inflater.inflate(R.layout.fragment_resep_detail, container, false);
         ButterKnife.bind(this, view);
         return view;
     }
@@ -76,7 +79,8 @@ public class ResepDetailFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        getData();
+        //getData();
+        new GetBahan(getActivity(), AppData.resepModel.getId()).execute();
 //        if(AppData.TAG == "Midori") {
 //            new GetProdukDetail(getActivity(), id, "detail").execute();
 //        }
@@ -88,7 +92,7 @@ public class ResepDetailFragment extends Fragment {
     private void getData() {
         id = AppData.resepModel.getId();
         resep = AppData.resepModel.getResep();
-        cara_buat = AppData.resepModel.getCara_buat();
+        cara_buat = "\n"+AppData.resepModel.getCara_buat();
         photo = AppData.resepModel.getImage();
         url = AppData.resepModel.getUrl();
         initView();
@@ -98,7 +102,7 @@ public class ResepDetailFragment extends Fragment {
         tvMenu.setText(resep);
         tvDescription.setText(cara_buat);
         tvPrice.setText(resep);
-        //tvTime.setText(delivery_date);
+        tv_bahan.setText(bahan);
         tvStok.setText(url);
         try {
             if (photo.contains("http")) {
@@ -142,14 +146,14 @@ public class ResepDetailFragment extends Fragment {
 //        }
     }
 
-    private class GetProdukDetail extends AsyncTask<String, Void, String> {
+    private class GetBahan extends AsyncTask<String, Void, String> {
         private Activity activity;
         private Context context;
         private Resources resources;
         private String id;
         private ProgressDialog progressDialog;
         private String TAG;
-        public GetProdukDetail(Activity activity, String id, String TAG) {
+        public GetBahan(Activity activity, String id) {
             super();
             this.activity = activity;
             this.context = activity.getApplicationContext();
@@ -162,7 +166,7 @@ public class ResepDetailFragment extends Fragment {
         protected void onPreExecute() {
             super.onPreExecute();
             progressDialog = new ProgressDialog(activity);
-            progressDialog.setMessage("Memuat menu makanan. . .");
+            progressDialog.setMessage("Memuat resep makanan. . .");
             progressDialog.setIndeterminate(false);
             progressDialog.setCancelable(false);
             progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
@@ -173,24 +177,19 @@ public class ResepDetailFragment extends Fragment {
         protected String doInBackground(String... params) {
             try {
                 JSONControl jsControl = new JSONControl();
-                JSONObject response = jsControl.getMenuDetail(activity,id);
+                JSONObject responseBahan = jsControl.getBahan(id);
 
-                Log.d("json responseDetail", response.toString());
-                MenuModel menuModel = new MenuModel();
-                menuModel.setId(response.getString("menuId"));
-                menuModel.setMenu(response.getString("menuNama"));
-                menuModel.setPrice_menu(response.getInt("menuHarga"));
-                menuModel.setDescription(response.getString("menuDeskripsi"));
-                menuModel.setStok(response.getInt("menuStok"));
-                menuModel.setDeliveryDate(response.getString("menuJadwal"));
-                menuModel.setPhoto(response.getString("menuImage"));
-                menuModel.setIbuId(""+response.getInt("ibuId"));
-                menuModel.setIbuNama(response.getString("ibuNama"));
-                menuModel.setIbuAlamat(response.getString("ibuAlamat"));
-                menuModel.setIbuLat(response.getDouble("ibuLat"));
-                menuModel.setIbuLon(response.getDouble("ibuLon"));
-                AppData.menuModel = menuModel;
-                AppData.menus.add(AppData.menuModel);
+                Log.d("json responseBahan", responseBahan.toString());
+                JSONArray bahanArray = responseBahan.getJSONArray("resep");
+
+                for(int i=0;i<bahanArray.length();i++){
+                    AppData.resepModel.setBahan_id(bahanArray.getJSONObject(i).getString("bahan_id"));
+                    AppData.resepModel.setBahan_nama(bahanArray.getJSONObject(i).getString("bahan_nama"));
+                    AppData.resepModel.setBahan_jumlah(bahanArray.getJSONObject(i).getString("bahan_jumlah"));
+
+                    bahan+="\n"+AppData.resepModel.getBahan_jumlah()+" "+AppData.resepModel.getBahan_nama()+" ";
+                }
+
                 return "OK";
 
 
@@ -210,12 +209,7 @@ public class ResepDetailFragment extends Fragment {
                     Toast.makeText(activity,"Sorry", Toast.LENGTH_SHORT);
                     break;
                 case "OK":
-                    if(TAG == "buy") {
-                        Intent intent = new Intent(getActivity(), BuyActivity.class);
-                        getActivity().startActivity(intent);
-                    } else if(TAG == "detail"){
-                        getData();
-                    }
+                    getData();
                     break;
             }
         }
