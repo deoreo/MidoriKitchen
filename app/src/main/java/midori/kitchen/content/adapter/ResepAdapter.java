@@ -76,8 +76,10 @@ public class ResepAdapter extends RecyclerView.Adapter<ResepAdapter.ViewHolder> 
         final String cara_buat = items.getCara_buat();
         final String image = items.getImage();
         final String url = items.getUrl();
+        final String range_price = items.getRange_harga();
 
         holder.tvResep.setText(resep);
+        holder.tvPrice.setText(range_price);
         if (items.getImage().isEmpty()) {
             holder.ivPlaceholder.setVisibility(VISIBLE);
             holder.rvResep.setVisibility(View.INVISIBLE);
@@ -119,6 +121,8 @@ public class ResepAdapter extends RecyclerView.Adapter<ResepAdapter.ViewHolder> 
         ImageView ivPlaceholder;
         @BindView(R.id.tv_resep)
         TextView tvResep;
+        @BindView(R.id.tv_price)
+        TextView tvPrice;
         @BindView(R.id.rv_resep)
         RoundedImageView rvResep;
 

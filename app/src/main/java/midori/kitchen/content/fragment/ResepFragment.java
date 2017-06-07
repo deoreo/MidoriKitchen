@@ -1,6 +1,7 @@
 package midori.kitchen.content.fragment;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -19,6 +20,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -103,6 +105,7 @@ public class ResepFragment extends Fragment {
         private Activity activity;
         private Context context;
         private Resources resources;
+        int price, min, max;
 
         public GetResep(Activity activity) {
             super();
@@ -135,7 +138,27 @@ public class ResepFragment extends Fragment {
                         resepModel.setImage(resepObj.getString("resep_image"));
                         resepModel.setCara_buat(resepObj.getString("resep_cara_buat"));
                         resepModel.setUrl(resepObj.getString("resep_url"));
+                        JSONObject responseBahan = jsControl.bukalapakSearchProduct(resepObj.getString("resep_nama"));
+                        JSONArray products = responseBahan.getJSONArray("products");
+
+                        for(int x=0;x<products.length();x++){
+                            price = products.getJSONObject(x).getInt("price");
+                            if(x==0){
+                                min = price;
+                                max = price;
+                            } else{
+                                if(price > max) {
+                                    max = price;
+                                }
+                                else if(price < min){
+                                    min = price;
+                                }
+                            }
+
+                        }
+                        resepModel.setRange_harga("Rp "+min+" - Rp "+max);
                         resepModels.add(resepModel);
+
 
                     }
 

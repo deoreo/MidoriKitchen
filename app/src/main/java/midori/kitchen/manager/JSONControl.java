@@ -174,6 +174,21 @@ public class JSONControl {
         return jsonObj;
     }
 
+    public JSONObject bukalapakSearchProduct(String name) {
+        JSONObject jsonObj = new JSONObject();
+        try {
+//            jsonObj = _JSONResponse.GETResponse(URLEncoder.encode(ConfigManager.BL_SEARCH_PRODUK+name, "UTF-8"));
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("name", name));
+            jsonObj = _JSONResponse.GETResponse(ConfigManager.BL_SEARCH_PRODUK+URLEncoder.encode(name, "UTF-8"));
+            Log.v("Bukalapak",jsonObj.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return jsonObj;
+    }
+
     public JSONObject bukalapakGetProvince() {
         JSONObject jsonObj = new JSONObject();
         Log.v("Bukalapak", "bukalapakMidoriLapak");
@@ -290,7 +305,6 @@ public class JSONControl {
 
     public JSONObject getBahan(String idBahan) {
         JSONObject jsonObj = new JSONObject();
-
         try {
             jsonObj = _JSONResponse.GETResponseToken(ConfigManager.BAHAN+idBahan, ConfigManager.MIDORIKEY);
         } catch (Exception e) {

@@ -60,13 +60,13 @@ public class ResepDetailFragment extends Fragment {
     ImageView ivPhoto;
     @BindView(R.id.tv_menu)
     TextView tvMenu;
-    @BindView(R.id.tv_stok)
-    TextView tvStok;
+    @BindView(R.id.tv_url)
+    TextView tvUrl;
     @BindView(R.id.fab_checkout)
     FloatingActionButton fabCheckout;
 
     private String id, resep, photo, url, cara_buat;
-    private int stok;
+    private String harga;
     private String bahan = "";
 
     @Override
@@ -103,7 +103,7 @@ public class ResepDetailFragment extends Fragment {
         tvDescription.setText(cara_buat);
         tvPrice.setText(resep);
         tv_bahan.setText(bahan);
-        tvStok.setText(url);
+        tvUrl.setText("Sumber : "+url);
         try {
             if (photo.contains("http")) {
                 Glide
@@ -214,5 +214,7 @@ public class ResepDetailFragment extends Fragment {
             }
         }
     }
+
+
 
 }

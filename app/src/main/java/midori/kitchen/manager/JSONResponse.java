@@ -120,6 +120,8 @@ public class JSONResponse {
         return _jObj;
     }
 
+
+
     public JSONObject GETResponseToken(String url,String midorikey) throws ConnectException {
         try {
 

@@ -13,6 +13,7 @@ public class ResepModel {
     private String bahan_id;
     private String bahan_nama;
     private String bahan_jumlah;
+    private String range_harga;
 
     public ResepModel(){
 
@@ -88,5 +89,13 @@ public class ResepModel {
 
     public void setBahan_nama(String bahan_nama) {
         this.bahan_nama = bahan_nama;
+    }
+
+    public String getRange_harga() {
+        return range_harga;
+    }
+
+    public void setRange_harga(String range_harga) {
+        this.range_harga = range_harga;
     }
 }
