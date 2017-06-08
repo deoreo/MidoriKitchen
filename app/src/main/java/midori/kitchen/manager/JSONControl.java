@@ -103,6 +103,19 @@ public class JSONControl {
         return jsonObj;
     }
 
+    public JSONObject bukalapakSaldoDompet(String Base64Key) {
+        JSONObject jsonObj = new JSONObject();
+        Log.v("Bukalapak", "bukalapakSaldoDompet");
+        try {
+            jsonObj = _JSONResponse.GETResponseBukalapak(ConfigManager.BL_DOMPET_HISTORY,Base64Key);
+            Log.v("Bukalapak",jsonObj.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return jsonObj;
+    }
+
     public JSONObject bukalapakAddCart(String idProduk, int jumlah) {
         JSONObject jsonObj = new JSONObject();
         Log.v("Bukalapak", "bukalapakAddCart");

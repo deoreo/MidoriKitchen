@@ -2,6 +2,7 @@ package midori.kitchen.content.fragment;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
@@ -297,6 +298,7 @@ public class BuyPaymentFragment extends Fragment {
         private Activity activity;
         private Context context;
         private Resources resources;
+        private ProgressDialog progressDialog;
 
         public GetToken(Activity activity) {
             super();
@@ -308,6 +310,12 @@ public class BuyPaymentFragment extends Fragment {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            progressDialog = new ProgressDialog(activity);
+            progressDialog.setMessage("Membayar dengan BukaDompet. . .");
+            progressDialog.setIndeterminate(false);
+            progressDialog.setCancelable(false);
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progressDialog.show();
         }
 
         @Override
@@ -319,7 +327,7 @@ public class BuyPaymentFragment extends Fragment {
                 JSONControl jsControl = new JSONControl();
                 JSONObject responseToken = jsControl.bukalapakGetToken(username,password);
                 Log.d("json responseOrder", responseToken.toString());
-                if(responseToken.getString("status").contains("OK")){
+                if(!responseToken.getString("status").contains("ERROR")){
                     String user_id = ""+responseToken.getInt("user_id");
                     String token = responseToken.getString("token");
                     String base64EncodedCredentials = Base64.encodeToString(
@@ -368,6 +376,8 @@ public class BuyPaymentFragment extends Fragment {
                         JSONObject responseInvoice = jsControl.bukalapakCreateInvoice(item_id,nama_penerima,phone,province,city,area,address,post_code,seller_id,buyer_notes,password_bukadompet,cartid);
                         if(responseInvoice.getString("status").contains("ERROR")){
                             AppData.invoice_message = responseInvoice.getString("message");
+                            JSONObject responseDompetHistory = jsControl.bukalapakSaldoDompet(AppData.Base64KeyUser);
+                            AppData.BukaDompetBalance = ""+responseDompetHistory.getInt("balance");
                             return "SALDO FAIL";
                         }
                         return "OK";
@@ -376,6 +386,7 @@ public class BuyPaymentFragment extends Fragment {
                         return "FAIL";
                     }
                 } else{
+                    AppData.invoice_message = responseToken.getString("message");
                     return "FAIL";
                 }
 
@@ -390,6 +401,7 @@ public class BuyPaymentFragment extends Fragment {
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
+            progressDialog.dismiss();
             switch (result) {
                 case "FAIL":
                     dialogLogin.dismiss();
@@ -397,6 +409,7 @@ public class BuyPaymentFragment extends Fragment {
                     break;
                 case "SALDO FAIL":
                     dialogLogin.dismiss();
+                    tvMyBalance.setText("Rp. "+ AppData.BukaDompetBalance);
                     Drawable drawable = getResources().getDrawable(R.drawable.ic_midori);
                     new MaterialDialog.Builder(activity)
                             .title("Mohon maaf...")

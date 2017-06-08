@@ -34,6 +34,7 @@ public class ConfigManager {
     public static final String BL_USER_SUMMARY = "https://api.bukalapak.com/v2/users/account_summary.json";
     public static final String BL_CART = "https://api.bukalapak.com/v2/carts/add_product/";
     public static final String BL_INVOICES = "https://api.bukalapak.com/v2/invoices.json" ;
+    public static final String BL_DOMPET_HISTORY = "https://api.bukalapak.com/v2/dompet/history.json";
     public static final String BL_PROVINCE = "https://api.bukalapak.com/v2/address/provinces.json" ;
     public static final String BL_CITY = "https://api.bukalapak.com/v2/address/cities.json?province=";
     public static final String BL_AREA = "https://api.bukalapak.com/v2/address.json";
