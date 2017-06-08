@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/round_background_buy"
+                android:orientation="vertical"
+                android:padding="15dp">
+                <TextView
+                    fontPath="@string/GothamRndMedium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="marquee"
+                    android:maxLines="3"
+                    android:text="Delivery Address"
+                    android:textColor="@color/colorGreen"
+                    android:textSize="16sp" />
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/point"
+                        android:layout_width="20dp"
+                        android:layout_height="30dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="10dp"
+                        android:src="@drawable/ic_point" />
+                    <TextView
+                        android:id="@+id/et_map_address"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginTop="5dp"
+                        android:layout_toRightOf="@id/point"
+                        android:editable="true"
+                        android:gravity="top|left"
+                        android:hint="Address"
+                        android:imeOptions="actionDone"
+                        android:lines="2"
+                        android:ellipsize="end"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="16sp"
+                        android:paddingBottom="10dp"
+                        android:paddingTop="10dp"
+                        app:met_clearButton="true"
+                        app:met_primaryColor="@color/colorGreen" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/province"
+                        android:layout_width="20dp"
+                        android:layout_height="30dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="10dp"
+                        android:src="@drawable/ic_point" />
+
+                    <fr.ganfra.materialspinner.MaterialSpinner
+                        android:id="@+id/et_province"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@id/province"
+                        android:gravity="top|left"
+                        app:ms_hint ="Province"
+                        android:imeOptions="actionDone"
+                        android:lines="1"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="16sp"
+                        app:ms_floatingLabelText="Province" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/city"
+                        android:layout_width="20dp"
+                        android:layout_height="30dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="10dp"
+                        android:src="@drawable/ic_point" />
+
+                    <fr.ganfra.materialspinner.MaterialSpinner
+                        android:id="@+id/et_city"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@id/city"
+                        android:editable="true"
+                        android:gravity="top|left"
+                        app:ms_hint ="City"
+                        android:imeOptions="actionDone"
+                        android:lines="1"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="16sp"
+                        app:ms_floatingLabelText="City"/>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/area"
+                        android:layout_width="20dp"
+                        android:layout_height="30dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="10dp"
+                        android:src="@drawable/ic_point" />
+
+                    <fr.ganfra.materialspinner.MaterialSpinner
+                        android:id="@+id/et_area"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@id/area"
+                        android:editable="true"
+                        android:gravity="top|left"
+                        app:ms_hint="Area"
+                        android:imeOptions="actionDone"
+                        android:lines="1"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="16sp"
+                        app:ms_floatingLabelText="Area" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/notes"
+                        android:layout_width="20dp"
+                        android:layout_height="30dp"
+                        android:layout_centerVertical="false"
+                        android:layout_marginRight="10dp"
+                        android:src="@drawable/ic_notes" />
+
+                    <com.rengwuxian.materialedittext.MaterialEditText
+                        android:id="@+id/et_location_detail"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginTop="5dp"
+                        android:layout_toRightOf="@id/notes"
+                        android:gravity="top|left"
+                        android:hint="Location detail (no.rumah, blok, RT, RW, dsb)"
+                        android:imeOptions="actionDone"
+                        android:lines="4"
+                        android:maxLines="4"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="16sp"
+                        app:met_clearButton="true"
+                        app:met_primaryColor="@color/colorGreen" />
+
+                </RelativeLayout>
+
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginBottom="30dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:orientation="horizontal">
+                <Button
+                    android:id="@+id/btnCancel"
+                    android:layout_marginRight="5dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="40dp"
+                    android:background="@drawable/rounded_red"
+                    android:text="Cancel"
+                    android:textColor="@color/colorWhite"/>
+
+                <Button
+                    android:id="@+id/btnConfirm"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/rounded_bg_transparent"
+                    android:text="Confirm"
+                    android:textColor="@color/colorWhite" />
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+
+
+</ScrollView>

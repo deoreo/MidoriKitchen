@@ -239,7 +239,6 @@ public class BuyReviewFragment extends Fragment {
             public void onReceive(Context context, Intent intent) {
                 // Extract data included in the Intent
                 Log.d("", "broadcast changeAlamat");
-
                 etAddress.setText(AppPrefManager.getInstance(getActivity()).getAlamat());
             }
         };

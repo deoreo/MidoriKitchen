@@ -2,7 +2,6 @@ package midori.kitchen.content.activity;
 
 import android.Manifest;
 import android.app.Activity;
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -81,7 +80,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
-public class ChangeLocationActivity extends AppCompatActivity
+public class DeliveryActivity extends AppCompatActivity
         implements OnMapClickListener,
         OnMapReadyCallback,
         GoogleMap.OnMyLocationButtonClickListener,
@@ -118,7 +117,6 @@ public class ChangeLocationActivity extends AppCompatActivity
     private MapView mapView;
     protected View mOriginalContentView;
     public TouchableWrapper mTouchView;
-    LatLng ibuLocation = new LatLng(AppData.menuModel.getIbuLat(), AppData.menuModel.getIbuLon());
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -335,19 +333,9 @@ public class ChangeLocationActivity extends AppCompatActivity
         }
         mGoogleMap.addMarker(
                 new MarkerOptions()
-                        .position(ibuLocation)
-                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.marker_ibu)));
-
-        mGoogleMap.addMarker(
-                new MarkerOptions()
                         .position(latLng)
                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.marker_destination)));
 
-        Document doc = GoogleAPIManager.getRoute(ibuLocation, AppData.latLngDelivery, "driving");
-        String strDistance = GoogleAPIManager.getDistanceText(doc);
-        AppData.distance = Double.parseDouble(strDistance.split(" ")[0]);
-        CalculatePrice(AppData.distance);
-        SendBroadcast("changeDistance", ""+AppData.distance);
 
         mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom), new GoogleMap.CancelableCallback() {
             @Override
@@ -535,11 +523,6 @@ public class ChangeLocationActivity extends AppCompatActivity
                         AppData.latLngDelivery = currentLocation;
                         googleMap.moveCamera(CameraUpdateFactory.newLatLng(currentLocation));
                         googleMap.animateCamera(CameraUpdateFactory.zoomTo(15));
-                        googleMap.addMarker(
-                                new MarkerOptions()
-                                        .position(ibuLocation)
-                                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.marker_ibu)));
-
 
                             googleMap.addMarker(
                                     new MarkerOptions()
@@ -551,11 +534,6 @@ public class ChangeLocationActivity extends AppCompatActivity
                         googleMap.animateCamera(cameraUpdate);
                         txtAddress.setText(address);
 
-                        Document doc = GoogleAPIManager.getRoute(ibuLocation, AppData.latLngDelivery, "driving");
-                        String strDistance = GoogleAPIManager.getDistanceText(doc);
-                        AppData.distance = Double.parseDouble(strDistance.split(" ")[0]);
-                        CalculatePrice(AppData.distance);
-                        SendBroadcast("changeDistance", ""+AppData.distance);
 
                         Log.v("posisi gps", currentLocation.toString());
                     } catch (Exception e) {
@@ -711,16 +689,6 @@ public class ChangeLocationActivity extends AppCompatActivity
                                             .position(latLng)
                                             .icon(BitmapDescriptorFactory.fromResource(R.drawable.marker_destination)));
 
-                        mGoogleMap.addMarker(
-                                new MarkerOptions()
-                                        .position(ibuLocation)
-                                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.marker_ibu)));
-
-                        Document doc = GoogleAPIManager.getRoute(ibuLocation, AppData.latLngDelivery, "driving");
-                        String strDistance = GoogleAPIManager.getDistanceText(doc);
-                        AppData.distance = Double.parseDouble(strDistance.split(" ")[0]);
-                        CalculatePrice(AppData.distance);
-                        SendBroadcast("changeDistance", ""+AppData.distance);
 
                         mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15), new GoogleMap.CancelableCallback() {
                             @Override
@@ -755,21 +723,6 @@ public class ChangeLocationActivity extends AppCompatActivity
     intent.putExtra("message", type);
     LocalBroadcastManager.getInstance(mActivity).sendBroadcast(intent);
 }
-
-    private void CalculatePrice(Double distance){
-        int price = 0;
-        if(distance<=3.9){
-            price = 8000;
-        } else if(distance>=4.0 && distance <=15){
-            double selisihjarak = distance - 4.0;
-            double hargaselisihjarak = (Math.round(selisihjarak*2)/2.0) * 2000;
-            price = 8000 + (int)hargaselisihjarak;
-        } else if(distance>=15){
-            price = 30000;
-        }
-        AppData.priceDelivery = price;
-        SendBroadcast("changePriceDelivery", ""+AppData.priceDelivery);
-    }
 
 
     public static void hideKeyboard() {

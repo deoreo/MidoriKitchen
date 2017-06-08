@@ -12,6 +12,11 @@ import java.util.HashMap;
  */
 
 public class AppPrefManager {
+    private static final String KEY_PROVINCE = "province";
+    private static final String KEY_CITY = "city";
+    private static final String KEY_AREA = "area";
+    private static final String KEY_DELIVERY_ADDRESS = "delivery_address";
+    private static final String KEY_LOCATION_DETAIL = "location_detail" ;
     private static AppPrefManager sInstance = null;
     SharedPreferences pref;
     SharedPreferences.Editor editor;
@@ -110,6 +115,73 @@ public class AppPrefManager {
     public String getAlamat() {
         return pref.getString(KEY_ALAMAT, null);
     }
+
+
+    public void setProvince(String str) {
+        try {
+            editor.putString(KEY_PROVINCE, str);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new NullPointerException();
+        }
+        editor.commit();
+    }
+    public String getProvince() {
+        return pref.getString(KEY_PROVINCE, null);
+    }
+
+    public void setCity(String str) {
+        try {
+            editor.putString(KEY_CITY, str);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new NullPointerException();
+        }
+        editor.commit();
+    }
+    public String getCity() {
+        return pref.getString(KEY_CITY, null);
+    }
+    public void setArea(String str) {
+        try {
+            editor.putString(KEY_AREA, str);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new NullPointerException();
+        }
+        editor.commit();
+    }
+    public String getArea() {
+        return pref.getString(KEY_AREA, null);
+    }
+
+    public void setLocationDetail(String str) {
+        try {
+            editor.putString(KEY_LOCATION_DETAIL, str);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new NullPointerException();
+        }
+        editor.commit();
+    }
+    public String getLocationDetail() {
+        return pref.getString(KEY_LOCATION_DETAIL, null);
+    }
+
+    public void setDeliveryAddress(String str) {
+        try {
+            editor.putString(KEY_DELIVERY_ADDRESS, str);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new NullPointerException();
+        }
+        editor.commit();
+    }
+    public String getDeliveryAddress() {
+        return pref.getString(KEY_DELIVERY_ADDRESS, null);
+    }
+
+
 
     public void setGeocode(LatLng geocode){
         Gson gson = new Gson();
