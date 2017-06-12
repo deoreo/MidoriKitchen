@@ -5,7 +5,7 @@ import com.google.android.gms.maps.model.LatLng;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
-
+import android.graphics.Bitmap;
 import midori.kitchen.content.model.BuyModel;
 import midori.kitchen.content.model.CartModel;
 import midori.kitchen.content.model.InvoiceModel;
@@ -48,7 +48,7 @@ public class AppData {
     public static String address="0";
     public static String locationDetail="0";
     public static double distance=0.0;
-    public static LatLng latLngDelivery = new LatLng(0.0, 0.0);
+    //public static LatLng latLngDelivery = new LatLng(0.0, 0.0);
     public static int priceDelivery = 8000;
     public static String delivery_id;
     public static String detail_address;
@@ -67,6 +67,7 @@ public class AppData {
     public static String order_id_history;
     public static String menu_nama_history;
     public static ResepModel resepModel;
+    public static Bitmap potobitmap;
 
     public static boolean isInteger(String s) {
         try {

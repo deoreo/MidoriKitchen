@@ -25,6 +25,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
@@ -35,6 +36,7 @@ import com.rengwuxian.materialedittext.MaterialEditText;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Document;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -43,12 +45,13 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import midori.kitchen.R;
-import midori.kitchen.content.activity.ChangeLocationActivity;
+//import midori.kitchen.content.activity.ChangeLocationActivity;
 import midori.kitchen.content.adapter.MenuAdapter;
 import midori.kitchen.content.model.MenuModel;
 import midori.kitchen.manager.AppData;
 import midori.kitchen.manager.AppPrefManager;
 import midori.kitchen.manager.ConfigManager;
+import midori.kitchen.manager.GoogleAPIManager;
 import midori.kitchen.manager.JSONControl;
 
 /**
@@ -100,9 +103,9 @@ public class BuyReviewFragment extends Fragment {
 
     private boolean isKurir = true;
     private int deliveryPrice = 8000;
-    private BroadcastReceiver changeAlamat,changeDistance,changePriceDelivery;
+    private BroadcastReceiver changeAlamat, changeDistance, changePriceDelivery;
     private String[] provincesArray, cities, areas;
-
+    LatLng ibuLocation = new LatLng(AppData.menuModel.getIbuLat(), AppData.menuModel.getIbuLon());
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -130,20 +133,20 @@ public class BuyReviewFragment extends Fragment {
                 String locationDetail = etLocationDetail.getText().toString();
                 AppData.address = address;
                 AppData.locationDetail = locationDetail;
-                AppData.detail_address = AppData.address+" , "+AppData.locationDetail;
+                AppData.detail_address = AppData.address + " , " + AppData.locationDetail;
                 AppData.note = etNotes.getText().toString();
-                if(AppData.note.isEmpty()){
+                if (AppData.note.isEmpty()) {
                     AppData.note = "tidak ada catatan pelanggan";
                 }
-                AppData.total_harga = ""+((AppData.menuModel.getPrice_menu() * AppData.menuModel.getTotal_menu()) + AppData.menuModel.getDelivery_price());
+                AppData.total_harga = "" + ((AppData.menuModel.getPrice_menu() * AppData.menuModel.getTotal_menu()) + AppData.menuModel.getDelivery_price());
                 AppData.status = "1";
-                if(etPromotion.getText().toString().isEmpty()){
+                if (etPromotion.getText().toString().isEmpty()) {
                     AppData.kupon_id = "0";
                 }
 
                 if (isKurir) {
                     AppData.delivery_id = "2";
-                    if (validate(address, locationDetail)) {
+                    if (validate(address)) {
                         getFragmentManager().beginTransaction()
                                 .setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit)
                                 .replace(R.id.container_buy, new BuyPaymentFragment(), AppData.buy_payment_tag).addToBackStack(null).commit();
@@ -178,10 +181,9 @@ public class BuyReviewFragment extends Fragment {
                     AppData.menuModel.setTotal_pay(totalPay);
                     tvTotalPay.setText("Rp. " + AppData.menuModel.getTotal_pay());
                     layoutDelivery.setVisibility(View.VISIBLE);
-                    if(AppData.isInteger(AppData.menuModel.getId())){
+                    if (AppData.isInteger(AppData.menuModel.getId())) {
                         AppData.isBukaDompet = false;
-                    }
-                    else{
+                    } else {
                         AppData.isBukaDompet = true;
                     }
                 } else if (item.equals("Ambil Sendiri")) {
@@ -203,7 +205,7 @@ public class BuyReviewFragment extends Fragment {
         });
     }
 
-    private boolean validate(String address, String locationDetail) {
+    private boolean validate(String address) {
         boolean valid = true;
         if (address.isEmpty()) {
             etAddress.setError("Enter address");
@@ -211,12 +213,12 @@ public class BuyReviewFragment extends Fragment {
         } else {
             etAddress.setError(null);
         }
-        if (locationDetail.isEmpty()) {
-            etLocationDetail.setError("Enter location detail");
-            valid = false;
-        } else {
-            etLocationDetail.setError(null);
-        }
+//        if (locationDetail.isEmpty()) {
+//            etLocationDetail.setError("Enter location detail");
+//            valid = false;
+//        } else {
+//            etLocationDetail.setError(null);
+//        }
         return valid;
     }
 
@@ -232,24 +234,25 @@ public class BuyReviewFragment extends Fragment {
         tvTotalPay.setText("Rp. " + ((AppData.menuModel.getPrice_menu() * AppData.menuModel.getTotal_menu()) + AppData.menuModel.getDelivery_price()));
         tvCountMenu.setText(String.valueOf(AppData.menuModel.getTotal_menu()));
         tvDeliveryPrice.setText("Rp. " + AppData.menuModel.getDelivery_price());
-        AppData.total_harga = ""+((AppData.menuModel.getPrice_menu() * AppData.menuModel.getTotal_menu()) + AppData.menuModel.getDelivery_price());
+        AppData.total_harga = "" + ((AppData.menuModel.getPrice_menu() * AppData.menuModel.getTotal_menu()) + AppData.menuModel.getDelivery_price());
 
-        changeAlamat = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                // Extract data included in the Intent
-                Log.d("", "broadcast changeAlamat");
-                etAddress.setText(AppPrefManager.getInstance(getActivity()).getAlamat());
-            }
-        };
+//        changeAlamat = new BroadcastReceiver() {
+//            @Override
+//            public void onReceive(Context context, Intent intent) {
+//                // Extract data included in the Intent
+//                Log.d("", "broadcast changeAlamat");
+//                etAddress.setText(AppPrefManager.getInstance(getActivity()).getAlamat());
+//            }
+//        };
 
+        new GetShippingFee(getActivity()).execute();
 
         changeDistance = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
                 // Extract data included in the Intent
                 Log.d("", "broadcast changeDistance");
-                tvDistance.setText(AppData.distance+" KM");
+                tvDistance.setText(AppData.distance + " KM");
             }
         };
 
@@ -260,10 +263,10 @@ public class BuyReviewFragment extends Fragment {
                 Log.d("", "broadcast changeDistance");
 
                 deliveryPrice = AppData.priceDelivery;
-                tvDeliveryPrice.setText("Rp. "+deliveryPrice);
+                tvDeliveryPrice.setText("Rp. " + deliveryPrice);
                 AppData.menuModel.setDelivery_price(deliveryPrice);
                 tvTotalPay.setText("Rp. " + ((AppData.menuModel.getPrice_menu() * AppData.menuModel.getTotal_menu()) + AppData.menuModel.getDelivery_price()));
-                AppData.total_harga = ""+((AppData.menuModel.getPrice_menu() * AppData.menuModel.getTotal_menu()) + AppData.menuModel.getDelivery_price());
+                AppData.total_harga = "" + ((AppData.menuModel.getPrice_menu() * AppData.menuModel.getTotal_menu()) + AppData.menuModel.getDelivery_price());
             }
         };
 
@@ -284,46 +287,43 @@ public class BuyReviewFragment extends Fragment {
                 minusCountMenu();
                 break;
             case R.id.et_address:
-                gotoLocation();
+                //gotoLocation();
                 break;
             case R.id.et_province:
                 new GetProvinces("manual").execute();
                 break;
             case R.id.et_city:
-                if(!etProvince.getText().toString().isEmpty()) {
-                    new GetCity("manual",etProvince.getText().toString()).execute();
-                }
-                else{
+                if (!etProvince.getText().toString().isEmpty()) {
+                    new GetCity("manual", etProvince.getText().toString()).execute();
+                } else {
                     new MaterialDialog.Builder(getActivity())
                             .title("Mohon maaf...")
                             .content("Silahkan pilih Provinsi pengiriman")
-                            .typeface("GothamRnd-Book.otf","GothamRnd-Light.otf" )
+                            .typeface("GothamRnd-Book.otf", "GothamRnd-Light.otf")
                             .positiveText("OK")
                             .show();
 
                 }
                 break;
             case R.id.et_area:
-                if(etProvince.getText().toString().isEmpty()) {
+                if (etProvince.getText().toString().isEmpty()) {
                     new MaterialDialog.Builder(getActivity())
                             .title("Mohon maaf...")
                             .content("Silahkan pilih Provinsi pengiriman")
-                            .typeface("GothamRnd-Book.otf","GothamRnd-Light.otf" )
+                            .typeface("GothamRnd-Book.otf", "GothamRnd-Light.otf")
                             .positiveText("OK")
                             .show();
 
-                }
-                else if(etCity.getText().toString().isEmpty()) {
+                } else if (etCity.getText().toString().isEmpty()) {
                     new MaterialDialog.Builder(getActivity())
                             .title("Mohon maaf...")
                             .content("Silahkan pilih Kota pengiriman")
-                            .typeface("GothamRnd-Book.otf","GothamRnd-Light.otf" )
+                            .typeface("GothamRnd-Book.otf", "GothamRnd-Light.otf")
                             .positiveText("OK")
                             .show();
 
-                }
-                else{
-                    new GetArea("manual", AppData.invoiceModel.getProvince(),AppData.invoiceModel.getCity() ).execute();
+                } else {
+                    new GetArea("manual", AppData.invoiceModel.getProvince(), AppData.invoiceModel.getCity()).execute();
                 }
                 break;
         }
@@ -356,18 +356,18 @@ public class BuyReviewFragment extends Fragment {
             AppData.menuModel.setTotal_pay_menu(price);
             AppData.menuModel.setTotal_pay(totalPay);
             tvPrice.setText("Rp. " + AppData.menuModel.getTotal_pay_menu());
-            tvTotalPay.setText("Rp. " + AppData.menuModel.getTotal_pay());;
+            tvTotalPay.setText("Rp. " + AppData.menuModel.getTotal_pay());
+            ;
             Log.d("totalPay", "" + totalPay);
         } else {
             getActivity().finish();
         }
     }
 
-    private void gotoLocation(){
-        Intent j = new Intent(getActivity(), ChangeLocationActivity.class);
-        startActivity(j);
+    private void gotoLocation() {
+//        Intent j = new Intent(getActivity(), ChangeLocationActivity.class);
+//        startActivity(j);
     }
-
 
 
     @Override
@@ -385,10 +385,12 @@ public class BuyReviewFragment extends Fragment {
 
     private class GetProvinces extends AsyncTask<String, Void, String> {
 
-        private  String TAG;
-        public GetProvinces(String TAG){
+        private String TAG;
+
+        public GetProvinces(String TAG) {
             this.TAG = TAG;
         }
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -401,7 +403,7 @@ public class BuyReviewFragment extends Fragment {
                 JSONObject response = jsControl.BukalapakGetProvinces();
                 JSONArray responseJSONArray = response.getJSONArray("provinces");
                 provincesArray = new String[responseJSONArray.length()];
-                for(int i =0; i< responseJSONArray.length();i++){
+                for (int i = 0; i < responseJSONArray.length(); i++) {
                     provincesArray[i] = responseJSONArray.getString(i);
                 }
 
@@ -420,7 +422,7 @@ public class BuyReviewFragment extends Fragment {
                 case "FAIL":
                     break;
                 case "OK":
-                    if(TAG == "manual") {
+                    if (TAG == "manual") {
                         new MaterialDialog.Builder(getActivity())
                                 .title("Provinces")
                                 .items(provincesArray)
@@ -428,10 +430,10 @@ public class BuyReviewFragment extends Fragment {
                                 .itemsCallbackSingleChoice(-1, new MaterialDialog.ListCallbackSingleChoice() {
                                     @Override
                                     public boolean onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
-                                        try{
-                                        etProvince.setText(text.toString());
-                                        AppData.invoiceModel.setProvince(text.toString());
-                                    }catch (Exception e){
+                                        try {
+                                            etProvince.setText(text.toString());
+                                            AppData.invoiceModel.setProvince(text.toString());
+                                        } catch (Exception e) {
 
                                         }
                                         return true;
@@ -444,13 +446,16 @@ public class BuyReviewFragment extends Fragment {
             }
         }
     }
+
     private class GetCity extends AsyncTask<String, Void, String> {
 
-        private  String TAG,province;
-        public GetCity(String TAG, String province){
+        private String TAG, province;
+
+        public GetCity(String TAG, String province) {
             this.TAG = TAG;
             this.province = province;
         }
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -463,7 +468,7 @@ public class BuyReviewFragment extends Fragment {
                 JSONObject response = jsControl.BukalapakGetCity(province);
                 JSONArray responseJSONArray = response.getJSONArray("cities");
                 cities = new String[responseJSONArray.length()];
-                for(int i =0; i< responseJSONArray.length();i++){
+                for (int i = 0; i < responseJSONArray.length(); i++) {
                     cities[i] = responseJSONArray.getString(i);
                 }
                 return "OK";
@@ -482,7 +487,7 @@ public class BuyReviewFragment extends Fragment {
                     break;
 
                 case "OK":
-                    if(TAG == "manual") {
+                    if (TAG == "manual") {
                         new MaterialDialog.Builder(getActivity())
                                 .title("Cities")
                                 .items(cities)
@@ -493,7 +498,7 @@ public class BuyReviewFragment extends Fragment {
                                         try {
                                             etCity.setText(text.toString());
                                             AppData.invoiceModel.setCity(text.toString());
-                                        }catch (Exception e){
+                                        } catch (Exception e) {
 
                                         }
                                         return true;
@@ -506,14 +511,17 @@ public class BuyReviewFragment extends Fragment {
             }
         }
     }
+
     private class GetArea extends AsyncTask<String, Void, String> {
 
-        private  String TAG, province, city;
-        public GetArea(String TAG, String province, String city){
+        private String TAG, province, city;
+
+        public GetArea(String TAG, String province, String city) {
             this.TAG = TAG;
             this.province = province;
             this.city = city;
         }
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -529,7 +537,7 @@ public class BuyReviewFragment extends Fragment {
                 JSONObject responseProvince = responseAddress.getJSONObject(province);
                 JSONArray responseCity = responseProvince.getJSONArray(city);
                 areas = new String[responseCity.length()];
-                for(int i=0;i<responseCity.length();i++){
+                for (int i = 0; i < responseCity.length(); i++) {
                     areas[i] = responseCity.getString(i);
                 }
 
@@ -549,7 +557,7 @@ public class BuyReviewFragment extends Fragment {
                     break;
 
                 case "OK":
-                    if(TAG == "manual") {
+                    if (TAG == "manual") {
                         new MaterialDialog.Builder(getActivity())
                                 .title("Areas")
                                 .items(areas)
@@ -560,7 +568,7 @@ public class BuyReviewFragment extends Fragment {
                                         try {
                                             etArea.setText(text.toString());
                                             AppData.invoiceModel.setArea(text.toString());
-                                        }catch (Exception e){
+                                        } catch (Exception e) {
 
                                         }
                                         return true;
@@ -574,6 +582,80 @@ public class BuyReviewFragment extends Fragment {
         }
     }
 
+
+    private class GetShippingFee extends AsyncTask<String, Void, String> {
+
+        private ProgressDialog progressDialog;
+        private String courier, weight, origin, destination;
+        private double distance;
+        private Activity activity;
+
+        public GetShippingFee(Activity activity) {
+            this.activity = activity;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressDialog = new ProgressDialog(activity);
+            progressDialog.setMessage("Memuat review pembelian. . .");
+            progressDialog.setIndeterminate(false);
+            progressDialog.setCancelable(false);
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progressDialog.show();
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+                AppData.invoiceModel.setProvince(AppPrefManager.getInstance(activity).getProvince());
+                AppData.invoiceModel.setCity(AppPrefManager.getInstance(activity).getCity());
+                AppData.invoiceModel.setArea(AppPrefManager.getInstance(activity).getArea());
+                AppData.invoiceModel.setPost_code(AppData.invoiceModel.getPost_code());
+                Document doc = GoogleAPIManager.getRoute(ibuLocation, AppPrefManager.getInstance(activity).getGeocode(), "driving");
+                String strDistance = GoogleAPIManager.getDistanceText(doc);
+                AppData.distance = Double.parseDouble(strDistance.split(" ")[0]);
+                distance = AppData.distance;
+                int price = 0;
+                if (distance <= 3.9) {
+                    price = 8000;
+                } else if (distance >= 4.0 && distance <= 15) {
+                    double selisihjarak = distance - 4.0;
+                    double hargaselisihjarak = (Math.round(selisihjarak * 2) / 2.0) * 2000;
+                    price = 8000 + (int) hargaselisihjarak;
+                } else if (distance >= 15) {
+                    price = 30000;
+                }
+                AppData.priceDelivery = price;
+                deliveryPrice = AppData.priceDelivery;
+                AppData.menuModel.setDelivery_price(deliveryPrice);
+                AppData.total_harga = "" + ((AppData.menuModel.getPrice_menu() * AppData.menuModel.getTotal_menu()) + AppData.menuModel.getDelivery_price());
+
+                return "OK";
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return "OK";
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            progressDialog.dismiss();
+            switch (result) {
+                case "FAIL":
+                    break;
+
+                case "OK":
+                    etAddress.setText(AppPrefManager.getInstance(activity).getDeliveryAddress());
+                    tvDeliveryPrice.setText("Rp. " + deliveryPrice);
+                    tvDistance.setText(AppData.distance + " KM");
+                    tvTotalPay.setText("Rp. " + ((AppData.menuModel.getPrice_menu() * AppData.menuModel.getTotal_menu()) + AppData.menuModel.getDelivery_price()));
+                    break;
+            }
+        }
+    }
 
 
 }

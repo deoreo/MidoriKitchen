@@ -34,6 +34,7 @@ public class AppPrefManager {
     public static final String KEY_PHONE = "phone";
     public static final String KEY_PHOTO = "photo";
     private static final String KEY_ALAMAT = "alamat";
+    private static final String KEY_POST_CODE = "kode_pos";
     public static final String USER_API_KEY = "user_api_key";
 
     public AppPrefManager(Context context) {
@@ -58,6 +59,17 @@ public class AppPrefManager {
         return pref.getBoolean(IS_LOGGED_IN, false);
     }
 
+    public void setUser(String idaccount, String fullname, String email, String telepon, String delivery_adress, String photo) {
+        editor.putString(KEY_ID, idaccount);
+        editor.putString(KEY_FULLNAME, fullname);
+        editor.putString(KEY_EMAIL, email);
+        editor.putString(KEY_PHOTO, photo);
+        editor.putString(KEY_PHONE, telepon);
+        editor.putString(KEY_DELIVERY_ADDRESS, delivery_adress);
+        editor.apply();
+    }
+
+
     public void setUser(String idaccount, String fullname, String email, String photo) {
         editor.putString(KEY_ID, idaccount);
         editor.putString(KEY_FULLNAME, fullname);
@@ -79,6 +91,12 @@ public class AppPrefManager {
         dataUser.put(KEY_EMAIL, pref.getString(KEY_EMAIL, ""));
         dataUser.put(KEY_PHOTO, pref.getString(KEY_PHOTO, ""));
         dataUser.put(KEY_PHONE, pref.getString(KEY_PHONE, ""));
+        dataUser.put(KEY_ALAMAT, pref.getString(KEY_ALAMAT, ""));
+        dataUser.put(KEY_AREA, pref.getString(KEY_AREA, ""));
+        dataUser.put(KEY_CITY, pref.getString(KEY_CITY, ""));
+        dataUser.put(KEY_PROVINCE, pref.getString(KEY_PROVINCE, ""));
+        dataUser.put(KEY_LOCATION_DETAIL, pref.getString(KEY_LOCATION_DETAIL, ""));
+        dataUser.put(KEY_DELIVERY_ADDRESS, pref.getString(KEY_DELIVERY_ADDRESS, ""));
         return dataUser;
     }
 
@@ -88,6 +106,7 @@ public class AppPrefManager {
         editor.remove(KEY_EMAIL);
         editor.remove(KEY_PHOTO);
         editor.remove(KEY_PHONE);
+
         editor.apply();
     }
 
@@ -181,6 +200,19 @@ public class AppPrefManager {
         return pref.getString(KEY_DELIVERY_ADDRESS, null);
     }
 
+
+    public void setPostCode(String str) {
+        try {
+            editor.putString(KEY_POST_CODE, str);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new NullPointerException();
+        }
+        editor.commit();
+    }
+    public String getPostCode() {
+        return pref.getString(KEY_POST_CODE, null);
+    }
 
 
     public void setGeocode(LatLng geocode){

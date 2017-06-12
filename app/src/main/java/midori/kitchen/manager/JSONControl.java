@@ -103,6 +103,20 @@ public class JSONControl {
         return jsonObj;
     }
 
+    public JSONObject bukalapakShippingFee(String courier, String weight, String origin, String destination) {
+        JSONObject jsonObj = new JSONObject();
+        Log.v("Bukalapak", "bukalapakShippingFee");
+        try {
+            jsonObj = _JSONResponse.GETResponse(ConfigManager.BL_SHIPPING_FEE
+                    +URLEncoder.encode("?courier="+courier+"&weight="+weight+"&from="+origin+"&to="+destination, "UTF-8"));
+            Log.v("Bukalapak",jsonObj.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return jsonObj;
+    }
+
     public JSONObject bukalapakSaldoDompet(String Base64Key) {
         JSONObject jsonObj = new JSONObject();
         Log.v("Bukalapak", "bukalapakSaldoDompet");
@@ -370,6 +384,24 @@ public class JSONControl {
             params.add(new BasicNameValuePair("order_detail_address", detail_address));
             params.add(new BasicNameValuePair("order_total_harga", order_total_harga));
             jsonObj = _JSONResponse.POSTResponse(ConfigManager.ORDER, appPrefManager.getUserApiKey(), params);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return jsonObj;
+    }
+
+    public JSONObject updateProfile(Activity activity, String nama, String email, String telepon, String alamat) {
+
+        JSONObject jsonObj = null;
+        AppPrefManager appPrefManager = new AppPrefManager(activity);
+        try {
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("user_nama", nama));
+            params.add(new BasicNameValuePair("user_email", email));
+            params.add(new BasicNameValuePair("user_telepon", telepon));
+            params.add(new BasicNameValuePair("user_alamat", alamat));
+            jsonObj = _JSONResponse.POSTResponse(ConfigManager.UPDATE_PROFILE, appPrefManager.getUserApiKey(), params);
 
         } catch (Exception e) {
             e.printStackTrace();

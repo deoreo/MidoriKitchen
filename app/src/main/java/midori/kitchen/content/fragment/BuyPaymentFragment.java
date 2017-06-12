@@ -126,8 +126,8 @@ public class BuyPaymentFragment extends Fragment {
         payment_id = AppData.payment_id;
         kupon_id =AppData.kupon_id;
         delivery_id=AppData.delivery_id;
-        order_lat =""+AppData.latLngDelivery.latitude;
-        order_lon =""+AppData.latLngDelivery.longitude;
+        order_lat =""+AppPrefManager.getInstance(getActivity()).getGeocode().latitude;
+        order_lon =""+AppPrefManager.getInstance(getActivity()).getGeocode().longitude;
         order_jarak =""+AppData.distance;
         status_order_id = "1";
         order_note=AppData.note;
@@ -368,7 +368,7 @@ public class BuyPaymentFragment extends Fragment {
                         String city = AppData.invoiceModel.getCity();//
                         String area =  AppData.invoiceModel.getArea();//
                         String address =  AppData.invoiceModel.getAddress();//
-                        String post_code = AppData.invoiceModel.getPost_code();//
+                        String post_code = AppPrefManager.getInstance(activity).getPostCode();//
                         int seller_id = Integer.parseInt(AppData.invoiceModel.getSeller_id());//
                         String buyer_notes =  AppData.invoiceModel.getBuyer_notes();//
                         String password_bukadompet =  AppData.invoiceModel.getPassword_bukadompet();//
@@ -423,6 +423,21 @@ public class BuyPaymentFragment extends Fragment {
                     //txtMessage.setText("Login Sukses" + AppData.Base64KeyUser);
                     tvMyBalance.setText("Rp. "+ AppData.BukaDompetBalance);
                     dialogLogin.dismiss();
+
+                    new MaterialDialog.Builder(getActivity())
+                            .title("Terima kasih")
+                            .content("Terima kasih telah melakukan pembayaran dengan menggunakan BukaDompet")
+                            .typeface("GothamRnd-Medium.otf", "Gotham.ttf")
+                            .onNegative(new MaterialDialog.SingleButtonCallback() {
+                                @Override
+                                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                    dialog.dismiss();
+                                    getActivity().finish();
+                                }
+                            })
+                            .negativeText("Close")
+                            .show();
+
                     break;
             }
         }
@@ -489,7 +504,36 @@ public class BuyPaymentFragment extends Fragment {
                 case "OK":
                     if(AppData.payment_id=="1") {
                         sendEmail();
+                    } else if(AppData.payment_id=="2"){
+                        new MaterialDialog.Builder(getActivity())
+                                .title("Terima Kasih")
+                                .content("Pesanan akan segera diantar,harap menyediakan uang pas saat kurir datang")
+                                .typeface("GothamRnd-Medium.otf", "Gotham.ttf")
+                                .onNegative(new MaterialDialog.SingleButtonCallback() {
+                                    @Override
+                                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                        dialog.dismiss();
+                                        getActivity().finish();
+                                    }
+                                })
+                                .negativeText("Close")
+                                .show();
+                    } else if(AppData.payment_id=="3"){
+                        new MaterialDialog.Builder(getActivity())
+                                .title("Mohon Maaf")
+                                .content("Sistem pembayaran ini akan segera tersedia")
+                                .typeface("GothamRnd-Medium.otf", "Gotham.ttf")
+                                .onNegative(new MaterialDialog.SingleButtonCallback() {
+                                    @Override
+                                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                        dialog.dismiss();
+                                        getActivity().finish();
+                                    }
+                                })
+                                .negativeText("Close")
+                                .show();
                     }
+
                     //Toast.makeText(getActivity(), "Transaction processed", Toast.LENGTH_SHORT).show();
                     break;
             }

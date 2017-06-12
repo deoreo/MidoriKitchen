@@ -54,6 +54,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 import static android.R.layout.simple_spinner_item;
 import static midori.kitchen.R.id.et_province;
+import static midori.kitchen.R.id.province;
 
 /**
  * Created by M. Asrof Bayhaqqi on 3/10/2017.
@@ -144,18 +145,9 @@ public class ProfileActivity extends AppCompatActivity {
         String editFullname = etName.getText().toString();
         String editEmail = etEmail.getText().toString();
         String editPhone = etPhone.getText().toString();
+        String editAlamat = etAddress.getText().toString();
         if (validate(editFullname, editEmail, editPhone)) {
-            appPrefManager.updateUser(editFullname, editEmail,editPhone);
-            etName.clearFocus();
-            etEmail.clearFocus();
-            Drawable drawable = getResources().getDrawable(R.drawable.ic_midori);
-            new MaterialDialog.Builder(activity)
-                    .title("Informasi")
-                    .content("Data Anda sudah tersimpan")
-                    .positiveText("OK")
-                    .icon(drawable)
-                    .typeface("GothamRnd-Book.otf","GothamRnd-Light.otf" )
-                    .show();
+            new SaveProfile(editFullname,editEmail,editPhone,editAlamat).execute();
         }
 
     }
@@ -193,21 +185,34 @@ public class ProfileActivity extends AppCompatActivity {
         etName.setText(fullname);
         etEmail.setText(email);
         etPhone.setText(phone);
-        Glide
-                .with(this)
-                .load(photo)
-                .centerCrop()
-                .placeholder(R.drawable.ic_avatar)
-                .crossFade()
-                .into(civPhoto);
+        if(photo.contains("http")) {
+            Glide
+                    .with(this)
+                    .load(photo)
+                    .centerCrop()
+                    .placeholder(R.drawable.ic_avatar)
+                    .crossFade()
+                    .into(civPhoto);
+        } else{
+            Glide
+                    .with(this)
+                    .load("https://graph.facebook.com/" +photo+ "/picture?type=large")
+                    .centerCrop()
+                    .crossFade()
+                    .into(civPhoto);
+        }
         String alamat =appPrefManager.getAlamat();
         String propinsi= appPrefManager.getProvince();
         String city = appPrefManager.getCity();
         String area = appPrefManager.getArea();
         String location_detail = appPrefManager.getLocationDetail();
-        String delivery_address = alamat+" , "+area+" , "+city+" , "+propinsi+"\n( "+location_detail+" )";
+        String kodepos = appPrefManager.getPostCode();
+        String delivery_address = alamat+","+area+","+city+","+propinsi+","+kodepos+",\n("+location_detail+")";
         AppPrefManager.getInstance(activity).setDeliveryAddress(delivery_address);
+        if(alamat != null)
         etAddress.setText(delivery_address);
+        else
+            etAddress.setText("");
     }
 
     private void initToolbar() {
@@ -352,7 +357,12 @@ public class ProfileActivity extends AppCompatActivity {
                 String city = appPrefManager.getCity();
                 String area = appPrefManager.getArea();
                 String location_detail = appPrefManager.getLocationDetail();
-                String delivery_address = alamat+" , "+area+" , "+city+" , "+propinsi+"\n( "+location_detail+" )";
+                AppData.invoiceModel.setAddress(alamat);
+                AppData.invoiceModel.setArea(area);
+                AppData.invoiceModel.setCity(city);
+                AppData.invoiceModel.setProvince(propinsi);
+                String kodepos = appPrefManager.getPostCode();
+                String delivery_address = alamat+","+area+","+city+","+propinsi+","+kodepos+",\n("+location_detail+")";
                 AppPrefManager.getInstance(activity).setDeliveryAddress(delivery_address);
                 etAddress.setText(delivery_address);
                 dialogAddress.dismiss();
@@ -542,6 +552,68 @@ public class ProfileActivity extends AppCompatActivity {
                         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                         spinner.setAdapter(adapter);
                     }
+                    break;
+            }
+        }
+    }
+
+    private class SaveProfile extends AsyncTask<String, Void, String> {
+        private MaterialSpinner spinner;
+        private  String TAG;
+        private ProgressDialog progressDialog;
+        String nama, email, telepon, alamat;
+        public SaveProfile(String nama, String email,String telepon, String alamat){
+            this.nama = nama;
+            this.email = email;
+            this.telepon = telepon;
+            this.alamat = alamat;
+        }
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressDialog = new ProgressDialog(activity);
+            progressDialog.setMessage("Menyimpan Profile Anda. . .");
+            progressDialog.setIndeterminate(false);
+            progressDialog.setCancelable(false);
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progressDialog.show();
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+                JSONControl jsControl = new JSONControl();
+                JSONObject response = jsControl.updateProfile(activity, nama,email,telepon,alamat);
+                if(response.getString("message").contains("successfully")) {
+                    appPrefManager.updateUser(nama, email, telepon);
+                    return "OK";
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return "OK";
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            progressDialog.dismiss();
+            switch (result) {
+                case "FAIL":
+                    break;
+                case "OK":
+
+                    etName.clearFocus();
+                    etEmail.clearFocus();
+                    Drawable drawable = getResources().getDrawable(R.drawable.ic_midori);
+                    new MaterialDialog.Builder(activity)
+                            .title("Informasi")
+                            .content("Data Anda sudah tersimpan")
+                            .positiveText("OK")
+                            .icon(drawable)
+                            .typeface("GothamRnd-Book.otf","GothamRnd-Light.otf" )
+                            .show();
                     break;
             }
         }

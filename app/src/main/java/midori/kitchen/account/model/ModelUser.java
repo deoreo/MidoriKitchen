@@ -4,7 +4,7 @@ package midori.kitchen.account.model;
  * Created by User on 10/21/2015.
  */
 public class ModelUser {
-    private String api_key, ponsel, nama, email, trusted="false";
+    private String id, api_key, ponsel, nama, email, trusted="false", alamat;
 
     public ModelUser(){
 
@@ -24,6 +24,14 @@ public class ModelUser {
         this.nama = nama;
         this.email = email;
         this.trusted = trusted;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getApi_key() {
@@ -65,5 +73,13 @@ public class ModelUser {
 
     public void setTrusted(String trusted) {
         this.trusted = trusted;
+    }
+
+    public String getAlamat() {
+        return alamat;
+    }
+
+    public void setAlamat(String alamat) {
+        this.alamat = alamat;
     }
 }

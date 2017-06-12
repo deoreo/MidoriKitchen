@@ -24,6 +24,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import midori.kitchen.R;
 import midori.kitchen.content.adapter.MenuAdapter;
+import midori.kitchen.content.adapter.ResepAdapter;
 import midori.kitchen.content.model.MenuModel;
 import midori.kitchen.manager.AppData;
 import midori.kitchen.manager.JSONControl;
@@ -64,24 +65,23 @@ public class MenuFragment extends Fragment {
     }
 
     private void initRecyclerView() {
-        recyclerView.setHasFixedSize(true);
-        layoutManager = new LinearLayoutManager(getActivity());
-        recyclerView.setLayoutManager(layoutManager);
-        adapter = new MenuAdapter(menuItems, getActivity());
-        recyclerView.setAdapter(adapter);
-        swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                getDataMenu();
-            }
-        });
+        try {
+            recyclerView.setHasFixedSize(true);
+            layoutManager = new LinearLayoutManager(getActivity());
+            recyclerView.setLayoutManager(layoutManager);
+            adapter = new MenuAdapter(menuItems, getActivity());
+            recyclerView.setAdapter(adapter);
+            swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                @Override
+                public void onRefresh() {
+                    getDataMenu();
+                }
+            });
+        }catch (Exception e){}
     }
 
     private void getDataMenu() {
-        menuItems.clear();
         new GetProdukBukalapak(getActivity()).execute();
-        new GetProduk(getActivity()).execute();
-        swipeRefresh.setRefreshing(false);
     }
 
     private class GetProduk extends AsyncTask<String, Void, String> {
@@ -166,11 +166,16 @@ public class MenuFragment extends Fragment {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            swipeRefresh.setRefreshing(true);
+            menuItems.clear();
+            adapter.notifyDataSetChanged();
+
         }
 
         @Override
         protected String doInBackground(String... params) {
             try {
+
                 String ibuName, menuNama, desc, deliveryDate;
 
                 JSONControl jsControl = new JSONControl();
@@ -231,12 +236,16 @@ public class MenuFragment extends Fragment {
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
+
             switch (result) {
                 case "FAIL":
                     break;
                 case "OK":
                     adapter = new MenuAdapter(menuItems, activity);
                     recyclerView.setAdapter(adapter);
+
+                    swipeRefresh.setRefreshing(false);
+                    swipeRefresh.setEnabled(true);
                     break;
             }
         }

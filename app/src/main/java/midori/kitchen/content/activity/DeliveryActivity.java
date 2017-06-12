@@ -154,7 +154,7 @@ public class DeliveryActivity extends AppCompatActivity
         btnSimpan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!txtAddress.getText().toString().isEmpty() && AppData.latLngDelivery != null) {
+                if(!txtAddress.getText().toString().isEmpty() && AppPrefManager.getInstance(DeliveryActivity.this).getGeocode() != null) {
                     AppPrefManager.getInstance(mActivity).setAlamat(txtAddress.getText().toString());
                     SendBroadcast("changeAlamat", txtAddress.getText().toString());
                     finish();
@@ -166,16 +166,13 @@ public class DeliveryActivity extends AppCompatActivity
         wrapperSimpan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!txtAddress.getText().toString().isEmpty() && AppData.latLngDelivery != null && AppData.distance<18000) {
+                if(!txtAddress.getText().toString().isEmpty() && AppPrefManager.getInstance(DeliveryActivity.this).getGeocode() != null && AppData.distance<18000) {
                     AppPrefManager.getInstance(mActivity).setAlamat(txtAddress.getText().toString());
                     SendBroadcast("changeAlamat", txtAddress.getText().toString());
-                    String formattedAddress = GoogleAPIManager.geocode(AppData.latLngDelivery);
+                    String formattedAddress = GoogleAPIManager.geocode(AppPrefManager.getInstance(DeliveryActivity.this).getGeocode());
                     Log.d("address", formattedAddress);
                     String addresses[] = formattedAddress.split(",");
-                    AppData.invoiceModel.setAddress(addresses[0]);
-                    AppData.invoiceModel.setArea(addresses[2]);
-                    AppData.invoiceModel.setCity(addresses[3]);
-                    AppData.invoiceModel.setProvince(addresses[4].replaceAll("\\d",""));
+
                     AppData.invoiceModel.setPost_code(addresses[4].replaceAll("[^\\d]", ""));
                     finish();
                 }
@@ -195,9 +192,9 @@ public class DeliveryActivity extends AppCompatActivity
         layoutfillForm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!txtAddress.getText().toString().isEmpty() && AppData.latLngDelivery != null) {
+                if(!txtAddress.getText().toString().isEmpty() && AppPrefManager.getInstance(DeliveryActivity.this).getGeocode() != null) {
                     AppPrefManager.getInstance(mActivity).setAlamat(txtAddress.getText().toString());
-                    SendBroadcast("changeAlamat", txtAddress.getText().toString());
+                    SendBroadcast("changeAlamat", "");
                     finish();
                 }
             }
@@ -326,7 +323,8 @@ public class DeliveryActivity extends AppCompatActivity
         Log.d("map click", "Map Click");
         mGoogleMap.clear();
         posTemp = latLng;
-        AppData.latLngDelivery = latLng;
+        //AppData.latLngDelivery = latLng;
+        AppPrefManager.getInstance(DeliveryActivity.this).setGeocode(latLng);
         float zoom = mGoogleMap.getCameraPosition().zoom;
         if (zoom <= 15) {
             zoom = 15;
@@ -342,7 +340,7 @@ public class DeliveryActivity extends AppCompatActivity
             public void onFinish() {
 
                 String address = getAddress(mActivity, posTemp);
-                AppData.latLngDelivery = latLng;
+                AppPrefManager.getInstance(DeliveryActivity.this).setGeocode(latLng);
                 String detail = strDetail;
                 txtAddress.setText(address);
 
@@ -520,7 +518,7 @@ public class DeliveryActivity extends AppCompatActivity
                 case "OK":
                     try {
                         LatLng currentLocation = new LatLng(latitude,longitude);
-                        AppData.latLngDelivery = currentLocation;
+                        AppPrefManager.getInstance(DeliveryActivity.this).setGeocode(currentLocation);
                         googleMap.moveCamera(CameraUpdateFactory.newLatLng(currentLocation));
                         googleMap.animateCamera(CameraUpdateFactory.zoomTo(15));
 
@@ -683,7 +681,7 @@ public class DeliveryActivity extends AppCompatActivity
                         hideKeyboard();
                         GeocodeModel geocode = GoogleAPIManager.geocode(selectedPlace.getAddress());
                         latLng = new LatLng(geocode.getLat(), geocode.getLon());
-                        AppData.latLngDelivery = latLng;
+                        AppPrefManager.getInstance(activity).setGeocode(latLng);
                             markerTemp = mGoogleMap.addMarker(
                                     new MarkerOptions()
                                             .position(latLng)

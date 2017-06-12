@@ -51,7 +51,7 @@
         card_view:riv_corner_radius_top_left="15dp" />
     <RelativeLayout
         android:id="@+id/icon_bukalapak"
-        android:layout_width="80dp"
+        android:layout_width="90dp"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="15dp"
@@ -132,6 +132,7 @@
                     android:layout_marginBottom="5dp"
                     android:ellipsize="marquee"
                     android:maxLines="3"
+                    android:visibility="gone"
                     android:text="Delivery Time :"
                     android:textColor="@color/colorDarkGrey2"
                     android:textSize="12sp" />
@@ -143,6 +144,7 @@
                     android:layout_below="@+id/delivery"
                     android:ellipsize="marquee"
                     android:maxLines="3"
+                    android:visibility="gone"
                     android:text="Senin, 27 Maret 2017"
                     android:textColor="@color/colorDarkGrey"
                     android:textSize="12sp" />

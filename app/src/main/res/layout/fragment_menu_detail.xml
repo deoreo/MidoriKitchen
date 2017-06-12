@@ -200,6 +200,7 @@
                     android:layout_below="@+id/tv_menu"
                     android:layout_marginBottom="5dp"
                     android:text="Delivery Time :"
+                    android:visibility="gone"
                     android:textColor="@color/colorDarkGrey2"
                     android:textSize="14sp" />
 
@@ -211,6 +212,7 @@
                     android:layout_marginBottom="15dp"
                     android:ellipsize="marquee"
                     android:maxLines="3"
+                    android:visibility="gone"
                     android:text=""
                     android:textColor="@color/colorDarkGrey"
                     android:textSize="16sp" />

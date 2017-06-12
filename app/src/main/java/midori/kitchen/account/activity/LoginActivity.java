@@ -5,6 +5,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -49,15 +51,19 @@ import com.koushikdutta.ion.Response;
 
 import org.json.JSONObject;
 
+import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
+
+import javax.net.ssl.HttpsURLConnection;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import midori.kitchen.R;
 import midori.kitchen.account.model.ModelUser;
 import midori.kitchen.content.activity.HomeActivity;
+import midori.kitchen.manager.AppData;
 import midori.kitchen.manager.AppPrefManager;
 import midori.kitchen.manager.ConfigManager;
 import midori.kitchen.manager.JSONControl;
@@ -93,6 +99,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             address = "-",
     city="-", area="-", province="-", postcode = "-";
     private AppPrefManager appPrefManager;
+    private String photobmp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -233,7 +240,9 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                                                 } else {
                                                     email = "";
                                                 }
-                                                photo = object.getJSONObject("picture").getJSONObject("data").getString("url");
+                                                //photo = object.getJSONObject("picture").getJSONObject("data").getString("url");
+                                                photo = id;
+
                                                 Log.d("facebookAccount", id + "/" + fullname + "/" + email + "/" + photo);
                                                 appPrefManager.setIsLoggedIn(true);
                                                 appPrefManager.setUser(id, fullname, email, photo);
@@ -448,10 +457,30 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                     JSONObject responseLogin = jsControl.postLogin(email, password);
                     if (!responseLogin.toString().contains("error")) {
                         ModelUser user = new ModelUser();
+                        user.setId(""+responseLogin.getInt("id"));
                         user.setNama(responseLogin.getString("name"));
                         user.setPonsel(responseLogin.getString("telepon"));
                         user.setEmail(responseLogin.getString("email"));
+                        user.setAlamat(responseLogin.getString("alamat"));
                         user.setApi_key(responseLogin.getString("apiKey"));
+                        appPrefManager.setDeliveryAddress(user.getAlamat());
+                        String alamat[] = user.getAlamat().split(",");
+                        String alamatdetail[] = user.getAlamat().split("\n");
+                        String cleanalamat1= alamatdetail[1].replace("(","");
+                        String cleanalamat2 = cleanalamat1.replace(")", "");
+                        appPrefManager.setAlamat(alamat[0]);
+                        appPrefManager.setArea(alamat[1]);
+                        appPrefManager.setCity(alamat[2]);
+                        appPrefManager.setProvince(alamat[3]);
+                        appPrefManager.setPostCode(alamat[4]);
+                        appPrefManager.setLocationDetail(cleanalamat2);
+                        AppData.invoiceModel.setAddress(appPrefManager.getAlamat());
+                        AppData.invoiceModel.setArea(appPrefManager.getArea());
+                        AppData.invoiceModel.setCity(appPrefManager.getCity());
+                        AppData.invoiceModel.setProvince(appPrefManager.getProvince());
+                        AppData.invoiceModel.setPost_code(appPrefManager.getPostCode());
+
+                        appPrefManager.setUser(user.getId(),user.getNama(),user.getEmail(),user.getPonsel(), user.getAlamat(),photo);
                         appPrefManager.setUserApiKey(user.getApi_key());
                     }
                     return "OK";

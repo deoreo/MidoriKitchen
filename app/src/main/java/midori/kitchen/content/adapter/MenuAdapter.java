@@ -133,39 +133,41 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
 
         @OnClick(R.id.list_item)
         public void onClick(View v) {
-            int i = getAdapterPosition();
-            MenuModel item = menuItems.get(i);
-            Intent intent = new Intent(v.getContext(), DetailActivity.class);
-            AppData.menuModel.setId(item.getId());
-            AppData.menuModel.setMenu(item.getMenu());
-            AppData.menuModel.setDeliveryDate(item.getDeliveryDate());
-            AppData.menuModel.setDescription(item.getDescription());
-            AppData.menuModel.setPrice_menu(item.getPrice_menu());
-            AppData.menuModel.setStok(item.getStok());
-            AppData.menuModel.setPhoto(item.getPhoto());
-            AppData.menuModel.setIbuId(item.getIbuId());
-            AppData.menuModel.setIbuNama(item.getIbuNama());
-            AppData.menuModel.setIbuLat(item.getIbuLat());
-            AppData.menuModel.setIbuLon(item.getIbuLon());
-            AppData.menuModel.setIbuAlamat(item.getIbuAlamat());
-            AppData.menuModel.setIbuTelepon(item.getIbuTelepon());
+            try {
+                int i = getAdapterPosition();
+                MenuModel item = menuItems.get(i);
+                Intent intent = new Intent(v.getContext(), DetailActivity.class);
+                AppData.menuModel.setId(item.getId());
+                AppData.menuModel.setMenu(item.getMenu());
+                AppData.menuModel.setDeliveryDate(item.getDeliveryDate());
+                AppData.menuModel.setDescription(item.getDescription());
+                AppData.menuModel.setPrice_menu(item.getPrice_menu());
+                AppData.menuModel.setStok(item.getStok());
+                AppData.menuModel.setPhoto(item.getPhoto());
+                AppData.menuModel.setIbuId(item.getIbuId());
+                AppData.menuModel.setIbuNama(item.getIbuNama());
+                AppData.menuModel.setIbuLat(item.getIbuLat());
+                AppData.menuModel.setIbuLon(item.getIbuLon());
+                AppData.menuModel.setIbuAlamat(item.getIbuAlamat());
+                AppData.menuModel.setIbuTelepon(item.getIbuTelepon());
 
-            if(AppData.isInteger(AppData.menuModel.getId())){
-                AppData.TAG = "Midori";
-            }
-            Bundle extras = new Bundle();
-            //AppData.id = item.getId();
-            //extras.putString("id", item.getId());
-            extras.putString("tag_detail", AppData.detail_menu_tag);
-            extras.putString("name_detail", item.getMenu());
-            //extras.putString("menu", item.getMenu());
-            //extras.putString("description", item.getDescription());
-            //extras.putString("price", String.valueOf(item.getPrice_menu()));
-            //extras.putString("delivery_date", item.getDeliveryDate());
-            //extras.putString("photo", item.getPhoto());
-            intent.putExtras(extras);
-            activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-            activity.startActivity(intent);
+                if (AppData.isInteger(AppData.menuModel.getId())) {
+                    AppData.TAG = "Midori";
+                }
+                Bundle extras = new Bundle();
+                //AppData.id = item.getId();
+                //extras.putString("id", item.getId());
+                extras.putString("tag_detail", AppData.detail_menu_tag);
+                extras.putString("name_detail", item.getMenu());
+                //extras.putString("menu", item.getMenu());
+                //extras.putString("description", item.getDescription());
+                //extras.putString("price", String.valueOf(item.getPrice_menu()));
+                //extras.putString("delivery_date", item.getDeliveryDate());
+                //extras.putString("photo", item.getPhoto());
+                intent.putExtras(extras);
+                activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                activity.startActivity(intent);
+            }catch (Exception e){}
         }
     }
 

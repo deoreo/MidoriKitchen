@@ -111,6 +111,8 @@ public class HistoryFragment extends Fragment {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            historyItems.clear();
+            adapter.notifyDataSetChanged();
         }
 
         @Override
@@ -122,7 +124,6 @@ public class HistoryFragment extends Fragment {
 
                 Log.d("json responseOrders", response.toString());
 
-                historyItems.clear();
                 if (!response.toString().contains("error")) {
                     JSONArray orders = response.getJSONArray("orders");
                     for(int i =0; i< orders.length();i++){
@@ -169,7 +170,6 @@ public class HistoryFragment extends Fragment {
                 case "OK":
                     adapter = new HistroyAdapter(historyItems, activity);
                     recyclerView.setAdapter(adapter);
-                    adapter.notifyDataSetChanged();
                     swipeRefresh.setRefreshing(false);
                     break;
             }
