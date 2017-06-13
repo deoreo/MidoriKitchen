@@ -106,7 +106,13 @@ public class AppPrefManager {
         editor.remove(KEY_EMAIL);
         editor.remove(KEY_PHOTO);
         editor.remove(KEY_PHONE);
-
+        editor.remove(KEY_ALAMAT);
+        editor.remove(KEY_PROVINCE);
+        editor.remove(KEY_CITY);
+        editor.remove(KEY_AREA);
+        editor.remove(KEY_DELIVERY_ADDRESS);
+        editor.remove(KEY_LOCATION_DETAIL);
+        editor.remove(KEY_POST_CODE);
         editor.apply();
     }
 

@@ -112,7 +112,7 @@ public class ProfileActivity extends AppCompatActivity {
             public void onReceive(Context context, Intent intent) {
                 // Extract data included in the Intent
                 Log.d("", "broadcast changeAlamat");
-                dialogAddress.dismiss();
+
                 InitDialogAddress();
             }
         };
@@ -209,10 +209,10 @@ public class ProfileActivity extends AppCompatActivity {
         String kodepos = appPrefManager.getPostCode();
         String delivery_address = alamat+","+area+","+city+","+propinsi+","+kodepos+",\n("+location_detail+")";
         AppPrefManager.getInstance(activity).setDeliveryAddress(delivery_address);
-        if(alamat != null)
-        etAddress.setText(delivery_address);
+        if(!delivery_address.contains("null"))
+            etAddress.setText(delivery_address);
         else
-            etAddress.setText("");
+            etAddress.setHint("Silahkan melengkapi alamat Anda");
     }
 
     private void initToolbar() {
@@ -278,6 +278,9 @@ public class ProfileActivity extends AppCompatActivity {
 
 
     private void InitDialogAddress() {
+        try{
+            dialogAddress.dismiss();
+        }catch (Exception e){}
         dialogAddress = new AlertDialog.Builder(activity)
                 .setTitle("")
                 .setView(R.layout.popup_address)

@@ -186,7 +186,6 @@ public class MenuDetailFragment extends Fragment {
                 menuModel.setStok(response.getInt("menuStok"));
                 menuModel.setDeliveryDate(response.getString("menuJadwal"));
                 menuModel.setPhoto(response.getString("menuImage"));
-                menuModel.setIbuId(""+response.getInt("ibuId"));
                 menuModel.setIbuNama(response.getString("ibuNama"));
                 menuModel.setIbuAlamat(response.getString("ibuAlamat"));
                 menuModel.setIbuLat(response.getDouble("ibuLat"));

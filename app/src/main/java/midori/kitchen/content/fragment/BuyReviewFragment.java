@@ -269,10 +269,11 @@ public class BuyReviewFragment extends Fragment {
                 AppData.total_harga = "" + ((AppData.menuModel.getPrice_menu() * AppData.menuModel.getTotal_menu()) + AppData.menuModel.getDelivery_price());
             }
         };
-
-//        if(AppPrefManager.getInstance(getActivity()).getAlamat()!=""){
-//            etAddress.setText(AppPrefManager.getInstance(getActivity()).getAlamat());
-//        }
+        if(!AppPrefManager.getInstance(getActivity()).getDeliveryAddress().contains("null")) {
+            etAddress.setText(AppPrefManager.getInstance(getActivity()).getDeliveryAddress());
+        }else{
+            etAddress.setHint("");
+        }
 
 
     }
@@ -648,7 +649,11 @@ public class BuyReviewFragment extends Fragment {
                     break;
 
                 case "OK":
-                    etAddress.setText(AppPrefManager.getInstance(activity).getDeliveryAddress());
+                    if(!AppPrefManager.getInstance(activity).getDeliveryAddress().contains("null")) {
+                        etAddress.setText(AppPrefManager.getInstance(activity).getDeliveryAddress());
+                    }else{
+                        etAddress.setHint("");
+                    }
                     tvDeliveryPrice.setText("Rp. " + deliveryPrice);
                     tvDistance.setText(AppData.distance + " KM");
                     tvTotalPay.setText("Rp. " + ((AppData.menuModel.getPrice_menu() * AppData.menuModel.getTotal_menu()) + AppData.menuModel.getDelivery_price()));

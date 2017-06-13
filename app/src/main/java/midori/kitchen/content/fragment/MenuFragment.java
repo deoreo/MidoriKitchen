@@ -81,7 +81,7 @@ public class MenuFragment extends Fragment {
     }
 
     private void getDataMenu() {
-        new GetProdukBukalapak(getActivity()).execute();
+        new GetProduk(getActivity()).execute();
     }
 
     private class GetProduk extends AsyncTask<String, Void, String> {
@@ -99,6 +99,9 @@ public class MenuFragment extends Fragment {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            swipeRefresh.setRefreshing(true);
+            menuItems.clear();
+            adapter.notifyDataSetChanged();
         }
 
         @Override
@@ -146,6 +149,8 @@ public class MenuFragment extends Fragment {
                 case "OK":
                     adapter = new MenuAdapter(menuItems, activity);
                     recyclerView.setAdapter(adapter);
+                    swipeRefresh.setRefreshing(false);
+                    swipeRefresh.setEnabled(true);
                     break;
             }
         }
