@@ -12,6 +12,9 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled = true
+        manifestPlaceholders = [onesignal_app_id: "1c4e8cb6-8888-4de8-bcf7-e4ed6fc4d377",
+                                // Project number pulled from dashboard, local value is ignored.
+                                onesignal_google_project_number: "REMOTE"]
     }
     buildTypes {
         release {
@@ -90,6 +93,7 @@ dependencies {
     compile 'com.koushikdutta.async:androidasync:2.+'
     compile 'com.github.yesidlazaro:GmailBackground:1.2.0'
     testCompile 'junit:junit:4.12'
+    compile 'com.onesignal:OneSignal:[3.5.3,4.0.0)'
 
     //spinner
     compile 'com.github.ganfra:material-spinner:1.1.1'

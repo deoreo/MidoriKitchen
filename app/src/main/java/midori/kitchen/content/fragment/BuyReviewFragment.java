@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -44,8 +46,11 @@ import java.net.URLEncoder;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import fr.ganfra.materialspinner.MaterialSpinner;
 import midori.kitchen.R;
 //import midori.kitchen.content.activity.ChangeLocationActivity;
+import midori.kitchen.content.activity.ChangeLocationActivity;
+import midori.kitchen.content.activity.DeliveryActivity;
 import midori.kitchen.content.adapter.MenuAdapter;
 import midori.kitchen.content.model.MenuModel;
 import midori.kitchen.manager.AppData;
@@ -53,6 +58,9 @@ import midori.kitchen.manager.AppPrefManager;
 import midori.kitchen.manager.ConfigManager;
 import midori.kitchen.manager.GoogleAPIManager;
 import midori.kitchen.manager.JSONControl;
+import midori.kitchen.profile.activity.ProfileActivity;
+
+import static android.R.layout.simple_spinner_item;
 
 /**
  * Created by M. Asrof Bayhaqqi on 3/11/2017.
@@ -106,7 +114,7 @@ public class BuyReviewFragment extends Fragment {
     private BroadcastReceiver changeAlamat, changeDistance, changePriceDelivery;
     private String[] provincesArray, cities, areas;
     LatLng ibuLocation = new LatLng(AppData.menuModel.getIbuLat(), AppData.menuModel.getIbuLon());
-
+    private AppPrefManager appPrefManager;
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_buy_review, container, false);
@@ -117,7 +125,7 @@ public class BuyReviewFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        appPrefManager = new AppPrefManager(getActivity());
         initView();
         initSpinnerDelivery();
         initButtonNext();
@@ -236,14 +244,14 @@ public class BuyReviewFragment extends Fragment {
         tvDeliveryPrice.setText("Rp. " + AppData.menuModel.getDelivery_price());
         AppData.total_harga = "" + ((AppData.menuModel.getPrice_menu() * AppData.menuModel.getTotal_menu()) + AppData.menuModel.getDelivery_price());
 
-//        changeAlamat = new BroadcastReceiver() {
-//            @Override
-//            public void onReceive(Context context, Intent intent) {
-//                // Extract data included in the Intent
-//                Log.d("", "broadcast changeAlamat");
-//                etAddress.setText(AppPrefManager.getInstance(getActivity()).getAlamat());
-//            }
-//        };
+        changeAlamat = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                // Extract data included in the Intent
+                Log.d("", "broadcast changeAlamat");
+                etAddress.setText(AppPrefManager.getInstance(getActivity()).getAlamat());
+            }
+        };
 
         new GetShippingFee(getActivity()).execute();
 
@@ -269,11 +277,18 @@ public class BuyReviewFragment extends Fragment {
                 AppData.total_harga = "" + ((AppData.menuModel.getPrice_menu() * AppData.menuModel.getTotal_menu()) + AppData.menuModel.getDelivery_price());
             }
         };
-        if(!AppPrefManager.getInstance(getActivity()).getDeliveryAddress().contains("null")) {
-            etAddress.setText(AppPrefManager.getInstance(getActivity()).getDeliveryAddress());
-        }else{
-            etAddress.setHint("");
+        String alamat =appPrefManager.getAlamat();
+        String propinsi= appPrefManager.getProvince();
+        String city = appPrefManager.getCity();
+        String area = appPrefManager.getArea();
+        String location_detail = appPrefManager.getLocationDetail();
+        if(location_detail.isEmpty()){
+            location_detail = "Tidak ada detail lokasi";
         }
+        String delivery_address = alamat+", Kecamatan "+area+"\n"+city+" - "+propinsi+",\n("+location_detail+")";
+        AppPrefManager.getInstance(getActivity()).setDeliveryAddress(delivery_address);
+        etAddress.setText(delivery_address);
+
 
 
     }
@@ -288,45 +303,45 @@ public class BuyReviewFragment extends Fragment {
                 minusCountMenu();
                 break;
             case R.id.et_address:
-                //gotoLocation();
+                gotoLocation();
                 break;
-            case R.id.et_province:
-                new GetProvinces("manual").execute();
-                break;
-            case R.id.et_city:
-                if (!etProvince.getText().toString().isEmpty()) {
-                    new GetCity("manual", etProvince.getText().toString()).execute();
-                } else {
-                    new MaterialDialog.Builder(getActivity())
-                            .title("Mohon maaf...")
-                            .content("Silahkan pilih Provinsi pengiriman")
-                            .typeface("GothamRnd-Book.otf", "GothamRnd-Light.otf")
-                            .positiveText("OK")
-                            .show();
-
-                }
-                break;
-            case R.id.et_area:
-                if (etProvince.getText().toString().isEmpty()) {
-                    new MaterialDialog.Builder(getActivity())
-                            .title("Mohon maaf...")
-                            .content("Silahkan pilih Provinsi pengiriman")
-                            .typeface("GothamRnd-Book.otf", "GothamRnd-Light.otf")
-                            .positiveText("OK")
-                            .show();
-
-                } else if (etCity.getText().toString().isEmpty()) {
-                    new MaterialDialog.Builder(getActivity())
-                            .title("Mohon maaf...")
-                            .content("Silahkan pilih Kota pengiriman")
-                            .typeface("GothamRnd-Book.otf", "GothamRnd-Light.otf")
-                            .positiveText("OK")
-                            .show();
-
-                } else {
-                    new GetArea("manual", AppData.invoiceModel.getProvince(), AppData.invoiceModel.getCity()).execute();
-                }
-                break;
+//            case R.id.et_province:
+//                new GetProvinces("manual").execute();
+//                break;
+//            case R.id.et_city:
+//                if (!etProvince.getText().toString().isEmpty()) {
+//                    new GetCity("manual", etProvince.getText().toString()).execute();
+//                } else {
+//                    new MaterialDialog.Builder(getActivity())
+//                            .title("Mohon maaf...")
+//                            .content("Silahkan pilih Provinsi pengiriman")
+//                            .typeface("GothamRnd-Book.otf", "GothamRnd-Light.otf")
+//                            .positiveText("OK")
+//                            .show();
+//
+//                }
+//                break;
+//            case R.id.et_area:
+//                if (etProvince.getText().toString().isEmpty()) {
+//                    new MaterialDialog.Builder(getActivity())
+//                            .title("Mohon maaf...")
+//                            .content("Silahkan pilih Provinsi pengiriman")
+//                            .typeface("GothamRnd-Book.otf", "GothamRnd-Light.otf")
+//                            .positiveText("OK")
+//                            .show();
+//
+//                } else if (etCity.getText().toString().isEmpty()) {
+//                    new MaterialDialog.Builder(getActivity())
+//                            .title("Mohon maaf...")
+//                            .content("Silahkan pilih Kota pengiriman")
+//                            .typeface("GothamRnd-Book.otf", "GothamRnd-Light.otf")
+//                            .positiveText("OK")
+//                            .show();
+//
+//                } else {
+//                    new GetArea("manual", AppData.invoiceModel.getProvince(), AppData.invoiceModel.getCity()).execute();
+//                }
+//                break;
         }
     }
 
@@ -368,6 +383,7 @@ public class BuyReviewFragment extends Fragment {
     private void gotoLocation() {
 //        Intent j = new Intent(getActivity(), ChangeLocationActivity.class);
 //        startActivity(j);
+        InitDialogAddress();
     }
 
 
@@ -384,204 +400,204 @@ public class BuyReviewFragment extends Fragment {
 
     }
 
-    private class GetProvinces extends AsyncTask<String, Void, String> {
-
-        private String TAG;
-
-        public GetProvinces(String TAG) {
-            this.TAG = TAG;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected String doInBackground(String... params) {
-            try {
-                JSONControl jsControl = new JSONControl();
-                JSONObject response = jsControl.BukalapakGetProvinces();
-                JSONArray responseJSONArray = response.getJSONArray("provinces");
-                provincesArray = new String[responseJSONArray.length()];
-                for (int i = 0; i < responseJSONArray.length(); i++) {
-                    provincesArray[i] = responseJSONArray.getString(i);
-                }
-
-                return "OK";
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return "OK";
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            super.onPostExecute(result);
-            switch (result) {
-                case "FAIL":
-                    break;
-                case "OK":
-                    if (TAG == "manual") {
-                        new MaterialDialog.Builder(getActivity())
-                                .title("Provinces")
-                                .items(provincesArray)
-                                .typeface("GothamRnd-Book.otf", "GothamRnd-Light.otf")
-                                .itemsCallbackSingleChoice(-1, new MaterialDialog.ListCallbackSingleChoice() {
-                                    @Override
-                                    public boolean onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
-                                        try {
-                                            etProvince.setText(text.toString());
-                                            AppData.invoiceModel.setProvince(text.toString());
-                                        } catch (Exception e) {
-
-                                        }
-                                        return true;
-                                    }
-                                })
-                                .positiveText("OK")
-                                .show();
-                    }
-                    break;
-            }
-        }
-    }
-
-    private class GetCity extends AsyncTask<String, Void, String> {
-
-        private String TAG, province;
-
-        public GetCity(String TAG, String province) {
-            this.TAG = TAG;
-            this.province = province;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected String doInBackground(String... params) {
-            try {
-                JSONControl jsControl = new JSONControl();
-                JSONObject response = jsControl.BukalapakGetCity(province);
-                JSONArray responseJSONArray = response.getJSONArray("cities");
-                cities = new String[responseJSONArray.length()];
-                for (int i = 0; i < responseJSONArray.length(); i++) {
-                    cities[i] = responseJSONArray.getString(i);
-                }
-                return "OK";
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return "OK";
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            super.onPostExecute(result);
-            switch (result) {
-                case "FAIL":
-                    break;
-
-                case "OK":
-                    if (TAG == "manual") {
-                        new MaterialDialog.Builder(getActivity())
-                                .title("Cities")
-                                .items(cities)
-                                .typeface("GothamRnd-Book.otf", "GothamRnd-Light.otf")
-                                .itemsCallbackSingleChoice(-1, new MaterialDialog.ListCallbackSingleChoice() {
-                                    @Override
-                                    public boolean onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
-                                        try {
-                                            etCity.setText(text.toString());
-                                            AppData.invoiceModel.setCity(text.toString());
-                                        } catch (Exception e) {
-
-                                        }
-                                        return true;
-                                    }
-                                })
-                                .positiveText("OK")
-                                .show();
-                    }
-                    break;
-            }
-        }
-    }
-
-    private class GetArea extends AsyncTask<String, Void, String> {
-
-        private String TAG, province, city;
-
-        public GetArea(String TAG, String province, String city) {
-            this.TAG = TAG;
-            this.province = province;
-            this.city = city;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected String doInBackground(String... params) {
-            try {
-
-                JSONControl jsControl = new JSONControl();
-                JSONObject response = jsControl.BukalapakGetArea();
-                JSONObject responseAddress = response.getJSONObject("address");
-                JSONObject responseProvince = responseAddress.getJSONObject(province);
-                JSONArray responseCity = responseProvince.getJSONArray(city);
-                areas = new String[responseCity.length()];
-                for (int i = 0; i < responseCity.length(); i++) {
-                    areas[i] = responseCity.getString(i);
-                }
-
-                return "OK";
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return "OK";
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            super.onPostExecute(result);
-            switch (result) {
-                case "FAIL":
-                    break;
-
-                case "OK":
-                    if (TAG == "manual") {
-                        new MaterialDialog.Builder(getActivity())
-                                .title("Areas")
-                                .items(areas)
-                                .typeface("GothamRnd-Book.otf", "GothamRnd-Light.otf")
-                                .itemsCallbackSingleChoice(-1, new MaterialDialog.ListCallbackSingleChoice() {
-                                    @Override
-                                    public boolean onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
-                                        try {
-                                            etArea.setText(text.toString());
-                                            AppData.invoiceModel.setArea(text.toString());
-                                        } catch (Exception e) {
-
-                                        }
-                                        return true;
-                                    }
-                                })
-                                .positiveText("OK")
-                                .show();
-                    }
-                    break;
-            }
-        }
-    }
+//    private class GetProvinces extends AsyncTask<String, Void, String> {
+//
+//        private String TAG;
+//
+//        public GetProvinces(String TAG) {
+//            this.TAG = TAG;
+//        }
+//
+//        @Override
+//        protected void onPreExecute() {
+//            super.onPreExecute();
+//        }
+//
+//        @Override
+//        protected String doInBackground(String... params) {
+//            try {
+//                JSONControl jsControl = new JSONControl();
+//                JSONObject response = jsControl.BukalapakGetProvinces();
+//                JSONArray responseJSONArray = response.getJSONArray("provinces");
+//                provincesArray = new String[responseJSONArray.length()];
+//                for (int i = 0; i < responseJSONArray.length(); i++) {
+//                    provincesArray[i] = responseJSONArray.getString(i);
+//                }
+//
+//                return "OK";
+//
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//            return "OK";
+//        }
+//
+//        @Override
+//        protected void onPostExecute(String result) {
+//            super.onPostExecute(result);
+//            switch (result) {
+//                case "FAIL":
+//                    break;
+//                case "OK":
+//                    if (TAG == "manual") {
+//                        new MaterialDialog.Builder(getActivity())
+//                                .title("Provinces")
+//                                .items(provincesArray)
+//                                .typeface("GothamRnd-Book.otf", "GothamRnd-Light.otf")
+//                                .itemsCallbackSingleChoice(-1, new MaterialDialog.ListCallbackSingleChoice() {
+//                                    @Override
+//                                    public boolean onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
+//                                        try {
+//                                            etProvince.setText(text.toString());
+//                                            AppData.invoiceModel.setProvince(text.toString());
+//                                        } catch (Exception e) {
+//
+//                                        }
+//                                        return true;
+//                                    }
+//                                })
+//                                .positiveText("OK")
+//                                .show();
+//                    }
+//                    break;
+//            }
+//        }
+//    }
+//
+//    private class GetCity extends AsyncTask<String, Void, String> {
+//
+//        private String TAG, province;
+//
+//        public GetCity(String TAG, String province) {
+//            this.TAG = TAG;
+//            this.province = province;
+//        }
+//
+//        @Override
+//        protected void onPreExecute() {
+//            super.onPreExecute();
+//        }
+//
+//        @Override
+//        protected String doInBackground(String... params) {
+//            try {
+//                JSONControl jsControl = new JSONControl();
+//                JSONObject response = jsControl.BukalapakGetCity(province);
+//                JSONArray responseJSONArray = response.getJSONArray("cities");
+//                cities = new String[responseJSONArray.length()];
+//                for (int i = 0; i < responseJSONArray.length(); i++) {
+//                    cities[i] = responseJSONArray.getString(i);
+//                }
+//                return "OK";
+//
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//            return "OK";
+//        }
+//
+//        @Override
+//        protected void onPostExecute(String result) {
+//            super.onPostExecute(result);
+//            switch (result) {
+//                case "FAIL":
+//                    break;
+//
+//                case "OK":
+//                    if (TAG == "manual") {
+//                        new MaterialDialog.Builder(getActivity())
+//                                .title("Cities")
+//                                .items(cities)
+//                                .typeface("GothamRnd-Book.otf", "GothamRnd-Light.otf")
+//                                .itemsCallbackSingleChoice(-1, new MaterialDialog.ListCallbackSingleChoice() {
+//                                    @Override
+//                                    public boolean onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
+//                                        try {
+//                                            etCity.setText(text.toString());
+//                                            AppData.invoiceModel.setCity(text.toString());
+//                                        } catch (Exception e) {
+//
+//                                        }
+//                                        return true;
+//                                    }
+//                                })
+//                                .positiveText("OK")
+//                                .show();
+//                    }
+//                    break;
+//            }
+//        }
+//    }
+//
+//    private class GetArea extends AsyncTask<String, Void, String> {
+//
+//        private String TAG, province, city;
+//
+//        public GetArea(String TAG, String province, String city) {
+//            this.TAG = TAG;
+//            this.province = province;
+//            this.city = city;
+//        }
+//
+//        @Override
+//        protected void onPreExecute() {
+//            super.onPreExecute();
+//        }
+//
+//        @Override
+//        protected String doInBackground(String... params) {
+//            try {
+//
+//                JSONControl jsControl = new JSONControl();
+//                JSONObject response = jsControl.BukalapakGetArea();
+//                JSONObject responseAddress = response.getJSONObject("address");
+//                JSONObject responseProvince = responseAddress.getJSONObject(province);
+//                JSONArray responseCity = responseProvince.getJSONArray(city);
+//                areas = new String[responseCity.length()];
+//                for (int i = 0; i < responseCity.length(); i++) {
+//                    areas[i] = responseCity.getString(i);
+//                }
+//
+//                return "OK";
+//
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//            return "OK";
+//        }
+//
+//        @Override
+//        protected void onPostExecute(String result) {
+//            super.onPostExecute(result);
+//            switch (result) {
+//                case "FAIL":
+//                    break;
+//
+//                case "OK":
+//                    if (TAG == "manual") {
+//                        new MaterialDialog.Builder(getActivity())
+//                                .title("Areas")
+//                                .items(areas)
+//                                .typeface("GothamRnd-Book.otf", "GothamRnd-Light.otf")
+//                                .itemsCallbackSingleChoice(-1, new MaterialDialog.ListCallbackSingleChoice() {
+//                                    @Override
+//                                    public boolean onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
+//                                        try {
+//                                            etArea.setText(text.toString());
+//                                            AppData.invoiceModel.setArea(text.toString());
+//                                        } catch (Exception e) {
+//
+//                                        }
+//                                        return true;
+//                                    }
+//                                })
+//                                .positiveText("OK")
+//                                .show();
+//                    }
+//                    break;
+//            }
+//        }
+//    }
 
 
     private class GetShippingFee extends AsyncTask<String, Void, String> {
@@ -661,6 +677,278 @@ public class BuyReviewFragment extends Fragment {
             }
         }
     }
+
+    private AlertDialog dialogAddress;
+    private void InitDialogAddress() {
+        try{
+            dialogAddress.dismiss();
+        }catch (Exception e){}
+        dialogAddress = new AlertDialog.Builder(getActivity())
+                .setTitle("")
+                .setView(R.layout.popup_address)
+                .create();
+        if(!dialogAddress.isShowing()) {
+            dialogAddress.show();
+        }
+        final TextView tvAddressMap = (TextView) dialogAddress.findViewById(R.id.et_map_address);
+        final MaterialSpinner spinnerProvince = (MaterialSpinner) dialogAddress.findViewById(R.id.et_province);
+        final MaterialSpinner spinnerCity = (MaterialSpinner) dialogAddress.findViewById(R.id.et_city);
+        final MaterialSpinner spinnerArea = (MaterialSpinner) dialogAddress.findViewById(R.id.et_area);
+        final EditText etLocationDetail = (EditText)dialogAddress.findViewById(R.id.et_location_detail);
+        new GetProvinces("manual", spinnerProvince).execute();
+        tvAddressMap.setText(AppPrefManager.getInstance(getActivity()).getAlamat());
+
+        tvAddressMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent j = new Intent(getActivity(), DeliveryActivity.class);
+                startActivity(j);
+            }
+        });
+
+        spinnerProvince.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(!spinnerProvince.getSelectedItem().toString().equalsIgnoreCase("province")) {
+                    new GetCity("manual", spinnerProvince.getSelectedItem().toString(), spinnerCity).execute();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        spinnerCity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(!spinnerCity.getSelectedItem().toString().equalsIgnoreCase("city")) {
+                    new GetArea("manual", spinnerProvince.getSelectedItem().toString(), spinnerCity.getSelectedItem().toString(), spinnerArea).execute();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+//        etAddress = (TextView) dialogAddress.findViewById(R.id.et_address);
+        // set the custom dialog components - text, image and button
+//        txtMessage = (TextView) dialogAddress.findViewById(R.id.txtMessage);
+//        txtEmail = (EditText) dialogLogin.findViewById(R.id.txtEmail);
+//        txtPassword = (EditText) dialogLogin.findViewById(R.id.txtPassword);
+        Button cancel = (Button) dialogAddress.findViewById(R.id.btnCancel);
+        Button confirm = (Button) dialogAddress.findViewById(R.id.btnConfirm);
+//
+//        txtMessage.setText("");
+        // if button is clicked, close the custom dialog
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogAddress.dismiss();
+            }
+        });
+        confirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AppPrefManager.getInstance(getActivity()).setAlamat(tvAddressMap.getText().toString());
+                AppPrefManager.getInstance(getActivity()).setProvince(spinnerProvince.getSelectedItem().toString());
+                AppPrefManager.getInstance(getActivity()).setCity(spinnerCity.getSelectedItem().toString());
+                AppPrefManager.getInstance(getActivity()).setArea(spinnerArea.getSelectedItem().toString());
+                AppPrefManager.getInstance(getActivity()).setLocationDetail(etLocationDetail.getText().toString());
+                String alamat =appPrefManager.getAlamat();
+                String propinsi= appPrefManager.getProvince();
+                String city = appPrefManager.getCity();
+                String area = appPrefManager.getArea();
+                String location_detail = appPrefManager.getLocationDetail();
+                AppData.invoiceModel.setAddress(alamat);
+                AppData.invoiceModel.setArea(area);
+                AppData.invoiceModel.setCity(city);
+                AppData.invoiceModel.setProvince(propinsi);
+                String kodepos = appPrefManager.getPostCode();
+                String delivery_address = alamat+","+area+","+city+","+propinsi+","+kodepos+",\n("+location_detail+")";
+                AppPrefManager.getInstance(getActivity()).setDeliveryAddress(delivery_address);
+                etAddress.setText(delivery_address);
+                dialogAddress.dismiss();
+            }
+        });
+    }
+    private class GetProvinces extends AsyncTask<String, Void, String> {
+        private MaterialSpinner spinner;
+        private  String TAG;
+        private ProgressDialog progressDialog;
+        public GetProvinces(String TAG, MaterialSpinner spinner){
+            this.TAG = TAG;
+            this.spinner = spinner;
+        }
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressDialog = new ProgressDialog(getActivity());
+            progressDialog.setMessage("Memuat Propinsi. . .");
+            progressDialog.setIndeterminate(false);
+            progressDialog.setCancelable(false);
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progressDialog.show();
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+                JSONControl jsControl = new JSONControl();
+                JSONObject response = jsControl.BukalapakGetProvinces();
+                JSONArray responseJSONArray = response.getJSONArray("provinces");
+                provincesArray = new String[responseJSONArray.length()];
+                for(int i =0; i< responseJSONArray.length();i++){
+                    provincesArray[i] = responseJSONArray.getString(i);
+                }
+
+                return "OK";
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return "OK";
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            progressDialog.dismiss();
+            switch (result) {
+                case "FAIL":
+                    break;
+                case "OK":
+                    if(TAG == "manual") {
+                        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), simple_spinner_item, provincesArray);
+                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        spinner.setAdapter(adapter);
+                    }
+                    break;
+            }
+        }
+    }
+    private class GetCity extends AsyncTask<String, Void, String> {
+        private MaterialSpinner spinner;
+        private ProgressDialog progressDialog;
+        private  String TAG,province;
+        public GetCity(String TAG, String province, MaterialSpinner spinner){
+            this.TAG = TAG;
+            this.province = province;
+            this.spinner = spinner;
+        }
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressDialog = new ProgressDialog(getActivity());
+            progressDialog.setMessage("Memuat Kota. . .");
+            progressDialog.setIndeterminate(false);
+            progressDialog.setCancelable(false);
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progressDialog.show();
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+                JSONControl jsControl = new JSONControl();
+                JSONObject response = jsControl.BukalapakGetCity(province);
+                JSONArray responseJSONArray = response.getJSONArray("cities");
+                cities = new String[responseJSONArray.length()];
+                for(int i =0; i< responseJSONArray.length();i++){
+                    cities[i] = responseJSONArray.getString(i);
+                }
+                return "OK";
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return "OK";
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            progressDialog.dismiss();
+            switch (result) {
+                case "FAIL":
+                    break;
+
+                case "OK":
+                    if(TAG == "manual") {
+                        try {
+                            ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), simple_spinner_item, cities);
+                            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                            spinner.setAdapter(adapter);
+                        }catch (Exception e){}
+                    }
+                    break;
+            }
+        }
+    }
+    private class GetArea extends AsyncTask<String, Void, String> {
+        private MaterialSpinner spinner;
+        private ProgressDialog progressDialog;
+        private  String TAG, province, city;
+        public GetArea(String TAG, String province, String city, MaterialSpinner spinner){
+            this.TAG = TAG;
+            this.province = province;
+            this.city = city;
+            this.spinner = spinner;
+        }
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressDialog = new ProgressDialog(getActivity());
+            progressDialog.setMessage("Memuat Area. . .");
+            progressDialog.setIndeterminate(false);
+            progressDialog.setCancelable(false);
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progressDialog.show();
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+
+                JSONControl jsControl = new JSONControl();
+                JSONObject response = jsControl.BukalapakGetArea();
+                JSONObject responseAddress = response.getJSONObject("address");
+                JSONObject responseProvince = responseAddress.getJSONObject(province);
+                JSONArray responseCity = responseProvince.getJSONArray(city);
+                areas = new String[responseCity.length()];
+                for(int i=0;i<responseCity.length();i++){
+                    areas[i] = responseCity.getString(i);
+                }
+
+                return "OK";
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return "OK";
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            progressDialog.dismiss();
+            switch (result) {
+                case "FAIL":
+                    break;
+
+                case "OK":
+                    if(TAG == "manual") {
+                        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), simple_spinner_item, areas);
+                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        spinner.setAdapter(adapter);
+                    }
+                    break;
+            }
+        }
+    }
+
 
 
 }

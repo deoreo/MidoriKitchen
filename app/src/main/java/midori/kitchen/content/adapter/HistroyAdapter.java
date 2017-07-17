@@ -246,7 +246,7 @@ public class HistroyAdapter extends RecyclerView.Adapter<HistroyAdapter.ViewHold
 
             BackgroundMail.newBuilder(activity)
                     .withUsername("midorichef@gmail.com")
-                    .withPassword("musLim@06")
+                    .withPassword("adminmk123")
                     .withMailto("admin@midorikitchen.top")
                     .withType(BackgroundMail.TYPE_PLAIN)
                     .withSubject("Konfirmasi Pesanan no. "+order_id)

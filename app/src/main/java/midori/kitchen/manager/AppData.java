@@ -68,6 +68,7 @@ public class AppData {
     public static String menu_nama_history;
     public static ResepModel resepModel;
     public static Bitmap potobitmap;
+    public static LatLng latLngDelivery;
 
     public static boolean isInteger(String s) {
         try {

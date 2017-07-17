@@ -206,13 +206,14 @@ public class ProfileActivity extends AppCompatActivity {
         String city = appPrefManager.getCity();
         String area = appPrefManager.getArea();
         String location_detail = appPrefManager.getLocationDetail();
+        if(location_detail.isEmpty()){
+            location_detail = "Tidak ada detail lokasi";
+        }
         String kodepos = appPrefManager.getPostCode();
-        String delivery_address = alamat+","+area+","+city+","+propinsi+","+kodepos+",\n("+location_detail+")";
+        String delivery_address = alamat+", Kecamatan "+area+"\n"+city+" - "+propinsi+",\n("+location_detail+")";
         AppPrefManager.getInstance(activity).setDeliveryAddress(delivery_address);
-        if(!delivery_address.contains("null"))
-            etAddress.setText(delivery_address);
-        else
-            etAddress.setHint("Silahkan melengkapi alamat Anda");
+        etAddress.setText(delivery_address);
+
     }
 
     private void initToolbar() {

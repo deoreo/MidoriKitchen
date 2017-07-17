@@ -544,7 +544,7 @@ public class BuyPaymentFragment extends Fragment {
 
         BackgroundMail.newBuilder(getActivity())
                 .withUsername("midorichef@gmail.com")
-                .withPassword("musLim@06")
+                .withPassword("adminmk123")
                 .withMailto(AppPrefManager.getInstance(getActivity()).getUser().get(AppPrefManager.KEY_EMAIL))
                 .withType(BackgroundMail.TYPE_PLAIN)
                 .withSubject("Konfirmasi Pesanan no. "+order_id)
