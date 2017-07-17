@@ -26,13 +26,13 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import midori.chef.manager.ChefPrefManager;
 import midori.kitchen.R;
 import midori.chef.activity.LoginActivity;
 import midori.chef.content.fragment.AkunFragment;
 import midori.chef.content.fragment.MenuFragment;
 import midori.chef.content.fragment.TransaksiFragment;
 import midori.chef.extension.CustomViewPager;
-import midori.chef.manager.AppPrefManager;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class HomeActivity extends AppCompatActivity {
@@ -60,7 +60,15 @@ public class HomeActivity extends AppCompatActivity {
             R.drawable.ic_person_outline_white_24dp
 
     };
-    private AppPrefManager appPrefManager;
+    private ChefPrefManager chefPrefManager;
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startActivity(new Intent(HomeActivity.this, midori.kitchen.content.activity.HomeActivity.class));
+        finish();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,7 +77,7 @@ public class HomeActivity extends AppCompatActivity {
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Midori Chef");
-        appPrefManager = new AppPrefManager(getApplicationContext());
+        chefPrefManager = new ChefPrefManager(getApplicationContext());
         setUpTabLayout();
     }
 
@@ -134,7 +142,7 @@ public class HomeActivity extends AppCompatActivity {
                         .setMessage("Apakah anda ingin Logout?")
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
-                                appPrefManager.logout();
+                                chefPrefManager.logout();
                                 launchLogin();
                             }
                         }).setNegativeButton("Cancel", null).show();

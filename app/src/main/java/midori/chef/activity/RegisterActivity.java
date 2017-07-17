@@ -35,10 +35,10 @@ import com.rengwuxian.materialedittext.MaterialEditText;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import midori.chef.manager.ChefPrefManager;
 import midori.kitchen.R;
 import midori.chef.manager.AppController;
 import midori.chef.manager.AppData;
-import midori.chef.manager.AppPrefManager;
 import midori.chef.manager.ConfigManager;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -67,7 +67,7 @@ public class RegisterActivity extends AppCompatActivity {
     @BindView(R.id.rootLayout)
     RelativeLayout rootLayout;
 
-    private AppPrefManager appPrefManager;
+    private ChefPrefManager chefPrefManager;
     private String name;
     private String phone;
     private String address;
@@ -81,7 +81,7 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
         ButterKnife.bind(this);
         logo.bringToFront();
-        appPrefManager = new AppPrefManager(getApplicationContext());
+        chefPrefManager = new ChefPrefManager(getApplicationContext());
         //-7.9346969,112.6535343
     }
 
@@ -94,7 +94,7 @@ public class RegisterActivity extends AppCompatActivity {
         confirm_password = etConfirmPassword.getText().toString().trim();
 
         if (validateRegister(name, phone, address, password, confirm_password)) {
-            //appPrefManager.setUser("",name,email,address,phone,"");
+            //chefPrefManager.setUser("",name,email,address,phone,"");
             new GetMyLocation(this).execute();
         }
 

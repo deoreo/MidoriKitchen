@@ -50,12 +50,12 @@ import java.util.Calendar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import midori.chef.manager.ChefPrefManager;
 import midori.kitchen.R;
 import midori.chef.content.model.MenuModel;
 import midori.chef.manager.AppController;
 import midori.chef.manager.AppData;
 import midori.chef.manager.AppListMenu;
-import midori.chef.manager.AppPrefManager;
 import midori.chef.manager.ConfigManager;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -89,7 +89,7 @@ public class AddMenuActivity extends AppCompatActivity {
 
     private Calendar calendar = Calendar.getInstance();
     private DatePickerDialog.OnDateSetListener datePicker;
-    private String photo;
+    private String photo = "";
     private AppListMenu appListMenu;
     private String id_image;
     private String menu;
@@ -97,7 +97,7 @@ public class AddMenuActivity extends AppCompatActivity {
     private String harga;
     private String stock;
     private String date;
-    private AppPrefManager appPrefManager;
+    private ChefPrefManager chefPrefManager;
     private ProgressDialog pDialog;
 
 
@@ -107,7 +107,7 @@ public class AddMenuActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_menu);
         ButterKnife.bind(this);
         appListMenu = new AppListMenu();
-        appPrefManager = new AppPrefManager(getApplicationContext());
+        chefPrefManager = new ChefPrefManager(getApplicationContext());
         initDatePicker();
         initProgressDialog();
 
@@ -167,16 +167,15 @@ public class AddMenuActivity extends AppCompatActivity {
         deskripsi = etDesc.getText().toString();
         harga = etPrice.getText().toString();
         stock = etStock.getText().toString();
-        //date = etDate.getText().toString();
-        date = "now";
+        date = etDate.getText().toString();
 
         if (validateData(menu, deskripsi, harga, stock)) {
-            MenuModel item = new MenuModel();
-            /*item.setMenu(menu);
-            item.setDescription(deskripsi);
-            item.setPrice(Double.parseDouble(harga));
-            item.setDeliveryDate(date);
-            item.setImage(" ");*/
+//            MenuModel item = new MenuModel();
+//            item.setMenu(menu);
+//            item.setDescription(deskripsi);
+//            item.setHarga(harga);
+//            item.setDeliveryDate(date);
+//            item.setImage("");
             postProduct();
 
 
@@ -188,15 +187,53 @@ public class AddMenuActivity extends AppCompatActivity {
         if (!AppController.isConnected(getApplicationContext())) {
             AppController.showErrorConnection(rootLayout);
         } else {
-            requestPostProduct(ConfigManager.CREATE_PRODUCT);
+            requestPostProduct(ConfigManager.ADD_PRODUCT);
         }
     }
 
     private void requestPostProduct(String url) {
+
+        Ion.with(getApplicationContext())
+                .load(url)
+                .addHeader("Authorization", chefPrefManager.getUser().get("key"))
+                .setBodyParameter("menu_nama", menu)
+                .setBodyParameter("menu_harga", harga)
+                .setBodyParameter("menu_stok", stock)
+                .setBodyParameter("menu_harga", harga)
+                .setBodyParameter("menu_jadwal", date)
+                .setBodyParameter("menu_image", photo)
+                .setBodyParameter("menu_deskripsi", deskripsi)
+                .asString()
+                .withResponse()
+                .setCallback(new FutureCallback<Response<String>>() {
+
+
+
+                    @Override
+                    public void onCompleted(Exception e, Response<String> result) {
+                        try {
+                            if (result.getResult().contains("Menu successfully created") ) {
+                                    onBackPressed();
+                                    Toast.makeText(AddMenuActivity.this, "Menu successfully created", Toast.LENGTH_LONG).show();
+
+                                } else {
+                                    Toast.makeText(AddMenuActivity.this, "Fail create menu", Toast.LENGTH_LONG).show();
+                                }
+
+                        } catch (Exception e1) {
+                            e1.printStackTrace();
+                        }
+                    }
+                });
+
+
+    }
+
+    private void requestPostProductBukalapak(String url) {
         JsonObject jsonObjectName = new JsonObject();
         JsonObject jsonObjectValue = new JsonObject();
         jsonObjectValue.addProperty("category_id", "464");
-        jsonObjectValue.addProperty("name", appPrefManager.getUser().get("name") + "-" + menu);
+        jsonObjectValue.addProperty("name", chefPrefManager.getUser().get("name") + "-" + menu);
         jsonObjectValue.addProperty("new", "true");
         jsonObjectValue.addProperty("price", harga);
         //jsonObjectValue.addProperty("negotiable", "");//optional
@@ -305,7 +342,7 @@ public class AddMenuActivity extends AppCompatActivity {
                             AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
                             alertBuilder.setCancelable(true);
                             alertBuilder.setTitle("Read External Storage ");
-                            alertBuilder.setMessage("Midorichef need read external storage permission.");
+                            alertBuilder.setMessage("MidoriKitchen need read external storage permission.");
                             alertBuilder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
@@ -327,11 +364,12 @@ public class AddMenuActivity extends AppCompatActivity {
                                 .asBitmap()
                                 .into(image);
                         tambahfoto.setVisibility(View.GONE);
-                        LinearLayout.LayoutParams parms = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+                        LinearLayout.LayoutParams parms = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                                ViewGroup.LayoutParams.MATCH_PARENT);
                         image.setLayoutParams(parms);
                         image.setScaleType(ImageView.ScaleType.FIT_XY);
 
-                        uploadImage(imageUri);
+                        //uploadImage(imageUri);
                     }
                 } catch (IOException e) {
                     e.printStackTrace();

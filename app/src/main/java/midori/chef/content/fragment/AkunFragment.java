@@ -15,8 +15,8 @@ import com.rengwuxian.materialedittext.MaterialEditText;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import midori.chef.manager.ChefPrefManager;
 import midori.kitchen.R;
-import midori.chef.manager.AppPrefManager;
 
 /**
  * Created by BimoV on 3/11/2017.
@@ -40,23 +40,23 @@ public class AkunFragment extends Fragment {
     CardView profileLayout;
     Unbinder unbinder;
 
-    private AppPrefManager appPrefManager;
+    private ChefPrefManager chefPrefManager;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_akun, container, false);
         unbinder = ButterKnife.bind(this, v);
-        appPrefManager = new AppPrefManager(getContext());
+        chefPrefManager = new ChefPrefManager(getContext());
         return v;
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        etName.setText(appPrefManager.getUser().get("name"));
-        etAddress.setText(appPrefManager.getUser().get("address"));
-        etPhone.setText(appPrefManager.getUser().get("phone"));
+        etName.setText(chefPrefManager.getUser().get("name"));
+        etAddress.setText(chefPrefManager.getUser().get("address"));
+        etPhone.setText(chefPrefManager.getUser().get("phone"));
     }
 
     @Override

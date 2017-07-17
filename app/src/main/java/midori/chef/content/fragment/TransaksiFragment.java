@@ -37,7 +37,7 @@ import midori.chef.content.model.TransaksiModel;
 import midori.chef.extension.RecyclerItemClickListener;
 import midori.chef.manager.AppController;
 import midori.chef.manager.AppData;
-import midori.chef.manager.AppPrefManager;
+import midori.chef.manager.ChefPrefManager;
 import midori.chef.manager.ConfigManager;
 
 /**
@@ -57,7 +57,7 @@ public class TransaksiFragment extends Fragment {
     private RecyclerView.LayoutManager layoutManager;
     private RecyclerView.Adapter adapter;
     private List<TransaksiModel> transaksiList = new ArrayList<>();
-    AppPrefManager appPrefManager;
+    ChefPrefManager chefPrefManager;
     //    private List<TransaksiModel> transaksiList2 = new ArrayList<>();
 
     @Nullable
@@ -65,7 +65,7 @@ public class TransaksiFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_transaksi, container, false);
         unbinder = ButterKnife.bind(this, view);
-        appPrefManager = new AppPrefManager(getContext());
+        chefPrefManager = new ChefPrefManager(getContext());
         return view;
     }
 
@@ -88,11 +88,11 @@ public class TransaksiFragment extends Fragment {
     private void requestDataTransaksi(String url) {
         swiperefresh.setRefreshing(true);
         transaksiList.clear();
-        Log.d("APIKEY",appPrefManager.getUser().get("key"));
+        Log.d("APIKEY", chefPrefManager.getUser().get("key"));
         Ion.with(getContext())
                 .load(url)
                 .setLogging("Request Transaksi", Log.DEBUG)
-                .setHeader("Authorization", appPrefManager.getUser().get("key"))
+                .setHeader("Authorization", chefPrefManager.getUser().get("key"))
                 .asJsonObject()
                 .withResponse()
                 .setCallback(new FutureCallback<Response<JsonObject>>() {

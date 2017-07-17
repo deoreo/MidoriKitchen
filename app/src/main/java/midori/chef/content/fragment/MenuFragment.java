@@ -33,6 +33,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import midori.chef.manager.ChefPrefManager;
 import midori.kitchen.R;
 import midori.chef.content.activity.AddMenuActivity;
 import midori.chef.content.activity.MenuDetailActivity;
@@ -42,7 +43,6 @@ import midori.chef.extension.RecyclerItemClickListener;
 import midori.chef.manager.AppController;
 import midori.chef.manager.AppData;
 import midori.chef.manager.AppListMenu;
-import midori.chef.manager.AppPrefManager;
 import midori.chef.manager.ConfigManager;
 
 /**
@@ -66,7 +66,7 @@ public class MenuFragment extends Fragment {
     private RecyclerView.Adapter adapter;
     private List<MenuModel> menuList = new ArrayList<>();
     private AppListMenu appListMenu;
-    private AppPrefManager appPrefManager;
+    private ChefPrefManager chefPrefManager;
 
     @Nullable
     @Override
@@ -74,7 +74,7 @@ public class MenuFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_home, container, false);
         unbinder = ButterKnife.bind(this, v);
         appListMenu = new AppListMenu();
-        appPrefManager = new AppPrefManager(getContext());
+        chefPrefManager = new ChefPrefManager(getContext());
         return v;
     }
 
@@ -87,13 +87,70 @@ public class MenuFragment extends Fragment {
 
     private void downloadDataMenu() {
         if (AppController.isConnected(getContext())) {
-            requestDataMenu(ConfigManager.GET_MY_LAPAK + appPrefManager.getUser().get("name").replaceAll(" ", "%20"));
+            requestDataMenu(ConfigManager.MENUS);
         } else {
             AppController.showErrorConnection(rootLayout);
         }
     }
 
     private void requestDataMenu(String url) {
+        swiperefresh.setRefreshing(true);
+        Ion.with(getContext())
+                .load(url)
+                .setLogging("GetMyLapak", Log.DEBUG)
+                .addHeader("Authorization", chefPrefManager.getUser().get("key"))
+                .asJsonObject()
+                .withResponse()
+                .setCallback(new FutureCallback<Response<JsonObject>>() {
+                    @Override
+                    public void onCompleted(Exception e, Response<JsonObject> result) {
+                        menuList.clear();
+                        try {
+                            if (result.getHeaders().code() == 200) {
+                                JsonObject object = result.getResult();
+                                Log.d("Response", object.toString());
+
+                                JsonArray jsonArray = object.get("menus").getAsJsonArray();
+                                if (jsonArray.size() != 0) {
+                                    recyclerview.setVisibility(View.VISIBLE);
+                                    tvNoMenu.setVisibility(View.GONE);
+
+                                }
+                                for (int i = 0; i < jsonArray.size(); i++) {
+                                    MenuModel menuModel = new MenuModel();
+                                    JsonObject productObject = jsonArray.get(i).getAsJsonObject();
+                                    String name = productObject.get("menuNama").getAsString();
+                                    String delivery = productObject.get("menuJadwal").getAsString();
+                                    String deskripsi = productObject.get("menuDeskripsi").getAsString();
+                                    int stock = productObject.get("menuStok").getAsInt();
+                                    String harga = productObject.get("menuHarga").getAsString();
+                                    String image = productObject.get("menuImage").getAsString();
+
+
+                                    menuModel.setMenu(name);
+                                    menuModel.setDescription(deskripsi);
+                                    menuModel.setDeliveryDate(delivery);
+                                    menuModel.setStock(String.valueOf(stock));
+                                    menuModel.setImage(image);
+                                    menuModel.setJumlah_pesanan(String.valueOf(1));
+                                    menuModel.setHarga(harga);
+                                    menuList.add(menuModel);
+                                    Log.d("ImageArray", menuModel.getImage());
+                                    Log.d("MenuArray", menuList.get(0).getMenu());
+                                    Log.d("MenuArraySize", jsonArray.size() + "");
+                                    adapter.notifyDataSetChanged();
+                                }
+                            }
+                        } catch (Exception e1) {
+                            e1.printStackTrace();
+                        }
+                        swiperefresh.setRefreshing(false);
+
+                    }
+                });
+    }
+
+    private void requestDataMenuBukalapak(String url) {
         swiperefresh.setRefreshing(true);
         Ion.with(getContext())
                 .load(url)

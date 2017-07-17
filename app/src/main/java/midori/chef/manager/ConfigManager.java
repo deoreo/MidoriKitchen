@@ -11,12 +11,14 @@ public class ConfigManager {
 
     public static String GET_MY_LAPAK = URL_BUKALAPAK + "products/mylapak.json?" + KEYWORD;
     public static String CREATE_PRODUCT_IMAGE = URL_BUKALAPAK + "images.json";
-    public static String CREATE_PRODUCT = URL_BUKALAPAK + "products.json";
+    public static String CREATE_PRODUCT_BUKALAPAK = URL_BUKALAPAK + "products.json";
     public static String LOGIN = URL_MIDORI + "ibu_login";
     public static String PRODUCT = "products/";
     public static String READ_PRODUCT = URL_BUKALAPAK + PRODUCT;
     public static String TRANSAKSI = URL_MIDORI + "ibu_orders/";
     public static String REGISTER = URL_MIDORI + "ibu_register";
+    public static String ADD_PRODUCT = URL_MIDORI + "add_menu";
+    public static String MENUS =  URL_MIDORI + "menus";;
 
     //https://api.bukalapak.com/v2/products/8aws21.json
 }

@@ -29,7 +29,7 @@ import butterknife.OnClick;
 import midori.chef.content.activity.HomeActivity;
 import midori.chef.manager.AppController;
 import midori.chef.manager.AppData;
-import midori.chef.manager.AppPrefManager;
+import midori.chef.manager.ChefPrefManager;
 import midori.chef.manager.ConfigManager;
 import midori.kitchen.R;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
@@ -49,9 +49,17 @@ public class LoginActivity extends AppCompatActivity {
     @BindView(R.id.btnLogin)
     FloatingActionButton btnLogin;
 
-    private AppPrefManager appPrefManager;
+    private ChefPrefManager chefPrefManager;
     private ProgressDialog pDialog;
     private FirebaseAnalytics mFirebaseAnalytics;
+
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startActivity(new Intent(LoginActivity.this, midori.kitchen.content.activity.HomeActivity.class));
+        finish();
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -60,8 +68,8 @@ public class LoginActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         initProgressDialog();
-        appPrefManager = new AppPrefManager(getApplicationContext());
-        if (appPrefManager.getIsLoggedIn()) {
+        chefPrefManager = new ChefPrefManager(getApplicationContext());
+        if (chefPrefManager.getIsLoggedIn()) {
             launchHome();
         }
         int PERMISSION_ALL = 1;
@@ -161,8 +169,8 @@ public class LoginActivity extends AppCompatActivity {
                                         String phone = object.get("telepon").getAsString();
                                         String key = object.get("apiKey").getAsString();
 
-                                        appPrefManager.setUser(name, address, phone,key);
-                                        appPrefManager.setIsLoggedIn(true);
+                                        chefPrefManager.setUser(name, address, phone,key);
+                                        chefPrefManager.setIsLoggedIn(true);
                                         launchHome();
                                     } else {
                                         Toast.makeText(LoginActivity.this, "No.Telpon atau Password anda salah!", Toast.LENGTH_SHORT).show();

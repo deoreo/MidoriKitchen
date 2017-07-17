@@ -9,7 +9,7 @@ import java.util.HashMap;
  * Created by BimoV on 3/11/2017.
  */
 
-public class AppPrefManager {
+public class ChefPrefManager {
     SharedPreferences pref;
     SharedPreferences.Editor editor;
     Context _context;
@@ -21,7 +21,7 @@ public class AppPrefManager {
     private static final String PREF_NAME = "MidoriChef";
     private static final String IS_LOGGED_IN = "IsLoggedIn";
 
-    public AppPrefManager(Context context) {
+    public ChefPrefManager(Context context) {
         this._context = context;
         pref = _context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
         editor = pref.edit();
