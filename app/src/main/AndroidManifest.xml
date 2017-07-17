@@ -51,6 +51,29 @@
         <activity android:name=".content.activity.DeliveryActivity" />
         <activity android:name=".content.activity.ChangeLocationActivity" />
         <activity android:name=".content.activity.ResepDetailActivity" />
+
+        <activity
+            android:name="midori.chef.activity.LoginActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name="midori.chef.activity.RegisterActivity"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateVisible|adjustPan"/>
+        <activity
+            android:name="midori.chef.content.activity.HomeActivity"
+            android:label="@string/midori_kitchen"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name="midori.chef.content.activity.DetailActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name="midori.chef.content.activity.AddMenuActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name="midori.chef.content.activity.MenuDetailActivity"
+            android:theme="@style/AppTheme" />
+
+
     </application>
 
 </manifest>

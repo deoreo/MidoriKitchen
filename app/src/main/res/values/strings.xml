@@ -2,7 +2,7 @@
     <string name="app_name">Midori Kitchen</string>
 
     <string name="midori_kitchen">Midori Kitchen</string>
-
+    <string name="title_activity_home">HomeActivity</string>
     <!-- font -->
     <string name="GothamBook">fonts/Gotham.ttf</string>
     <string name="GothamRndBold">fonts/GothamRnd-Bold.otf</string>
@@ -23,25 +23,26 @@
     <string name="okay">Okay</string>
 
     <string name="dialog_signout">
-        <![CDATA[Are you sure want to <br/><br/> sign out your <br/><br/> mobile apps?]]>
+        <![CDATA[Anda yakin<br/><br/> akan logout <br/><br/> dari Midori Kitchen?]]>
     </string>
 
-    <string name="next">Next</string>
-    <string name="finish">Finish</string>
-    <string name="payment">Payment</string>
+    <string name="next">Lanjut</string>
+    <string name="finish">Selesai</string>
+    <string name="payment">Pembayaran</string>
     <string-array name="spinner_delivery">
         <item>Jasa Kurir</item>
         <item>Ambil Sendiri</item>
     </string-array>
 
-    <string name="bank_head">Please complete your payment via ATM machine</string>
-    <string name="bank_subhead">Make sure you transfer the payment with last 3 digit number</string>
-    <string name="cod_head">Please complete the payment at the time of your food delivered</string>
-    <string name="cod_subhead">Make sure there are people who are ready to recieve your order</string>
+    <string name="bank_head">Silakan melakukan pembayaran melalui mesin ATM atau Bank terdekat</string>
+    <string name="bank_subhead">Pastikan 3digit terakhir sesuai dengan yang tertera</string>
+    <string name="cod_head">Silakan melakukan pembayaran pada kurir kami saat makanan Anda terima</string>
+    <string name="cod_subhead">Pastikan ada orang yang menerima pesanan Anda</string>
 
-    <string name="history">History</string>
-    <string name="profile">Profile</string>
+    <string name="history">Riwayat Transaksi</string>
+    <string name="profile">Profil</string>
     <string name="resep">Resep</string>
+    <string name="dapur">Dapurku</string>
 
     <!--    Permissions    -->
     <string name="permission_rationale_location">Access to the location service is required</string>

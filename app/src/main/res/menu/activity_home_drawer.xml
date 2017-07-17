@@ -19,6 +19,12 @@
             android:icon="@drawable/ic_recipe"
             android:background="?attr/selectableItemBackground"
             android:title="Resep" />
+        <item
+            android:id="@+id/nav_dapur"
+            android:icon="@drawable/ic_bukalapak"
+            android:background="?attr/selectableItemBackground"
+            android:title="Dapurku" />
+
     </group>
 
 </menu>

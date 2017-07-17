@@ -26,4 +26,17 @@
         <item name="android:maxHeight">42dp</item>
     </style>
 
+
+    <style name="MyTabLayout" parent="Base.Widget.Design.TabLayout">
+        <item name="tabTextAppearance">@style/MyTabTextAppearance</item>
+        <item name="fontPath">fonts/Gotham.ttf</item>
+
+    </style>
+
+    <style name="MyTabTextAppearance" parent="TextAppearance.AppCompat.Button">
+        <item name="android:textSize">14sp</item>
+        <item name="textAllCaps">false</item>
+        <item name="fontPath">fonts/Gotham.ttf</item>
+    </style>
+
 </resources>

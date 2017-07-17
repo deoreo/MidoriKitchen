@@ -35,6 +35,7 @@ import java.util.Random;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
+import midori.chef.activity.LoginActivity;
 import midori.kitchen.R;
 import midori.kitchen.account.model.ModelUser;
 import midori.kitchen.content.fragment.HistoryFragment;
@@ -198,6 +199,11 @@ public class HomeActivity extends AppCompatActivity
             displayFragment(new HistoryFragment(), AppData.history_tag);
         } else if (id == R.id.nav_resep) {
             displayFragment(new ResepFragment(), AppData.resep_tag);
+        } else if (id == R.id.nav_dapur) {
+
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+            finish();
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

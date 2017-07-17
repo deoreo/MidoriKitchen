@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/pic"
+    android:orientation="vertical"
+    android:id="@+id/rootLayout">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:id="@+id/formLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/btnBack"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="24dp"
+                android:layout_marginRight="24dp"
+                android:layout_marginTop="28dp"
+                android:background="#26434343"
+                android:orientation="vertical"
+                android:paddingBottom="80dp"
+                android:paddingTop="24dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:orientation="vertical">
+
+                    <com.rengwuxian.materialedittext.MaterialEditText
+                        android:id="@+id/etName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:hint="Nama Lengkap"
+                        android:maxLines="1"
+                        android:textSize="16sp"
+                        app:met_autoValidate="true"
+                        app:met_baseColor="@color/colorBlack"
+                        app:met_clearButton="true"
+                        app:met_floatingLabel="highlight"
+                        app:met_floatingLabelAnimating="true"
+                        app:met_floatingLabelText="Nama Lengkap"
+                        app:met_iconLeft="@drawable/ic_person_outline_white_24dp"
+                        app:met_iconPadding="8dp"
+                        app:met_primaryColor="@color/colorBlack"
+                        app:met_textColor="@color/colorBlack"
+                        app:met_textColorHint="@color/colorWhite"
+                        app:met_underlineColor="@color/colorGrey" />
+
+
+                    <com.rengwuxian.materialedittext.MaterialEditText
+                        android:id="@+id/etPhone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:hint="No.Telepon"
+                        android:inputType="number"
+                        android:maxLines="1"
+                        android:textSize="16sp"
+                        app:met_autoValidate="true"
+                        app:met_baseColor="@color/colorBlack"
+                        app:met_clearButton="true"
+                        app:met_floatingLabel="highlight"
+                        app:met_floatingLabelAnimating="true"
+                        app:met_floatingLabelText="No.Telepon"
+                        app:met_iconLeft="@drawable/ic_phone_android_white_24dp"
+                        app:met_iconPadding="8dp"
+                        app:met_primaryColor="@color/colorBlack"
+                        app:met_textColor="@color/colorBlack"
+                        app:met_textColorHint="@color/colorWhite"
+                        app:met_underlineColor="@color/colorGrey" />
+
+                    <com.rengwuxian.materialedittext.MaterialEditText
+                        android:id="@+id/etAddress"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:hint="Alamat"
+                        android:maxLines="1"
+                        android:textSize="16sp"
+                        android:singleLine="true"
+                        app:met_baseColor="@color/colorBlack"
+                        app:met_clearButton="true"
+                        app:met_floatingLabel="highlight"
+                        app:met_floatingLabelAnimating="true"
+                        app:met_floatingLabelText="Alamat"
+                        app:met_iconLeft="@drawable/ic_location"
+                        app:met_iconPadding="8dp"
+                        app:met_primaryColor="@color/colorBlack"
+                        app:met_textColor="@color/colorBlack"
+                        app:met_textColorHint="@color/colorWhite"
+                        app:met_underlineColor="@color/colorGrey" />
+
+                    <com.rengwuxian.materialedittext.MaterialEditText
+                        android:id="@+id/etPassword"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:hint="Kata Sandi"
+                        android:inputType="textPassword"
+                        android:maxLines="1"
+                        android:textSize="16sp"
+                        app:met_baseColor="@color/colorBlack"
+                        app:met_clearButton="true"
+                        app:met_floatingLabel="highlight"
+                        app:met_floatingLabelAnimating="true"
+                        app:met_floatingLabelText="Kata Sandi"
+                        app:met_iconLeft="@drawable/ic_lock_outline_white_24dp"
+                        app:met_iconPadding="8dp"
+                        app:met_primaryColor="@color/colorBlack"
+                        app:met_textColor="@color/colorBlack"
+                        app:met_textColorHint="@color/colorWhite"
+                        app:met_underlineColor="@color/colorGrey"
+                        app:met_minCharacters="8"/>
+
+                    <com.rengwuxian.materialedittext.MaterialEditText
+                        android:id="@+id/etConfirmPassword"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:hint="Konfirmasi Kata Sandi"
+                        android:inputType="textPassword"
+                        android:maxLines="1"
+                        android:textSize="16sp"
+                        app:met_baseColor="@color/colorBlack"
+                        app:met_clearButton="true"
+                        app:met_floatingLabel="highlight"
+                        app:met_floatingLabelAnimating="true"
+                        app:met_floatingLabelText="Konfirmasi Kata Sandi"
+                        app:met_iconLeft="@drawable/ic_lock_outline_white_24dp"
+                        app:met_iconPadding="8dp"
+                        app:met_primaryColor="@color/colorBlack"
+                        app:met_textColor="@color/colorBlack"
+                        app:met_textColorHint="@color/colorWhite"
+                        app:met_underlineColor="@color/colorGrey"
+                        app:met_minCharacters="8"/>
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/btnBack"
+                android:layout_width="wrap_content"
+                android:layout_height="55dp"
+                android:layout_marginLeft="-16dp"
+                android:layout_marginTop="64dp"
+                android:src="@drawable/back_button_circle_bg" />
+
+            <RelativeLayout
+                android:id="@+id/logo"
+                android:layout_width="200dp"
+                android:layout_height="50dp"
+                android:layout_alignTop="@+id/btnBack"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/border_green_button">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:gravity="center"
+                    android:text="Buat Akun Anda"
+                    android:textColor="@color/colorWhite" />
+            </RelativeLayout>
+            <Button
+                android:id="@+id/btnStart"
+                android:layout_width="200dp"
+                android:layout_height="50dp"
+                android:layout_below="@id/formLayout"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center"
+                android:layout_marginTop="-24dp"
+                android:background="@drawable/border_green_button"
+                android:text="DAFTAR"
+                android:textColor="@color/colorWhite" />
+        </RelativeLayout>
+    </ScrollView>
+</RelativeLayout>
