@@ -3,6 +3,7 @@ package midori.chef.content.adapter;
 import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -49,12 +51,31 @@ public class TransaksiAdapter extends RecyclerView.Adapter<TransaksiAdapter.View
         double harga = Double.parseDouble(item.getHarga());
         holder.harga.setText("Harga : " + formatRupiah(harga));
         holder.status.setText("Status : " + item.getStatus());
-        Glide.with(context)
-                .load(item.getAvatar())
-                .centerCrop()
-                .crossFade()
-                .placeholder(R.drawable.pic)
-                .into(holder.image);
+
+
+        if(item.getAvatar().contains("http")){
+            Glide
+                    .with(context)
+                    .load(item.getAvatar())
+                    .centerCrop()
+                    .crossFade()
+                    .thumbnail(0.5f)
+                    .placeholder(R.drawable.pic)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .into(holder.image);
+        }
+        else {
+            byte[] imageByteArray = Base64.decode(item.getAvatar(), Base64.DEFAULT);
+            Glide
+                    .with(context)
+                    .load(imageByteArray)
+                    .centerCrop()
+                    .crossFade()
+                    .placeholder(R.drawable.pic)
+                    .thumbnail(0.5f)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .into(holder.image);
+        }
     }
     private String formatRupiah(double kurs) {
         DecimalFormat decimalFormat = (DecimalFormat) DecimalFormat.getCurrencyInstance();

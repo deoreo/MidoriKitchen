@@ -3,6 +3,7 @@ package midori.chef.content.adapter;
 import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +20,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import midori.chef.content.model.MenuModel;
 import midori.kitchen.R;
+
+import static android.view.View.VISIBLE;
 
 /**
  * Created by BimoV on 3/11/2017.
@@ -47,10 +51,29 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
         holder.stock.setText("Stock Makanan : "+model.getStock());
         holder.delivery.setText(model.getDeliveryDate());
 
-        Glide.with(context)
-                .load(model.getImage())
-                .centerCrop()
-                .into(holder.image);
+        if(model.getImage().contains("http")){
+            Glide
+                    .with(context)
+                    .load(model.getImage())
+                    .centerCrop()
+                    .crossFade()
+                    .thumbnail(0.5f)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .into(holder.image);
+        }
+        else {
+            byte[] imageByteArray = Base64.decode(model.getImage(), Base64.DEFAULT);
+            Glide
+                    .with(context)
+                    .load(imageByteArray)
+                    .centerCrop()
+                    .crossFade()
+                    .thumbnail(0.5f)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .into(holder.image);
+        }
+
+
     }
 
     @Override

@@ -2,6 +2,8 @@ package midori.kitchen.content.adapter;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.util.Base64;
@@ -17,6 +19,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.makeramen.roundedimageview.RoundedImageView;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -83,14 +86,14 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
                     .into(holder.rvAvatar);
         }
         else {
-            byte[] imageByteArray = Base64.decode(items.getPhoto(), Base64.DEFAULT);
+            byte[] imageByteArray = Base64.decode(items.getPhoto(), Base64.NO_WRAP);
             holder.ivPlaceholder.setVisibility(View.INVISIBLE);
             holder.rvAvatar.setVisibility(VISIBLE);
             Glide
                     .with(activity)
                     .load(imageByteArray)
+                    .asBitmap()
                     .centerCrop()
-                    .crossFade()
                     .thumbnail(0.5f)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(holder.rvAvatar);
