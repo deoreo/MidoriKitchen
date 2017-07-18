@@ -79,6 +79,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="bottom|start"
                 android:paddingTop="8dp"
+                android:visibility="gone"
                 fontPath="fonts/GothamRnd-Bold.otf"
                 android:textColor="@color/colorBlack"
                 android:text="Pengiriman"
@@ -91,6 +92,7 @@
                 android:gravity="bottom|start"
                 android:paddingTop="4dp"
                 android:text="Kamis 25 Mei 2017"
+                android:visibility="gone"
                 android:textSize="14sp"
                 android:transitionName="delivery" />
 

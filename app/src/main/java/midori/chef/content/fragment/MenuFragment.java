@@ -251,10 +251,10 @@ public class MenuFragment extends Fragment {
 
                 Pair<View, String> p1 = Pair.create((View) image, "img");
                 Pair<View, String> p2 = Pair.create((View) title, "menu");
-                Pair<View, String> p3 = Pair.create((View) order, "order");
+                //Pair<View, String> p3 = Pair.create((View) order, "order");
                 Pair<View, String> p4 = Pair.create((View) stock, "stock");
-                Pair<View, String> p5 = Pair.create((View) delivery, "delivery");
-                ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), p1,p2,p3,p4,p5);
+                //Pair<View, String> p5 = Pair.create((View) delivery, "delivery");
+                ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), p1,p2,p4);
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 
