@@ -25,7 +25,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import midori.kitchen.R;
 import midori.kitchen.content.fragment.HistoryFragment;
 import midori.kitchen.content.fragment.MenuFragment;
-import midori.kitchen.content.fragment.TabFragment;
 import midori.kitchen.manager.AppData;
 import midori.kitchen.manager.AppPrefManager;
 import midori.kitchen.profile.activity.ProfileActivity;
@@ -35,7 +34,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
  * Created by M. Asrof Bayhaqqi on 3/10/2017.
  */
 
-public class HomeActivity extends AppCompatActivity
+public class HomeActivitys extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     @BindView(R.id.toolbar)
@@ -79,7 +78,7 @@ public class HomeActivity extends AppCompatActivity
     private void initDefaultFragment() {
         getSupportFragmentManager().beginTransaction()
                 .setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit)
-                .replace(R.id.container, new TabFragment(), AppData.menu_tag).commit();
+                .replace(R.id.container, new MenuFragment(), AppData.menu_tag).commit();
     }
 
     private void displayFragment(Fragment fragment, String tag) {
@@ -105,7 +104,7 @@ public class HomeActivity extends AppCompatActivity
         layoutNavHeader.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(HomeActivity.this, ProfileActivity.class));
+                startActivity(new Intent(HomeActivitys.this, ProfileActivity.class));
                 overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                 finish();
             }
@@ -145,12 +144,11 @@ public class HomeActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        navView.setCheckedItem(item.getItemId());
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
         if (id == R.id.nav_menu) {
-            displayFragment(new TabFragment(), AppData.menu_tag);
+            displayFragment(new MenuFragment(), AppData.menu_tag);
         } else if (id == R.id.nav_history) {
             displayFragment(new HistoryFragment(), AppData.history_tag);
         }
