@@ -1,11 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <!-- -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <EditText
+            android:id="@+id/text_result"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:gravity="center"
+            android:hint="Priority Pass Number"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:textColor="#0a0909"
+            android:textStyle="bold">
+        </EditText>
+    </LinearLayout>
+
+    <com.journeyapps.barcodescanner.CompoundBarcodeView
+        android:id="@+id/cameraPreview"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="40"
+        app:zxing_framing_rect_height="200dp"
+        app:zxing_framing_rect_width="435dp"
+        app:zxing_scanner_layout="@layout/scanner_layout">
+
+    </com.journeyapps.barcodescanner.CompoundBarcodeView>
 
 
-</LinearLayout>
+</RelativeLayout>
