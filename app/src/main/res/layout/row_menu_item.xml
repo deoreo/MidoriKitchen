@@ -29,12 +29,12 @@
                     android:background="@drawable/rounded_border_left_menu_item">
 
                     <ImageView
-                        android:visibility="invisible"
                         android:id="@+id/iv_placeholder"
                         android:layout_width="70dp"
                         android:layout_height="70dp"
                         android:layout_centerInParent="true"
-                        android:src="@drawable/ic_restaurant" />
+                        android:src="@drawable/ic_restaurant"
+                        android:visibility="invisible" />
 
                 </RelativeLayout>
 
@@ -43,8 +43,8 @@
                     android:layout_width="130dp"
                     android:layout_height="150dp"
                     android:scaleType="centerCrop"
-                    android:visibility="visible"
                     android:src="@drawable/bg_menu"
+                    android:visibility="visible"
                     card_view:riv_corner_radius_bottom_left="15dp"
                     card_view:riv_corner_radius_top_left="15dp" />
 
@@ -94,34 +94,52 @@
                     android:layout_marginBottom="10dp"
                     android:ellipsize="marquee"
                     android:maxLines="1"
-                    android:text="Pecel Bu Iin"
+                    android:text="Menu"
                     android:textColor="@color/colorGreen"
                     android:textSize="20sp" />
 
-                <TextView
+                <LinearLayout
                     android:id="@+id/delivery"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/tv_menu"
                     android:layout_marginBottom="5dp"
-                    android:ellipsize="marquee"
-                    android:maxLines="3"
-                    android:text="Delivery Time :"
-                    android:textColor="@color/colorDarkGrey2"
-                    android:textSize="12sp" />
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        fontPath="@string/GothamRndMedium"
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:layout_marginRight="5dp"
+                        android:src="@drawable/ic_fire" />
+
+                    <TextView
+                        android:id="@+id/tv_calories"
+                        fontPath="@string/GothamRndMedium"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="marquee"
+                        android:maxLines="3"
+                        android:text="0 Calories"
+                        android:textColor="@color/colorDarkGrey2"
+                        android:textSize="10sp" />
+
+                </LinearLayout>
 
                 <TextView
-                    android:id="@+id/tv_time"
+                    android:id="@+id/tv_owner"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/delivery"
                     android:ellipsize="marquee"
                     android:maxLines="3"
-                    android:text="Senin, 27 Maret 2017"
+                    android:text="Cooked By User"
                     android:textColor="@color/colorDarkGrey"
-                    android:textSize="14sp" />
+                    android:textSize="12sp" />
 
                 <LinearLayout
+                    android:id="@+id/linearLayout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
@@ -139,7 +157,7 @@
                         android:layout_height="wrap_content"
                         fontPath="@string/GothamRndMedium"
                         android:layout_gravity="center"
-                        android:text="Rp. 7.000"
+                        android:text="Rp. 0"
                         android:textAlignment="center"
                         android:textColor="@color/white"
                         android:textSize="14sp" />

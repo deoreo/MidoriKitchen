@@ -11,18 +11,20 @@ public class MenuModel {
     private String description;
     private String photo;
     private int price;
-    private String deliveryDate;
+    private String owner;
+    private int calories;
 
     public MenuModel() {
     }
 
-    public MenuModel(String id, String menu, String description, String photo, int price, String deliveryDate) {
+    public MenuModel(String id, String menu, String description, String photo, int price, String owner, int calories) {
         this.id = id;
         this.menu = menu;
         this.description = description;
         this.photo = photo;
         this.price = price;
-        this.deliveryDate = deliveryDate;
+        this.owner = owner;
+        this.calories = calories;
     }
 
     public String getId() {
@@ -65,12 +67,19 @@ public class MenuModel {
         this.price = price;
     }
 
-    public String getDeliveryDate() {
-        return deliveryDate;
+    public String getOwner() {
+        return owner;
     }
 
-    public void setDeliveryDate(String deliveryDate) {
-        this.deliveryDate = deliveryDate;
+    public void setOwner(String owner) {
+        this.owner = owner;
     }
 
+    public int getCalories() {
+        return calories;
+    }
+
+    public void setCalories(int calories) {
+        this.calories = calories;
+    }
 }

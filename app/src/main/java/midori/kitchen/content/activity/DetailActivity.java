@@ -35,7 +35,8 @@ public class DetailActivity extends AppCompatActivity {
     ImageView btnBack;
 
     private String tag_detail, name_detail;
-    private String menu, description, price, delivery_date, photo;
+    private String menu, description, price, owner, photo;
+    private int calories;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +58,8 @@ public class DetailActivity extends AppCompatActivity {
                 menu = bundle.getString("menu");
                 description = bundle.getString("description");
                 price = bundle.getString("price");
-                delivery_date = bundle.getString("delivery_date");
+                owner = bundle.getString("owner");
+                calories = bundle.getInt("calories");
                 photo = bundle.getString("photo");
                 displayFragment(new MenuDetailFragment(), tag_detail);
             }
@@ -71,7 +73,8 @@ public class DetailActivity extends AppCompatActivity {
             extras.putString("menu", menu);
             extras.putString("description", description);
             extras.putString("price", price);
-            extras.putString("delivery_date", delivery_date);
+            extras.putString("owner", owner);
+            extras.putInt("calories", calories);
             extras.putString("photo", photo);
             fragment.setArguments(extras);
             getSupportFragmentManager().beginTransaction()

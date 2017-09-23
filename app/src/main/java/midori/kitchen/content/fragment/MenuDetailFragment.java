@@ -38,8 +38,6 @@ public class MenuDetailFragment extends Fragment {
     LinearLayout layoutAdd;
     @BindView(R.id.delivery)
     TextView delivery;
-    @BindView(R.id.tv_time)
-    TextView tvTime;
     @BindView(R.id.tv_description)
     TextView tvDescription;
     @BindView(R.id.iv_photo)
@@ -50,8 +48,13 @@ public class MenuDetailFragment extends Fragment {
     FloatingActionButton fabCheckout;
     @BindView(R.id.rating_bar)
     RatingBar ratingBar;
+    @BindView(R.id.tv_calories)
+    TextView tvCalories;
+    @BindView(R.id.tv_owner)
+    TextView tvOwner;
 
-    private String menu, description, price, delivery_date, photo;
+    private String menu, description, price, owner, photo;
+    private int calories;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -72,7 +75,8 @@ public class MenuDetailFragment extends Fragment {
             menu = bundle.getString("menu");
             description = bundle.getString("description");
             price = bundle.getString("price");
-            delivery_date = bundle.getString("delivery_date");
+            owner = bundle.getString("owner");
+            calories = bundle.getInt("calories");
             photo = bundle.getString("photo");
             initView();
         }
@@ -82,7 +86,8 @@ public class MenuDetailFragment extends Fragment {
         tvMenu.setText(menu);
         tvDescription.setText(description);
         tvPrice.setText("Rp. " + price);
-        tvTime.setText(delivery_date);
+        tvOwner.setText(owner);
+        tvCalories.setText(calories + " Calories");
         Glide
                 .with(this)
                 .load(photo)

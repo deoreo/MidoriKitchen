@@ -74,7 +74,7 @@
                             fontPath="@string/GothamRndBold"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="5dp"
+                            android:layout_marginBottom="15dp"
                             android:layout_toLeftOf="@+id/layout_add"
                             android:text="Mie Ayam Bona"
                             android:textAlignment="center"
@@ -175,18 +175,24 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/tv_menu"
-                        android:layout_marginBottom="10dp"
+                        android:layout_marginBottom="15dp"
                         android:gravity="center"
                         android:orientation="horizontal">
 
+                        <ImageView
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:layout_marginRight="5dp"
+                            android:src="@drawable/ic_fire"/>
+
                         <TextView
-                            android:id="@+id/tv_kalori"
+                            android:id="@+id/tv_calories"
                             fontPath="@string/GothamRndMedium"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="500 Calories"
-                            android:textColor="@color/colorDarkGrey"
-                            android:textSize="16sp" />
+                            android:text="0 Calories"
+                            android:textColor="@color/colorDarkGrey2"
+                            android:textSize="14sp" />
 
                     </LinearLayout>
 
@@ -277,7 +283,6 @@
                         android:layout_marginTop="15dp"
                         android:background="@color/colorGrey" />
 
-
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -304,7 +309,6 @@
                         </LinearLayout>
 
                         <TextView
-                            fontPath="@string/GothamRndMedium"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="10dp"
@@ -327,7 +331,6 @@
                                 android:orientation="vertical">
 
                                 <TextView
-                                    fontPath="@string/GothamRndMedium"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginBottom="10dp"
@@ -336,7 +339,7 @@
                                     android:textSize="16sp" />
 
                                 <TextView
-                                    fontPath="@string/GothamRndBold"
+                                    fontPath="@string/GothamRndMedium"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="76g"
@@ -353,7 +356,6 @@
                                 android:orientation="vertical">
 
                                 <TextView
-                                    fontPath="@string/GothamRndMedium"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginBottom="10dp"
@@ -362,7 +364,7 @@
                                     android:textSize="16sp" />
 
                                 <TextView
-                                    fontPath="@string/GothamRndBold"
+                                    fontPath="@string/GothamRndMedium"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="165g"
@@ -379,7 +381,6 @@
                                 android:orientation="vertical">
 
                                 <TextView
-                                    fontPath="@string/GothamRndMedium"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginBottom="10dp"
@@ -388,7 +389,7 @@
                                     android:textSize="16sp" />
 
                                 <TextView
-                                    fontPath="@string/GothamRndBold"
+                                    fontPath="@string/GothamRndMedium"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="130g"
@@ -405,7 +406,6 @@
                                 android:orientation="vertical">
 
                                 <TextView
-                                    fontPath="@string/GothamRndMedium"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginBottom="10dp"
@@ -414,7 +414,7 @@
                                     android:textSize="16sp" />
 
                                 <TextView
-                                    fontPath="@string/GothamRndBold"
+                                    fontPath="@string/GothamRndMedium"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="17g"
@@ -422,7 +422,6 @@
                                     android:textSize="18sp" />
 
                             </LinearLayout>
-
 
                         </LinearLayout>
 
@@ -464,22 +463,21 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/tv_menu"
                         android:layout_marginBottom="5dp"
-                        android:text="Delivery Time :"
+                        android:text="Cooked By :"
                         android:textColor="@color/colorDarkGrey2"
                         android:textSize="14sp" />
 
                     <TextView
-                        android:id="@+id/tv_time"
+                        android:id="@+id/tv_owner"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/delivery"
                         android:layout_marginBottom="15dp"
                         android:ellipsize="marquee"
                         android:maxLines="3"
-                        android:text="Senin, 27 Maret 2017"
+                        android:text="User"
                         android:textColor="@color/colorDarkGrey"
                         android:textSize="16sp" />
-
 
                     <TextView
                         android:id="@+id/tv_description"

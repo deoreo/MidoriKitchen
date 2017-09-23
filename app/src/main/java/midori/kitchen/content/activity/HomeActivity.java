@@ -150,7 +150,7 @@ public class HomeActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_menu) {
+        if (id == R.id.nav_home) {
             displayFragment(new TabFragment(), AppData.menu_tag);
         } else if (id == R.id.nav_wallet) {
             displayFragment(new WalletFragment(), AppData.wallet_tag);

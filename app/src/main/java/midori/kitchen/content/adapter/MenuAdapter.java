@@ -54,7 +54,8 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
         final String id = items.getId();
         final String menu = items.getMenu();
         final int price = items.getPrice();
-        final String time = items.getDeliveryDate();
+        final String owner = items.getOwner();
+        final int calories = items.getCalories();
         final String photo = items.getPhoto();
 
         if (items.getPhoto().isEmpty()) {
@@ -74,7 +75,8 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
         }
         holder.tvMenu.setText(menu);
         holder.tvPrice.setText("Rp. " + String.valueOf(price));
-        holder.tvTime.setText(time);
+        holder.tvOwner.setText("Cooked By " + owner);
+        holder.tvCalories.setText(calories + " Calories");
         holder.listItem.setTag(position);
     }
 
@@ -93,8 +95,10 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
         TextView tvMenu;
         @BindView(R.id.tv_price)
         TextView tvPrice;
-        @BindView(R.id.tv_time)
-        TextView tvTime;
+        @BindView(R.id.tv_calories)
+        TextView tvCalories;
+        @BindView(R.id.tv_owner)
+        TextView tvOwner;
         @BindView(R.id.list_item)
         LinearLayout listItem;
 
@@ -114,7 +118,9 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
             extras.putString("menu", item.getMenu());
             extras.putString("description", item.getDescription());
             extras.putString("price", String.valueOf(item.getPrice()));
-            extras.putString("delivery_date", item.getDeliveryDate());
+            extras.putString("delivery_date", item.getOwner());
+            extras.putString("owner", item.getOwner());
+            extras.putInt("calories", item.getCalories());
             extras.putString("photo", item.getPhoto());
             intent.putExtras(extras);
             activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
