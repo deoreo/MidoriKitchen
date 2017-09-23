@@ -87,14 +87,14 @@
                 android:paddingTop="10dp">
 
                 <TextView
-                    android:id="@+id/tv_menu"
+                    android:id="@+id/tv_recipe"
                     fontPath="@string/GothamRndBold"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
                     android:ellipsize="marquee"
                     android:maxLines="1"
-                    android:text="Menu"
+                    android:text="Recipe"
                     android:textColor="@color/colorGreen"
                     android:textSize="20sp" />
 
@@ -102,7 +102,7 @@
                     android:id="@+id/delivery"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/tv_menu"
+                    android:layout_below="@+id/tv_recipe"
                     android:layout_marginBottom="5dp"
                     android:gravity="center"
                     android:orientation="horizontal">
@@ -134,35 +134,9 @@
                     android:layout_below="@+id/delivery"
                     android:ellipsize="marquee"
                     android:maxLines="3"
-                    android:text="Cooked By User"
+                    android:text="Created By User"
                     android:textColor="@color/colorDarkGrey"
                     android:textSize="12sp" />
-
-                <LinearLayout
-                    android:id="@+id/linearLayout"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentRight="true"
-                    android:background="@drawable/rounded_bg_transparent"
-                    android:orientation="vertical"
-                    android:paddingBottom="5dp"
-                    android:paddingLeft="15dp"
-                    android:paddingRight="15dp"
-                    android:paddingTop="5dp">
-
-                    <TextView
-                        android:id="@+id/tv_price"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        fontPath="@string/GothamRndMedium"
-                        android:layout_gravity="center"
-                        android:text="Rp. 0"
-                        android:textAlignment="center"
-                        android:textColor="@color/white"
-                        android:textSize="14sp" />
-
-                </LinearLayout>
 
             </RelativeLayout>
 

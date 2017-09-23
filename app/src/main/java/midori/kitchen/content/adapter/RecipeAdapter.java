@@ -22,38 +22,37 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import midori.kitchen.R;
 import midori.kitchen.content.activity.DetailActivity;
-import midori.kitchen.content.model.MenuModel;
+import midori.kitchen.content.model.RecipeModel;
 import midori.kitchen.manager.AppData;
 
 /**
  * Created by M. Asrof Bayhaqqi on 3/11/2017.
  */
 
-public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
+public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder> {
 
     private Activity activity;
-    private ArrayList<MenuModel> menuItems = new ArrayList<>();
+    private ArrayList<RecipeModel> recipeItems = new ArrayList<>();
 
-    public MenuAdapter(ArrayList<MenuModel> menuItems, Activity activity) {
+    public RecipeAdapter(ArrayList<RecipeModel> recipeItems, Activity activity) {
         super();
         this.activity = activity;
-        this.menuItems = menuItems;
+        this.recipeItems = recipeItems;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_menu_item, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_recipe_item, parent, false);
         ViewHolder viewHolder = new ViewHolder(v);
         return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        MenuModel items = menuItems.get(position);
+        RecipeModel items = recipeItems.get(position);
 
         final String id = items.getId();
-        final String menu = items.getMenu();
-        final int price = items.getPrice();
+        final String recipe = items.getRecipe();
         final String owner = items.getOwner();
         final int calories = items.getCalories();
         final String photo = items.getPhoto();
@@ -73,16 +72,15 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(holder.rvAvatar);
         }
-        holder.tvMenu.setText(menu);
-        holder.tvPrice.setText("Rp. " + String.valueOf(price));
-        holder.tvOwner.setText("Cooked By " + owner);
+        holder.tvRecipe.setText(recipe);
+        holder.tvOwner.setText("Created By " + owner);
         holder.tvCalories.setText(calories + " Calories");
         holder.listItem.setTag(position);
     }
 
     @Override
     public int getItemCount() {
-        return menuItems.size();
+        return recipeItems.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -91,10 +89,8 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
         ImageView ivPlaceholder;
         @BindView(R.id.rv_avatar)
         RoundedImageView rvAvatar;
-        @BindView(R.id.tv_menu)
-        TextView tvMenu;
-        @BindView(R.id.tv_price)
-        TextView tvPrice;
+        @BindView(R.id.tv_recipe)
+        TextView tvRecipe;
         @BindView(R.id.tv_calories)
         TextView tvCalories;
         @BindView(R.id.tv_owner)
@@ -107,19 +103,16 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
             ButterKnife.bind(this, itemView);
         }
 
-
-
         @OnClick(R.id.list_item)
         public void onClick(View v) {
             int i = getAdapterPosition();
-            MenuModel item = menuItems.get(i);
+            RecipeModel item = recipeItems.get(i);
             Intent intent = new Intent(v.getContext(), DetailActivity.class);
             Bundle extras = new Bundle();
-            extras.putString("tag_detail", AppData.detail_menu_tag);
-            extras.putString("name_detail", item.getMenu());
-            extras.putString("menu", item.getMenu());
+            extras.putString("tag_detail", AppData.detail_recipe_tag);
+            extras.putString("name_detail", item.getRecipe());
+            extras.putString("recipe", item.getRecipe());
             extras.putString("description", item.getDescription());
-            extras.putString("price", String.valueOf(item.getPrice()));
             extras.putString("delivery_date", item.getOwner());
             extras.putString("owner", item.getOwner());
             extras.putInt("calories", item.getCalories());

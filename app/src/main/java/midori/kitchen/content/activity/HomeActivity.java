@@ -26,6 +26,7 @@ import midori.kitchen.R;
 import midori.kitchen.content.fragment.HistoryFragment;
 import midori.kitchen.content.fragment.MenuFragment;
 import midori.kitchen.content.fragment.TabFragment;
+import midori.kitchen.content.fragment.WalletFragment;
 import midori.kitchen.manager.AppData;
 import midori.kitchen.manager.AppPrefManager;
 import midori.kitchen.profile.activity.ProfileActivity;
@@ -149,8 +150,10 @@ public class HomeActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_menu) {
+        if (id == R.id.nav_home) {
             displayFragment(new TabFragment(), AppData.menu_tag);
+        } else if (id == R.id.nav_wallet) {
+            displayFragment(new WalletFragment(), AppData.wallet_tag);
         } else if (id == R.id.nav_history) {
             displayFragment(new HistoryFragment(), AppData.history_tag);
         }

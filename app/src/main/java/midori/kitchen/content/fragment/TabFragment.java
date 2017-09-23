@@ -35,8 +35,9 @@ public class TabFragment extends Fragment {
     CustomViewPager viewPager;
 
     private int icon[] = {
-            R.drawable.ic_food,
-            R.drawable.ic_profile,
+            R.drawable.ic_calories,
+            R.drawable.ic_eat,
+            R.drawable.ic_recipe,
             R.drawable.ic_sport,
     };
 
@@ -85,18 +86,20 @@ public class TabFragment extends Fragment {
         tabLayout.getTabAt(0).setIcon(icon[0]);
         tabLayout.getTabAt(1).setIcon(icon[1]);
         tabLayout.getTabAt(2).setIcon(icon[2]);
+        tabLayout.getTabAt(3).setIcon(icon[3]);
 
         tabLayout.getTabAt(0).getIcon().setColorFilter(getResources().getColor(R.color.colorGreen), PorterDuff.Mode.SRC_IN);
         tabLayout.getTabAt(1).getIcon().setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_IN);
         tabLayout.getTabAt(2).getIcon().setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_IN);
-
+        tabLayout.getTabAt(3).getIcon().setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_IN);
     }
 
     private void setupViewPager(ViewPager mViewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager());
+        adapter.addFrag(new CaloriesFragment(), "Calories");
         adapter.addFrag(new MenuFragment(), "Menu");
-        adapter.addFrag(new WalletFragment(), "Profile");
-        adapter.addFrag(new SportFragment(), "Sport");
+        adapter.addFrag(new CaloriesFragment(), "Sport");
+        adapter.addFrag(new RecipeFragment(), "Recipe");
         mViewPager.setAdapter(adapter);
     }
 

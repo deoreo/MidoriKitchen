@@ -15,6 +15,22 @@
       },
       "oauth_client": [
         {
+          "client_id": "798813425320-qk11v7slkrgflm6gfne47qo57a6lav4l.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "midori.kitchen",
+            "certificate_hash": "86e6f1c8f47c6619c2cd26f55157d65199a48f4f"
+          }
+        },
+        {
+          "client_id": "798813425320-pilkb538lc3ho7ahjlbrilac7jrb9c3a.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "midori.kitchen",
+            "certificate_hash": "5db7d1c75cd2abbc2d38ade5490221399911b6fa"
+          }
+        },
+        {
           "client_id": "798813425320-07hsotnc54ialvcg3udmttpdbu1qtlug.apps.googleusercontent.com",
           "client_type": 3
         },
@@ -63,6 +79,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "798813425320-9uj7njon1pk94pimaagl0m3pkav7a0np.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "midori.chef",
+            "certificate_hash": "03ebc514b210cb9a66d5c4c36c9a71f4607cdeb5"
+          }
+        },
+        {
           "client_id": "798813425320-07hsotnc54ialvcg3udmttpdbu1qtlug.apps.googleusercontent.com",
           "client_type": 3
         },
@@ -81,8 +105,13 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "798813425320-07hsotnc54ialvcg3udmttpdbu1qtlug.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
           "status": 2

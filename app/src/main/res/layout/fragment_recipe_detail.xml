@@ -31,31 +31,6 @@
                         android:scaleType="centerCrop"
                         android:src="@drawable/bg_menu" />
 
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentBottom="true"
-                        android:layout_marginBottom="25dp"
-                        android:background="@drawable/round_background_price_detail"
-                        android:gravity="bottom"
-                        android:paddingBottom="5dp"
-                        android:paddingLeft="15dp"
-                        android:paddingRight="15dp"
-                        android:paddingTop="5dp">
-
-                        <TextView
-                            android:id="@+id/tv_price"
-                            fontPath="@string/GothamRndMedium"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:text="Rp. 7.000"
-                            android:textAlignment="center"
-                            android:textColor="@color/white"
-                            android:textSize="18sp" />
-
-                    </LinearLayout>
-
                 </RelativeLayout>
 
                 <LinearLayout
@@ -70,7 +45,7 @@
                         android:layout_height="wrap_content">
 
                         <TextView
-                            android:id="@+id/tv_menu"
+                            android:id="@+id/tv_recipe"
                             fontPath="@string/GothamRndBold"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -80,94 +55,6 @@
                             android:textAlignment="center"
                             android:textColor="@color/colorDarkGrey"
                             android:textSize="25sp" />
-
-                        <LinearLayout
-                            android:id="@+id/layout_add"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
-                            android:orientation="horizontal">
-
-                            <!--<LinearLayout
-                                android:id="@+id/btn_add"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:background="@drawable/rounded_bg_transparent"
-                                android:orientation="vertical"
-                                android:paddingBottom="5dp"
-                                android:paddingLeft="15dp"
-                                android:paddingRight="15dp"
-                                android:paddingTop="5dp">
-
-                                <TextView
-                                    fontPath="@string/GothamRndMedium"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center"
-                                    android:text="@string/add"
-                                    android:textAlignment="center"
-                                    android:textAllCaps="true"
-                                    android:textColor="@color/white"
-                                    android:textSize="14sp" />
-
-                            </LinearLayout>-->
-
-                            <!--<LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal">
-
-
-                                <TextView
-                                    fontPath="@string/GothamRndBold"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center"
-                                    android:layout_marginRight="10dp"
-                                    android:text="-"
-                                    android:textAlignment="center"
-                                    android:textAllCaps="true"
-                                    android:textColor="@color/colorGreen"
-                                    android:textSize="20sp" />
-
-                                <LinearLayout
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:background="@drawable/rounded_bg_transparent"
-                                    android:orientation="vertical"
-                                    android:paddingBottom="5dp"
-                                    android:paddingLeft="10dp"
-                                    android:paddingRight="10dp"
-                                    android:paddingTop="5dp">
-
-                                    <TextView
-                                        fontPath="@string/GothamRndBold"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_gravity="center"
-                                        android:text="0"
-                                        android:textAlignment="center"
-                                        android:textAllCaps="true"
-                                        android:textColor="@color/white"
-                                        android:textSize="14sp" />
-
-                                </LinearLayout>
-
-                                <TextView
-                                    fontPath="@string/GothamRndBold"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center"
-                                    android:layout_marginLeft="10dp"
-                                    android:text="+"
-                                    android:textAlignment="center"
-                                    android:textAllCaps="true"
-                                    android:textColor="@color/colorGreen"
-                                    android:textSize="20sp" />
-
-                            </LinearLayout>-->
-
-                        </LinearLayout>
 
                     </RelativeLayout>
 
@@ -463,7 +350,7 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/tv_menu"
                         android:layout_marginBottom="5dp"
-                        android:text="Cooked By :"
+                        android:text="Created By :"
                         android:textColor="@color/colorDarkGrey2"
                         android:textSize="14sp" />
 
@@ -493,14 +380,6 @@
             </RelativeLayout>
 
         </LinearLayout>
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab_checkout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:layout_margin="@dimen/fab_margin"
-            app:srcCompat="@drawable/ic_cart_fab" />
 
     </android.support.design.widget.CoordinatorLayout>
 

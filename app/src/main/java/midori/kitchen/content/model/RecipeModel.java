@@ -4,25 +4,23 @@ package midori.kitchen.content.model;
  * Created by M. Asrof Bayhaqqi on 3/11/2017.
  */
 
-public class MenuModel {
+public class RecipeModel {
 
     private String id;
-    private String menu;
+    private String recipe;
     private String description;
     private String photo;
-    private int price;
     private String owner;
     private int calories;
 
-    public MenuModel() {
+    public RecipeModel() {
     }
 
-    public MenuModel(String id, String menu, String description, String photo, int price, String owner, int calories) {
+    public RecipeModel(String id, String recipe, String description, String photo, String owner, int calories) {
         this.id = id;
-        this.menu = menu;
+        this.recipe = recipe;
         this.description = description;
         this.photo = photo;
-        this.price = price;
         this.owner = owner;
         this.calories = calories;
     }
@@ -35,12 +33,12 @@ public class MenuModel {
         this.id = id;
     }
 
-    public String getMenu() {
-        return menu;
+    public String getRecipe() {
+        return recipe;
     }
 
-    public void setMenu(String menu) {
-        this.menu = menu;
+    public void setRecipe(String recipe) {
+        this.recipe = recipe;
     }
 
     public String getDescription() {
@@ -57,14 +55,6 @@ public class MenuModel {
 
     public void setPhoto(String photo) {
         this.photo = photo;
-    }
-
-    public int getPrice() {
-        return price;
-    }
-
-    public void setPrice(int price) {
-        this.price = price;
     }
 
     public String getOwner() {

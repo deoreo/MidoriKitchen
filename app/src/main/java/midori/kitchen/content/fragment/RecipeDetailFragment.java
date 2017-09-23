@@ -1,9 +1,7 @@
 package midori.kitchen.content.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,46 +17,35 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import midori.kitchen.R;
-import midori.kitchen.content.activity.BuyActivity;
-import midori.kitchen.manager.AppData;
 
 /**
  * Created by M. Asrof Bayhaqqi on 3/11/2017.
  */
 
-public class MenuDetailFragment extends Fragment {
+public class RecipeDetailFragment extends Fragment {
 
-    @BindView(R.id.tv_price)
-    TextView tvPrice;
-    @BindView(R.id.layout_photo)
-    RelativeLayout layoutPhoto;
-    @BindView(R.id.layout_add)
-    LinearLayout layoutAdd;
     @BindView(R.id.delivery)
     TextView delivery;
     @BindView(R.id.tv_description)
     TextView tvDescription;
     @BindView(R.id.iv_photo)
     ImageView ivPhoto;
-    @BindView(R.id.tv_menu)
-    TextView tvMenu;
-    @BindView(R.id.fab_checkout)
-    FloatingActionButton fabCheckout;
     @BindView(R.id.rating_bar)
     RatingBar ratingBar;
     @BindView(R.id.tv_calories)
     TextView tvCalories;
     @BindView(R.id.tv_owner)
     TextView tvOwner;
+    @BindView(R.id.tv_recipe)
+    TextView tvRecipe;
 
-    private String menu, description, price, owner, photo;
+    private String recipe, description, owner, photo;
     private int calories;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_menu_detail, container, false);
+        View view = inflater.inflate(R.layout.fragment_recipe_detail, container, false);
         ButterKnife.bind(this, view);
         return view;
     }
@@ -72,9 +59,8 @@ public class MenuDetailFragment extends Fragment {
     private void getData() {
         Bundle bundle = this.getArguments();
         if (bundle != null) {
-            menu = bundle.getString("menu");
+            recipe = bundle.getString("recipe");
             description = bundle.getString("description");
-            price = bundle.getString("price");
             owner = bundle.getString("owner");
             calories = bundle.getInt("calories");
             photo = bundle.getString("photo");
@@ -83,9 +69,8 @@ public class MenuDetailFragment extends Fragment {
     }
 
     private void initView() {
-        tvMenu.setText(menu);
+        tvRecipe.setText(recipe);
         tvDescription.setText(description);
-        tvPrice.setText("Rp. " + price);
         tvOwner.setText(owner);
         tvCalories.setText(calories + " Calories");
         Glide
@@ -98,15 +83,6 @@ public class MenuDetailFragment extends Fragment {
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(ivPhoto);
         ratingBar.setRating(3);
-    }
-
-    @OnClick(R.id.fab_checkout)
-    public void onClick() {
-        AppData.buyModel.setMenu(menu);
-        AppData.buyModel.setTotal_menu(1);
-        AppData.buyModel.setPrice_menu(Integer.parseInt(price));
-        Intent intent = new Intent(getActivity(), BuyActivity.class);
-        getActivity().startActivity(intent);
     }
 
     @Override
