@@ -1,10 +1,11 @@
 package midori.kitchen.content.fragment;
 
 import android.Manifest;
-import android.app.Fragment;
+
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
@@ -35,6 +36,8 @@ public class ScannerFragment extends Fragment {
 
     @BindView(R.id.text_result)
     EditText text_result;
+
+//    private PhotoViewAttacher mAttacher;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -69,6 +72,7 @@ public class ScannerFragment extends Fragment {
         cameraPreview.setStatusText(null);
         cameraPreview.setMinimumHeight(100);
         cameraPreview.setMinimumWidth(100);
+//        mAttacher = new PhotoViewAttacher(imageViewFull);
 
     }
 

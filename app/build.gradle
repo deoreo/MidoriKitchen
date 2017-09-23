@@ -45,6 +45,9 @@ dependencies {
     //font
     compile 'uk.co.chrisjenx:calligraphy:2.2.0'
 
+    //seekbar
+    compile 'com.github.Triggertrap:SeekArc:v1.1'
+
     //edit text
     compile 'com.rengwuxian.materialedittext:library:2.1.4'
 

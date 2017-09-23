@@ -19,12 +19,5 @@
         app:zxing_viewfinder_laser="@color/zxing_custom_viewfinder_laser"
         app:zxing_viewfinder_mask="@color/zxing_custom_viewfinder_mask"/>
 
-    <Button
-        android:text="Turn On Flash"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_gravity="right"
-        android:id="@+id/btnFlash" />
 
 </merge>

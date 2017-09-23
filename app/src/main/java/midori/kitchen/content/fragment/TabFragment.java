@@ -36,7 +36,7 @@ public class TabFragment extends Fragment {
 
     private int icon[] = {
             R.drawable.ic_food,
-            R.drawable.ic_wallet,
+            R.drawable.ic_profile,
     };
 
     @Override
