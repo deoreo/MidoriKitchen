@@ -24,6 +24,7 @@ public class MenuModel {
         this.price = price;
         this.deliveryDate = deliveryDate;
     }
+
     public String getId() {
         return id;
     }

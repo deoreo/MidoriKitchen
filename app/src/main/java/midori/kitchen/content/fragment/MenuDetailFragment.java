@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -47,6 +48,8 @@ public class MenuDetailFragment extends Fragment {
     TextView tvMenu;
     @BindView(R.id.fab_checkout)
     FloatingActionButton fabCheckout;
+    @BindView(R.id.rating_bar)
+    RatingBar ratingBar;
 
     private String menu, description, price, delivery_date, photo;
 
@@ -86,8 +89,10 @@ public class MenuDetailFragment extends Fragment {
                 .centerCrop()
                 .crossFade()
                 .thumbnail(0.5f)
+                .placeholder(R.drawable.bg_menu)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(ivPhoto);
+        ratingBar.setRating(3);
     }
 
     @OnClick(R.id.fab_checkout)
@@ -97,5 +102,10 @@ public class MenuDetailFragment extends Fragment {
         AppData.buyModel.setPrice_menu(Integer.parseInt(price));
         Intent intent = new Intent(getActivity(), BuyActivity.class);
         getActivity().startActivity(intent);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
     }
 }
