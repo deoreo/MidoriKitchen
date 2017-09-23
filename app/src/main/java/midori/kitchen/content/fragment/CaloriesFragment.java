@@ -6,7 +6,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.triggertrap.seekarc.SeekArc;
@@ -21,7 +20,7 @@ import midori.kitchen.manager.AppPrefManager;
  * Created by masrofbayhaqqi on 7/29/17.
  */
 
-public class WalletFragment extends Fragment {
+public class CaloriesFragment extends Fragment {
 
     @BindView(R.id.tv_fullname)
     TextView tvFullname;
@@ -31,16 +30,17 @@ public class WalletFragment extends Fragment {
     TextView tvCash;
     @BindView(R.id.tv_point)
     TextView tvPoint;
-    FrameLayout btnTopup;
-    @BindView(R.id.btn_scan)
-    FrameLayout btnScan;
+    @BindView(R.id.seekArc)
+    SeekArc seekArc;
+    @BindView(R.id.txtxseekArcProgress)
+    TextView txtxseekArcProgress;
 
     private AppPrefManager appPrefManager;
     private String fullname;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_wallet, container, false);
+        View view = inflater.inflate(R.layout.fragment_calories, container, false);
         ButterKnife.bind(this, view);
         appPrefManager = new AppPrefManager(getActivity());
         return view;
@@ -55,6 +55,24 @@ public class WalletFragment extends Fragment {
 
         getDataUser();
         initView();
+
+        seekArc.setOnSeekArcChangeListener(new SeekArc.OnSeekArcChangeListener() {
+
+            @Override
+            public void onStopTrackingTouch(SeekArc seekArc) {
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekArc seekArc) {
+            }
+
+            @Override
+            public void onProgressChanged(SeekArc seekArc, int progress,
+                                          boolean fromUser) {
+                txtxseekArcProgress.setText(String.valueOf(progress*130) + "/13000 kkal");
+            }
+        });
+
     }
 
     private void getDataUser() {

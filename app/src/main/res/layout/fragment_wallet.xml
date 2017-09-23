@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
@@ -20,94 +19,109 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content"
+                android:gravity="center">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/bg_menu" />
 
                 <LinearLayout
-                    android:id="@+id/header_profile"
-                    android:layout_width="match_parent"
-                    android:layout_height="120dp"
-                    android:background="@drawable/bg_menu"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-
-                </LinearLayout>
-
-                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/header_profile"
-                    android:layout_marginTop="-66dp">
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:paddingTop="30dp">
 
                     <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/civ_photo"
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
-                        android:layout_centerInParent="true"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_marginBottom="10dp"
                         android:src="@drawable/ic_avatar" />
 
                     <TextView
                         android:id="@+id/tv_fullname"
-                        fontPath="@string/GothamRndMedium"
+                        fontPath="@string/GothamRndBold"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/civ_photo"
-                        android:layout_marginTop="30dp"
+                        android:layout_marginBottom="10dp"
                         android:text="User"
                         android:textAlignment="center"
-                        android:textColor="@color/colorBlack"
-                        android:textSize="18sp" />
+                        android:textColor="@color/white"
+                        android:textSize="22sp" />
 
-                    <LinearLayout
-                        android:layout_width="110dp"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:background="@drawable/round_profile_cash"
-                        android:gravity="bottom"
-                        android:paddingBottom="8dp"
-                        android:paddingLeft="5dp"
-                        android:paddingRight="5dp"
-                        android:paddingTop="8dp">
+                    <android.support.v7.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:layout_marginBottom="20dp"
+                        android:layout_marginLeft="30dp"
+                        android:layout_marginRight="30dp"
+                        app:cardBackgroundColor="@color/colorGreen"
+                        app:cardCornerRadius="10dp"
+                        app:cardElevation="4dp"
+                        app:cardUseCompatPadding="true">
 
-                        <TextView
-                            android:id="@+id/tv_price"
-                            fontPath="@string/GothamRndMedium"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:text="41 Challenge"
-                            android:textAlignment="textStart"
-                            android:textColor="@color/white"
-                            android:textSize="13sp" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="110dp"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:background="@drawable/round_profile_points"
-                        android:gravity="bottom"
-                        android:paddingBottom="8dp"
-                        android:paddingLeft="5dp"
-                        android:paddingRight="5dp"
-                        android:paddingTop="8dp">
-
-                        <TextView
-                            android:id="@+id/textView"
-                            fontPath="@string/GothamRndMedium"
+                        <RelativeLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:text="1.247k Points"
-                            android:textAlignment="viewEnd"
-                            android:textColor="@color/white"
-                            android:textSize="13sp" />
+                            android:padding="20dp">
 
-                    </LinearLayout>
+                            <ImageView
+                                android:layout_width="60dp"
+                                android:layout_height="50dp"
+                                android:layout_alignParentRight="true"
+                                android:src="@drawable/ic_logo" />
 
-                </RelativeLayout>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center_vertical"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    fontPath="@string/GothamRndMedium"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Midori Pay"
+                                    android:textColor="@color/white"
+                                    android:textSize="18sp" />
+
+                                <TextView
+                                    fontPath="@string/GothamRndBold"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="20dp"
+                                    android:layout_marginTop="20dp"
+                                    android:text="3214 - 3331 - 5677 - 2333"
+                                    android:textColor="@color/white"
+                                    android:textSize="16sp" />
+
+                                <TextView
+                                    fontPath="@string/GothamBook"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Card Holder"
+                                    android:textColor="@color/white"
+                                    android:textSize="12sp" />
+
+                                <TextView
+                                    fontPath="@string/GothamBook"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="User"
+                                    android:textColor="@color/white"
+                                    android:textSize="16sp" />
+
+                            </LinearLayout>
+
+                        </RelativeLayout>
+
+                    </android.support.v7.widget.CardView>
+
+                </LinearLayout>
 
             </RelativeLayout>
 
@@ -115,51 +129,40 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:paddingBottom="10dp"
-                android:paddingTop="10dp"
-                android:weightSum="3">
+                android:paddingBottom="20dp"
+                android:paddingLeft="30dp"
+                android:paddingRight="30dp"
+                android:weightSum="2">
 
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="10dp"
                     android:layout_weight="1"
-                    android:alpha="0.8"
+                    android:background="@drawable/round_background_accent"
                     android:gravity="left"
                     android:orientation="vertical"
                     android:paddingBottom="10dp"
-
+                    android:paddingLeft="25dp"
+                    android:paddingRight="25dp"
                     android:paddingTop="10dp">
+
+                    <TextView
+                        fontPath="@string/GothamRndMedium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="CASH"
+                        android:textColor="@color/white"
+                        android:textSize="14sp" />
 
                     <TextView
                         android:id="@+id/tv_cash"
                         fontPath="@string/GothamRndBold"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:text="19 th"
-                        android:textColor="@color/colorGreen"
-                        android:textSize="18sp" />
-
-                    <LinearLayout
-                        android:layout_width="70dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="5dp"
-                        android:background="@drawable/round_background_green"
-                        android:gravity="center"
-                        android:paddingBottom="3dp"
-                        android:paddingTop="3dp">
-
-                        <TextView
-                            fontPath="@string/GothamRndMedium"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:text="old"
-                            android:textColor="@color/white"
-                            android:textSize="14sp" />
-                    </LinearLayout>
+                        android:text="Rp. 10.000"
+                        android:textColor="@color/white"
+                        android:textSize="16sp" />
 
                 </LinearLayout>
 
@@ -168,197 +171,110 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_weight="1"
-                    android:alpha="0.8"
+                    android:background="@drawable/round_background_accent"
                     android:gravity="left"
                     android:orientation="vertical"
                     android:paddingBottom="10dp"
+                    android:paddingLeft="25dp"
+                    android:paddingRight="25dp"
                     android:paddingTop="10dp">
+
+                    <TextView
+                        fontPath="@string/GothamRndMedium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="POINT"
+                        android:textColor="@color/white"
+                        android:textSize="14sp" />
 
                     <TextView
                         android:id="@+id/tv_point"
                         fontPath="@string/GothamRndBold"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:text="90 Kg"
-                        android:textColor="@color/colorGreen"
-                        android:textSize="18sp" />
-
-
-                    <LinearLayout
-                        android:layout_width="70dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="5dp"
-                        android:background="@drawable/round_background_green"
-                        android:gravity="center"
-                        android:paddingBottom="3dp"
-                        android:paddingTop="3dp">
-
-                        <TextView
-                            fontPath="@string/GothamRndMedium"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:text="weight"
-                            android:textColor="@color/white"
-                            android:textSize="14sp" />
-                    </LinearLayout>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_weight="1"
-                    android:alpha="0.8"
-                    android:gravity="left"
-                    android:orientation="vertical"
-                    android:paddingBottom="10dp"
-
-                    android:paddingTop="10dp">
-
-                    <TextView
-                        android:id="@+id/tv_point"
-                        fontPath="@string/GothamRndBold"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:text="175 Cm"
-                        android:textColor="@color/colorGreen"
-                        android:textSize="18sp" />
-
-
-                    <LinearLayout
-                        android:layout_width="70dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="5dp"
-                        android:background="@drawable/round_background_green"
-                        android:gravity="center"
-                        android:paddingBottom="3dp"
-                        android:paddingTop="3dp">
-
-                        <TextView
-                            fontPath="@string/GothamRndMedium"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:text="tall"
-                            android:textColor="@color/white"
-                            android:textSize="14sp" />
-                    </LinearLayout>
-
+                        android:text="50.000"
+                        android:textColor="@color/white"
+                        android:textSize="16sp" />
 
                 </LinearLayout>
 
             </LinearLayout>
-            <FrameLayout
-                android:layout_marginTop="5dp"
-                android:layout_width="match_parent"
-                android:layout_marginBottom="15dp"
-                android:layout_height="200dp">
 
-                <com.triggertrap.seekarc.SeekArc
-                    android:id="@+id/seekArc"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    app:progressColor="@color/colorGreen"
-                    app:thumb="@drawable/srubber_green"
-                    android:padding="50dp"
-                    app:arcWidth="3dp"
-                    app:progressWidth="5dp"
-                    app:rotation="180"
-                    app:startAngle="0"
-                    app:sweepAngle="1300"
-                    app:touchInside="true" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingBottom="30dp"
+                android:paddingLeft="30dp"
+                android:paddingRight="30dp">
 
-                <TextView
-                    android:id="@+id/txtxseekArcProgress"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="0/13000 kkal"
-                    android:textSize="16sp" />
-                </FrameLayout>
+                    android:layout_marginRight="30dp"
+                    android:orientation="vertical">
 
-            <!--<LinearLayout-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_gravity="center"-->
-            <!--android:gravity="center"-->
-            <!--android:orientation="horizontal"-->
-            <!--android:paddingBottom="30dp"-->
-            <!--android:paddingLeft="30dp"-->
-            <!--android:paddingRight="30dp">-->
+                    <FrameLayout
+                        android:id="@+id/btn_topup"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/border_circle_grey"
+                        android:padding="10dp">
 
-            <!--<LinearLayout-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginRight="30dp"-->
-            <!--android:orientation="vertical">-->
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/ic_top_up" />
 
-            <!--<FrameLayout-->
-            <!--android:id="@+id/btn_topup"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:background="@drawable/border_circle_grey"-->
-            <!--android:padding="10dp">-->
+                    </FrameLayout>
 
-            <!--<ImageView-->
-            <!--android:layout_width="40dp"-->
-            <!--android:layout_height="40dp"-->
-            <!--android:src="@drawable/ic_top_up" />-->
+                    <TextView
+                        fontPath="@string/GothamRndMedium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="10dp"
+                        android:text="TOP UP"
+                        android:textColor="@color/colorDarkGrey2"
+                        android:textSize="16sp" />
 
-            <!--</FrameLayout>-->
+                </LinearLayout>
 
-            <!--<TextView-->
-            <!--fontPath="@string/GothamRndMedium"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_gravity="center"-->
-            <!--android:layout_marginTop="10dp"-->
-            <!--android:text="TOP UP"-->
-            <!--android:textColor="@color/colorDarkGrey2"-->
-            <!--android:textSize="16sp" />-->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="30dp"
+                    android:orientation="vertical">
 
-            <!--</LinearLayout>-->
+                    <FrameLayout
+                        android:id="@+id/btn_scan"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/border_circle_grey"
+                        android:padding="10dp">
 
-            <!--<LinearLayout-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginLeft="30dp"-->
-            <!--android:orientation="vertical">-->
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/ic_scan" />
 
-            <!--<FrameLayout-->
-            <!--android:id="@+id/btn_scan"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:background="@drawable/border_circle_grey"-->
-            <!--android:padding="10dp">-->
+                    </FrameLayout>
 
-            <!--<ImageView-->
-            <!--android:layout_width="40dp"-->
-            <!--android:layout_height="40dp"-->
-            <!--android:src="@drawable/ic_scan" />-->
+                    <TextView
+                        fontPath="@string/GothamRndMedium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="10dp"
+                        android:text="SCAN"
+                        android:textColor="@color/colorDarkGrey2"
+                        android:textSize="16sp" />
 
-            <!--</FrameLayout>-->
+                </LinearLayout>
 
-            <!--<TextView-->
-            <!--fontPath="@string/GothamRndMedium"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_gravity="center"-->
-            <!--android:layout_marginTop="10dp"-->
-            <!--android:text="SCAN"-->
-            <!--android:textColor="@color/colorDarkGrey2"-->
-            <!--android:textSize="16sp" />-->
-
-            <!--</LinearLayout>-->
-
-            <!--</LinearLayout>-->
+            </LinearLayout>
 
         </LinearLayout>
 
