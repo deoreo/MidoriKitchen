@@ -92,7 +92,7 @@ public class TabFragment extends Fragment {
     private void setupViewPager(ViewPager mViewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager());
         adapter.addFrag(new MenuFragment(), "Menu");
-        adapter.addFrag(new WalletFragment(), "Wallet");
+        adapter.addFrag(new WalletFragment(), "Profile");
         mViewPager.setAdapter(adapter);
     }
 
