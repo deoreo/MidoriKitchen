@@ -37,8 +37,9 @@ public class TabFragment extends Fragment {
     private int icon[] = {
             R.drawable.ic_calories,
             R.drawable.ic_eat,
-            R.drawable.ic_recipe,
             R.drawable.ic_sport,
+            R.drawable.ic_recipe,
+
     };
 
     @Override
@@ -98,7 +99,7 @@ public class TabFragment extends Fragment {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager());
         adapter.addFrag(new CaloriesFragment(), "Calories");
         adapter.addFrag(new MenuFragment(), "Menu");
-        adapter.addFrag(new CaloriesFragment(), "Sport");
+        adapter.addFrag(new SportFragment(), "Sport");
         adapter.addFrag(new RecipeFragment(), "Recipe");
         mViewPager.setAdapter(adapter);
     }
