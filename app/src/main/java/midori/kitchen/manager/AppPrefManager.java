@@ -59,10 +59,10 @@ public class AppPrefManager {
     public HashMap<String, String> getUser() {
         HashMap<String, String> dataUser = new HashMap<String, String>();
         dataUser.put(KEY_ID, pref.getString(KEY_ID, ""));
-        dataUser.put(KEY_FULLNAME, pref.getString(KEY_FULLNAME, ""));
-        dataUser.put(KEY_EMAIL, pref.getString(KEY_EMAIL, ""));
+        dataUser.put(KEY_FULLNAME, pref.getString(KEY_FULLNAME, "User"));
+        dataUser.put(KEY_EMAIL, pref.getString(KEY_EMAIL, "user@mail.com"));
         dataUser.put(KEY_PHOTO, pref.getString(KEY_PHOTO, ""));
-        dataUser.put(KEY_PHONE, pref.getString(KEY_PHONE, ""));
+        dataUser.put(KEY_PHONE, pref.getString(KEY_PHONE, "+62123456789"));
         return dataUser;
     }
 
