@@ -24,6 +24,7 @@ public class AppData {
     public static String buy_review_tag = "buy_review";
     public static String buy_payment_tag = "buy_payment";
     public static String wallet_tag = "history_tag";
+    public static String detail_recipe_tag = "detail_recipe";
 
     public static HashMap<String, CartModel> cart = new HashMap<>();
 

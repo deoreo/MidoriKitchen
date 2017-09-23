@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import midori.kitchen.content.model.HistoryModel;
 import midori.kitchen.content.model.MenuModel;
+import midori.kitchen.content.model.RecipeModel;
 
 /**
  * Created by M. Asrof Bayhaqqi on 3/11/2017.
@@ -45,5 +46,20 @@ public class DataHelper {
         historyItems.add(new HistoryModel("9", "Roti Bluder", 5000, "Sabtu, 19 Maret 2017", "Cooking"));
         historyItems.add(new HistoryModel("10", "Lemper Budi Jaya", 2500, "Minggu, 20 Maret 2017", "Cooking"));
         return historyItems;
+    }
+
+    public static ArrayList<RecipeModel> getDataRecipe() {
+        ArrayList<RecipeModel> recipeItems = new ArrayList<>();
+        String description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, " +
+                "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. " +
+                "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. " +
+                "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. " +
+                "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. ";
+        recipeItems.add(new RecipeModel("1", "Kare Ayam", description, "https://ichaawe.files.wordpress.com/2008/12/824163193_cbd0c58940.jpg", "Bu Yayuk", 650));
+        recipeItems.add(new RecipeModel("2", "Rawon Sapi", description, "http://tips-cara.info/wp-content/uploads/2014/05/resep-cara-membuat-rawon-daging-sapi-surabaya-enak-700x400.jpeg", "Anindita", 575));
+        recipeItems.add(new RecipeModel("3", "Mie Ayam", description, "https://resepnona.com/wp-content/uploads/2015/01/Resep-Mie-Ayam.jpg", "Bu Iin",720));
+        recipeItems.add(new RecipeModel("4", "Roti Bluder", description, "http://www.maksindo.com/wp-content/uploads/2016/01/roti-bluder-maksindo.jpg", "Anindita", 680));
+        recipeItems.add(new RecipeModel("5", "Lemper", description, "http://resepcaramasak.com/wp-content/uploads/2015/09/Cara-Membuat-Kue-Basah-Lemper-Ayam-Enak.jpg", "Haqqi", 420));
+        return recipeItems;
     }
 }

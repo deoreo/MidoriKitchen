@@ -15,6 +15,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import midori.kitchen.R;
 import midori.kitchen.content.fragment.MenuDetailFragment;
+import midori.kitchen.content.fragment.RecipeDetailFragment;
 import midori.kitchen.manager.AppData;
 import midori.kitchen.profile.activity.ProfileActivity;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
@@ -35,7 +36,7 @@ public class DetailActivity extends AppCompatActivity {
     ImageView btnBack;
 
     private String tag_detail, name_detail;
-    private String menu, description, price, owner, photo;
+    private String recipe, menu, description, price, owner, photo;
     private int calories;
 
     @Override
@@ -62,6 +63,13 @@ public class DetailActivity extends AppCompatActivity {
                 calories = bundle.getInt("calories");
                 photo = bundle.getString("photo");
                 displayFragment(new MenuDetailFragment(), tag_detail);
+            } else if (tag_detail.equals(AppData.detail_recipe_tag)) {
+                recipe = bundle.getString("recipe");
+                description = bundle.getString("description");
+                owner = bundle.getString("owner");
+                calories = bundle.getInt("calories");
+                photo = bundle.getString("photo");
+                displayFragment(new RecipeDetailFragment(), tag_detail);
             }
             initToolbar();
         }
@@ -73,6 +81,16 @@ public class DetailActivity extends AppCompatActivity {
             extras.putString("menu", menu);
             extras.putString("description", description);
             extras.putString("price", price);
+            extras.putString("owner", owner);
+            extras.putInt("calories", calories);
+            extras.putString("photo", photo);
+            fragment.setArguments(extras);
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.container_detail, fragment, tag).commit();
+        } else if (tag.equals(AppData.detail_recipe_tag)) {
+            Bundle extras = new Bundle();
+            extras.putString("recipe", recipe);
+            extras.putString("description", description);
             extras.putString("owner", owner);
             extras.putInt("calories", calories);
             extras.putString("photo", photo);

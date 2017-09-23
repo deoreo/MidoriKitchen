@@ -98,7 +98,7 @@ public class TabFragment extends Fragment {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager());
         adapter.addFrag(new CaloriesFragment(), "Calories");
         adapter.addFrag(new MenuFragment(), "Menu");
-        adapter.addFrag(new CaloriesFragment(), "Recipe");
+        adapter.addFrag(new RecipeFragment(), "Recipe");
         adapter.addFrag(new CaloriesFragment(), "Sport");
         mViewPager.setAdapter(adapter);
     }
