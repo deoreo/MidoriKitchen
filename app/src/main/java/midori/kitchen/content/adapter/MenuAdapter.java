@@ -103,6 +103,8 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
             ButterKnife.bind(this, itemView);
         }
 
+
+
         @OnClick(R.id.list_item)
         public void onClick(View v) {
             int i = getAdapterPosition();

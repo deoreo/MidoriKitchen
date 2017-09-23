@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import midori.kitchen.content.model.HistoryModel;
 import midori.kitchen.content.model.MenuModel;
+import midori.kitchen.content.model.SportModel;
 
 /**
  * Created by M. Asrof Bayhaqqi on 3/11/2017.
@@ -51,5 +52,16 @@ public class DataHelper {
         historyItems.add(new HistoryModel("9", "Roti Bluder", 5000, "Sabtu, 19 Maret 2017", "Cooking"));
         historyItems.add(new HistoryModel("10", "Lemper Budi Jaya", 2500, "Minggu, 20 Maret 2017", "Cooking"));
         return historyItems;
+    }
+    public static ArrayList<SportModel> getDataSport() {
+        ArrayList<SportModel> sportModels = new ArrayList<>();
+        sportModels.add(new SportModel("1", "Badminton Araya", 255000, "23", "Jl Araya 1 A","https://d3u4pi4hof4b65.cloudfront.net/uploads/photograph/image/2611/regular_Badminton_Hall_HOME_PAGE.jpg"));
+        sportModels.add(new SportModel("1", "Futsal Araya", 600000, "23", "Jl Araya 1 B","http://www.thefa.com/-/media/images/thefaportal/pillars/sgp/article-and-news-620x349/futsal-sports-hall-620x349.ashx?w=320&h=180&hash=A2A0462DBCEEC2383D242E3436D024EFC93F1C46"));
+        sportModels.add(new SportModel("1", "Gym Araya", 500000, "23", "Jl Araya 1 C","http://4.bp.blogspot.com/-tfUvrfNcCsw/UfEcnW90bqI/AAAAAAAABSQ/MsocDYb0DRA/s1600/alamat-fitnes-malang.jpg"));
+        sportModels.add(new SportModel("1", "Gym Kelapa Gading", 479000, "23", "Jl Kelapa Gading 2","http://resepcaramasak.com/wp-content/uploads/2015/09/Cara-Membuat-Kue-Basah-Lemper-Ayam-Enak.jpg"));
+        sportModels.add(new SportModel("1", "Gym Safa", 480000, "23", "Jl Sawojajar 2 ","http://storanfluids.com/images/gal5.jpg"));
+        sportModels.add(new SportModel("1", "Gym Celeb", 600000, "23", "Jl Soekarno Hatta","http://www3.hilton.com/resources/media/hi/BHXPHHN/en_US/img/shared/full_page_image_gallery/main/HL_fitnesscenter02_6_675x359_FitToBoxSmallDimension_Center.jpg"));
+
+        return sportModels;
     }
 }
